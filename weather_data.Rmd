@@ -9,8 +9,10 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(weathermetrics)
 ```
 
+## Index of stadiums
 
 Stadium index.
 Geocoded source: https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1
@@ -21,6 +23,7 @@ stadium_index <-
   read.csv("./data/stadium_index.csv")
 ```
 
+## Import PRISM variables
 Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.
 
 ```{r import_PRISM_parameters}
@@ -48,6 +51,7 @@ tdmean <-
 
 ```
 
+## Join PRISM data
 Join tmax, tmin and tdmean
 
 ```{r weather_tidy}
@@ -59,8 +63,25 @@ weather <- as.tibble(
            date = as.Date(date, format = "%Y%m%d"))
   )
 
-weather
+```
 
+## Heat Index
+
+This chunk creates daily heat index values from mean daily air temperature and mean daily dew point temperature. The `heat.index` function of the `weathermetrics` package is used. The heat index equation is derived from the US National Weather Service's online heat index calculator.
+
+```{r}
+weather <-
+  weather %>% 
+    mutate(tmean = (tmax + tmin)/2,
+           heat_index = weathermetrics::heat.index(t = tmean, dp = tdmean, temperature.metric = "celsius", output.metric = "celsius", round = 2))
+
+weather
+```
+
+## Export tidy weather dataframe
+
+```{r}
+write_csv(weather, path = "./data/weather.csv")
 ```
 
 

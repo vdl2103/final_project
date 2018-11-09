@@ -128,9 +128,14 @@ $(document).ready(function () {
 </div>
 
 
+<div id="index-of-stadiums" class="section level2">
+<h2>Index of stadiums</h2>
 <p>Stadium index. Geocoded source: <a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a></p>
 <pre class="r"><code>stadium_index &lt;-
   read.csv(&quot;./data/stadium_index.csv&quot;)</code></pre>
+</div>
+<div id="import-prism-variables" class="section level2">
+<h2>Import PRISM variables</h2>
 <p>Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.</p>
 <pre class="r"><code>tmax &lt;-
   read.csv(&quot;./data/tmax_ballpark_PRISM.csv&quot;) %&gt;% 
@@ -152,29 +157,47 @@ tdmean &lt;-
     select(-c(&quot;system_index&quot;, &quot;geo&quot;)) %&gt;% 
     select(team_name, everything()) %&gt;% 
     gather(key = date, value = tdmean, &quot;x20150401&quot;:&quot;x20181030&quot;)</code></pre>
+</div>
+<div id="join-prism-data" class="section level2">
+<h2>Join PRISM data</h2>
 <p>Join tmax, tmin and tdmean</p>
 <pre class="r"><code>weather &lt;- as.tibble(
     full_join(tmax, tmin, by = c(&quot;team_name&quot;, &quot;date&quot;)) %&gt;% 
     full_join(., tdmean, by = c(&quot;team_name&quot;, &quot;date&quot;)) %&gt;% 
     mutate(date = str_replace(date, &quot;x&quot;, &quot;&quot;),
            date = as.Date(date, format = &quot;%Y%m%d&quot;))
-  )
-
-weather</code></pre>
-<pre><code>## # A tibble: 37,961 x 5
-##    team_name                     date        tmax   tmin tdmean
-##    &lt;fct&gt;                         &lt;date&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-##  1 Minnesota Twins               2015-04-01  17.9  0.160  -1.07
-##  2 Seattle Mariners              2015-04-01  12.3  6.41    4.47
-##  3 San Francisco Giants          2015-04-01  16.3 11.2     6.92
-##  4 Oakland Athletics             2015-04-01  19.3 10.7     6.31
-##  5 Los Angeles Dodgers           2015-04-01  24.3 13.2    11.1 
-##  6 San Diego Padres              2015-04-01  20.0 15.7    12.2 
-##  7 Los Angeles Angels of Anaheim 2015-04-01  23.2 13.6    11.7 
-##  8 Houston Astros                2015-04-01  28.3 17.6    18.0 
-##  9 Texas Rangers                 2015-04-01  28.3 17.8    16.3 
-## 10 Arizona Diamondbacks          2015-04-01  34.1 18.8     1.54
+  )</code></pre>
+</div>
+<div id="heat-index" class="section level2">
+<h2>Heat Index</h2>
+<p>This chunk creates daily heat index values from mean daily air temperature and mean daily dew point temperature. The <code>heat.index</code> function of the <code>weathermetrics</code> package is used. The heat index equation is derived from the US National Weather Service’s online heat index calculator.</p>
+<pre class="r"><code>weather &lt;-
+  weather %&gt;% 
+    mutate(tmean = (tmax + tmin)/2,
+           heat_index = weathermetrics::heat.index(t = tmean, dp = tdmean, temperature.metric = &quot;celsius&quot;, output.metric = &quot;celsius&quot;, round = 2))</code></pre>
+<pre><code>## Warning in dewpoint.to.humidity(t = t, dp = dp, temperature.metric =
+## temperature.metric): For some observations, dew point temperature was
+## higher than temperature. Since dew point temperature cannot be higher than
+## air temperature, relative humidty for these observations was set to 'NA'.</code></pre>
+<pre class="r"><code>weather</code></pre>
+<pre><code>## # A tibble: 37,961 x 7
+##    team_name               date        tmax   tmin tdmean tmean heat_index
+##    &lt;fct&gt;                   &lt;date&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Minnesota Twins         2015-04-01  17.9  0.160  -1.07  9.02       7.27
+##  2 Seattle Mariners        2015-04-01  12.3  6.41    4.47  9.34       8.2 
+##  3 San Francisco Giants    2015-04-01  16.3 11.2     6.92 13.8       12.9 
+##  4 Oakland Athletics       2015-04-01  19.3 10.7     6.31 15.0       14   
+##  5 Los Angeles Dodgers     2015-04-01  24.3 13.2    11.1  18.8       18.3 
+##  6 San Diego Padres        2015-04-01  20.0 15.7    12.2  17.9       17.5 
+##  7 Los Angeles Angels of ~ 2015-04-01  23.2 13.6    11.7  18.4       18   
+##  8 Houston Astros          2015-04-01  28.3 17.6    18.0  23.0       23.2 
+##  9 Texas Rangers           2015-04-01  28.3 17.8    16.3  23.1       23.1 
+## 10 Arizona Diamondbacks    2015-04-01  34.1 18.8     1.54 26.4       25.7 
 ## # ... with 37,951 more rows</code></pre>
+</div>
+<div id="export-tidy-weather-dataframe" class="section level2">
+<h2>Export tidy weather dataframe</h2>
+<pre class="r"><code>write_csv(weather, path = &quot;./data/weather.csv&quot;)</code></pre>
 <div id="google-earth-engine-javascrip-code" class="section level3">
 <h3>Google Earth Engine Javascrip code</h3>
 <p>Example for PRISM mean daily dew point temperature:</p>
@@ -193,6 +216,7 @@ weather</code></pre>
 <p>return joined.map(function(row) { // Get the list of all features with a unique row ID. var values = ee.List(row.get(‘matches’)) // Map a function over the list of rows to return a list of // column ID and value. .map(function(feature) { feature = ee.Feature(feature); return [feature.get(colId), feature.get(‘first’)]; }); // Return the row with its ID property and properties for // all matching columns IDs storing the output of the reducer. // The Dictionary constructor is using a list of key, value pairs. return row.select([rowId]).set(ee.Dictionary(values.flatten())); }); };</p>
 <p>var table1 = format(triplets, ‘Team Name’, ‘imageId’); var desc2 = ‘tdmean’;</p>
 <p>Export.table.toDrive({ collection: table1, description: desc2, fileNamePrefix: desc2, fileFormat: ‘CSV’ });</p>
+</div>
 </div>
 
 
