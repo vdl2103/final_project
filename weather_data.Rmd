@@ -1,0 +1,15 @@
+---
+title: "weather_data"
+author: "Stephen Lewandowski"
+date: "November 9, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Weather data will be imported and cleaned here.
+
+09NOV - re-running PRISM download
+
