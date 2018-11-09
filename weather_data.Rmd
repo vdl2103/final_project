@@ -7,9 +7,149 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
 ```
 
-Weather data will be imported and cleaned here.
 
-09NOV - re-running PRISM download
+Stadium index.
+Geocoded source: https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1
 
+
+```{r stadium_index}
+stadium_index <-
+  read.csv("./data/stadium_index.csv")
+```
+
+Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.
+
+```{r import_PRISM_parameters}
+
+tmax <-
+  read.csv("./data/tmax_ballpark_PRISM.csv") %>% 
+    janitor::clean_names() %>% 
+    select(-c("system_index", "geo")) %>% 
+    select(team_name, everything()) %>% 
+    gather(key = date, value = tmax, "x20150401":"x20181030")
+  
+tmin <-
+  read.csv("./data/tmin_ballpark_PRISM.csv") %>% 
+    janitor::clean_names() %>% 
+    select(-c("system_index", "geo")) %>% 
+    select(team_name, everything()) %>% 
+    gather(key = date, value = tmin, "x20150401":"x20181030")
+
+tdmean <-
+  read.csv("./data/tdmean_ballpark_PRISM.csv") %>% 
+    janitor::clean_names() %>% 
+    select(-c("system_index", "geo")) %>% 
+    select(team_name, everything()) %>% 
+    gather(key = date, value = tdmean, "x20150401":"x20181030")
+
+```
+
+Join tmax, tmin and tdmean
+
+```{r weather_tidy}
+
+weather <- as.tibble(
+    full_join(tmax, tmin, by = c("team_name", "date")) %>% 
+    full_join(., tdmean, by = c("team_name", "date")) %>% 
+    mutate(date = str_replace(date, "x", ""),
+           date = as.Date(date, format = "%Y%m%d"))
+  )
+
+weather
+
+```
+
+
+
+
+
+### Google Earth Engine Javascrip code
+
+Example for PRISM mean daily dew point temperature:
+
+// Load a Fusion Table from the ID using the FeatureCollection constructor.
+
+var ballpark = ee.FeatureCollection("ft:1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN"); 
+ 
+var usa = ee.FeatureCollection("ft:1ksBc_-cWnek37HFTMr0FXfBtOETBeYYbB1YeSg");
+   
+// Load PRISM input imagery.
+var tmax = ee.ImageCollection(PRISM)
+.filterDate('2015-04-01', '2018-10-31')
+.select('tmax');
+
+
+var tmin = ee.ImageCollection(PRISM)
+.filterDate('2015-04-01', '2018-10-31')
+.select('tmin');
+
+
+var tdmean = ee.ImageCollection(PRISM)
+.filterDate('2015-04-01', '2018-10-31')
+.select('tdmean');
+
+
+/////////////////////////////////////////////////////////
+
+//Create a collection of triplets, {imageID, ballpark, first}:
+
+var triplets = tdmean.map(function(image) {
+  return image.select('tdmean').reduceRegions({
+    collection: ballpark.select(['Team Name']), 
+    reducer: ee.Reducer.first(), 
+    scale: 1000
+  }).filter(ee.Filter.neq('first', null))
+    .map(function(f) { 
+      return f.set('imageId', image.id());
+    });
+}).flatten();
+
+print(triplets.first());  //properties: ballpark, imageId, first
+
+//////////////////////////////////////////////////////////////////////////
+
+// Format a table of triplets into a 2D table of rowId x colId.
+var format = function(table, rowId, colId) {
+  // Get a FeatureCollection with unique row IDs.
+  var rows = table.distinct(rowId);
+  // Join the table to the unique IDs to get a collection in which
+  // each feature stores a list of all features having a common row ID. 
+  var joined = ee.Join.saveAll('matches').apply({
+    primary: rows, 
+    secondary: table, 
+    condition: ee.Filter.equals({
+      leftField: rowId, 
+      rightField: rowId
+    })
+  });
+
+  return joined.map(function(row) {
+      // Get the list of all features with a unique row ID.
+      var values = ee.List(row.get('matches'))
+        // Map a function over the list of rows to return a list of
+        // column ID and value.
+        .map(function(feature) {
+          feature = ee.Feature(feature);
+          return [feature.get(colId), feature.get('first')];
+        });
+      // Return the row with its ID property and properties for
+      // all matching columns IDs storing the output of the reducer.
+      // The Dictionary constructor is using a list of key, value pairs.
+      return row.select([rowId]).set(ee.Dictionary(values.flatten()));
+    });
+};
+
+
+var table1 = format(triplets, 'Team Name', 'imageId');
+var desc2 = 'tdmean';
+
+Export.table.toDrive({
+  collection: table1,
+  description: desc2, 
+  fileNamePrefix: desc2,
+  fileFormat: 'CSV'
+});

@@ -1,0 +1,31 @@
+index,city,stadium_name,team_name
+1,"Anaheim, CA",Angel Stadium of Anaheim,Los Angeles Angels of Anaheim
+10001,"Atlanta, GA",Turner Field,Atlanta Braves
+10002,"Chicago, IL",U.S. Cellular Field,Chicago White Sox
+10003,"Chicago, IL",Wrigley Field,Chicago Cubs
+1001,"St. Louis, MO",Busch Stadium,St. Louis Cardinals
+1002,"Phoenix, AZ",Chase Field,Arizona Diamondbacks
+1003,"Los Angeles, CA",Dodger Stadium,Los Angeles Dodgers
+11001,"Bronx, NY",Yankee Stadium,New York Yankees
+2,"San Francisco, CA",AT&T Park,San Francisco Giants
+2001,"New York, NY",Citi Field,New York Mets
+2002,"Philadelphia, PA",Citizens Bank Park,Philadelphia Phillies
+3,"Denver, CO",Coors Field,Colorado Rockies
+3001,"Detroit, MI",Comerica Park,Detroit Tigers
+3002,"Boston, MA",Fenway Park,Boston Red Sox
+3003,"Arlington, TX",Globe Life Park in Arlington,Texas Rangers
+4001,"Cincinnati, OH",Great American Ball Park,Cincinnati Reds
+4002,"Kansas City, MO",Kauffman Stadium,Kansas City Royals
+4003,"Miami, FL",Marlins Park,Miami Marlins
+5001,"Milwaukee, WI",Miller Park,Milwaukee Brewers
+6001,"Houston, TX",Minute Maid Park,Houston Astros
+6002,"Washington, DC",Nationals Park,Washington Nationals
+6003,"Oakland, CA",O.co Coliseum,Oakland Athletics
+7001,"Baltimore, MD",Oriole Park at Camden Yards,Baltimore Orioles
+7002,"San Diego, CA",Petco Park,San Diego Padres
+7003,"Pittsburgh, PA",PNC Park,Pittsburgh Pirates
+8001,"Cleveland, OH",Progressive Field,Cleveland Indians
+8002,"Toronto, ON",Rogers Centre,Toronto Blue Jays
+8003,"Seattle, WA",Safeco Field,Seattle Mariners
+9001,"Minneapolis, MN",Target Field,Minnesota Twins
+9002,"St. Petersburg, FL",Tropicana Field,Tampa Bay Rays
