@@ -1,0 +1,66 @@
+---
+title: "pitch_data"
+author: "Brennan Baker"
+date: "November 9, 2018"
+output: html_document
+---
+
+# Gathering pitch data!
+
+Once you scrape, it is stored in the db even if you quit r. When you re open r, run everything except for the scrape function and that will load the data into the actual r session.
+```{r}
+library(pitchRx)
+library(tidyverse)
+# first argument is the path to the SQlite database. 
+# if TRUE, will create a new SQlite3 database at path if path does not exist. Will connect to the existing database if path does exist.
+
+my_db <- src_sqlite("GamedayDB.sqlite3", create = TRUE)
+
+# Do not need to run this, as I already put this data into the GamedayDB.sqlite3 in google drive. Collect and store all PITCHf/x data from one date to the next. 
+scrape(start = "2016-04-03", end = Sys.Date() - 1,
+suffix = "inning/inning_all.xml", connect = my_db$con)
+
+#tbl creates a reference to the SQL database
+# First, create pitch and atbat, which are representations of data in my_db. That is, pitch does not actually pull data from every pitch into memory, but is a portrayal of the relevant data sitting in my_db.
+pitch = tbl(my_db$con, "pitch")
+atbat = tbl(my_db$con, "atbat")
+
+## This extracts the infromation into a df in r. This will take a long time to run
+test2 <- collect(inner_join(pitch, atbat, by = c("num", "url")))
+
+
+# Filtering to make a smaller test dataset. I suggest filtering to a smaller dataset when testing out functions because it does not take as long.
+test3 = test2 %>% 
+  filter(inning.y == 1,
+         type == "S",
+         date == "2017_04_01")
+
+# Tidy pipeline here
+# makes home and away cols.
+#".y" cols are redundant. "_es" are in spanish.
+# At the end I select relevant variables
+test2 = test2 %>% 
+  separate(gameday_link.x, into = c("remove", "away_home"), sep = ".............._") %>%
+  separate(away_home, into = c("away", "home"), sep = "mlb_") %>% 
+  select(-ends_with(".y"), -ends_with("_es")) %>% 
+  select(start_speed, end_speed, home, away, pitcher_name, stand, pitch_type, date)
+
+```
+
+Home and away are coded with team codes. This link has team codes: https://legacy.baseballprospectus.com/sortable/extras/team_codes.php?this_year=2015
+We need to correlate these team codes with the team codes in Stephen's data and then join the datasets on home team (aka stadium) and date. Note that date is also coded differently in the different datasets (20120403 vs 2012_04_03)
+
+# Hierarchical linear model
+
+```{r}
+# Below runs a hierarchical linear model / nested model with pitcher_name set as the grouping factor. Below I model start_speed with end_speed just to test that the model works. Eventually, we will replace end_speed with something like tmax! We can also add covariates later just by typing "+ covariate" in the first argument that specifies the model. 
+# It takes about a minute to run with the 2.7 million pitch data set.
+library(lme4)
+# Without the below package, lme4 will not give you p-values.
+library(lmerTest)
+lme_results <- lmer(start_speed~end_speed + (1|pitcher_name), data=test2, REML=F)
+
+# Summary of results.
+summary(lme_results)
+```
+
