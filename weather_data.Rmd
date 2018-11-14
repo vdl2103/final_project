@@ -85,6 +85,29 @@ write_csv(weather, path = "./data/weather.csv")
 ```
 
 
+## Heat Index plot
+```{r}
+weather %>%
+  filter(date > "2018-03-29" & date < "2018-10-29") %>% 
+ggplot(aes(x = date, y = heat_index)) + 
+  geom_line(aes(color = team_name), alpha = .5) + 
+  labs(
+    title = "2018 MLB Season Mean Daily Heat Index",
+    x = "date",
+    y = "heat index (deg C)",
+    caption = "Data from PRISM"
+  ) + 
+  viridis::scale_color_viridis(
+    name = "Location", 
+    discrete = TRUE
+  ) + 
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+
+
+
+
 
 
 
