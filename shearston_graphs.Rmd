@@ -1,0 +1,73 @@
+---
+title: "shearston_plots"
+author: "J Shearston"
+date: "November 19, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
+```
+
+```{r temp & pitch speed}
+
+# tmax and pitch speed, facet by pitch type (with full data takes ~5min to run)
+
+complete_db %>% 
+  filter(y == "2016") %>% 
+  ggplot(aes(x = start_speed, y = tmax)) +
+  geom_point() +
+  facet_wrap(~pitch_type)
+
+# add pitch outcome = Home Run or Strikeout (as color)
+
+complete_db %>% 
+  filter(y == "2016", event == "Home Run" | event == "Strikeout") %>% 
+  mutate(event_f = as.factor(event)) %>% 
+  ggplot(aes(x = start_speed, y = tmax, color = event_f)) +
+  geom_point() +
+  facet_wrap(~pitch_type) +
+  theme(legend.position = "bottom")
+
+# add team name (as color)
+
+complete_db %>% 
+  filter(y == "2016") %>% 
+  mutate(team_name_f = as.factor(team_name)) %>% 
+  ggplot(aes(x = start_speed, y = tmax, color = team_name_f)) +
+  geom_point() +
+  facet_wrap(~pitch_type) +
+  theme(legend.position = "bottom")
+
+# facet by team name (color = pitch type)
+
+complete_db %>% 
+  filter(y == "2016") %>% 
+  mutate(team_name_f = as.factor(team_name)) %>% 
+  ggplot(aes(x = start_speed, y = tmax, color = pitch_type)) +
+  geom_point() +
+  facet_wrap(~team_name_f) +
+  theme(legend.position = "bottom")
+
+
+```
+
+
+```{r}
+
+
+
+
+```
+
+
