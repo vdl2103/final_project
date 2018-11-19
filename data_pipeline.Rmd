@@ -1,0 +1,90 @@
+---
+title: "data_pipeline"
+author: "Brennan Baker"
+date: "November 19, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(pitchRx)
+```
+
+
+# Gathering pitch data!
+
+Once you scrape, it is stored in the db even if you quit r. When you re open r, run everything except for the scrape function and that will load the data into the actual r session.
+```{r pitch data}
+# first argument is the path to the SQlite database. 
+# if TRUE, will create a new SQlite3 database at path if path does not exist. Will connect to the existing database if path does exist.
+
+my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
+
+# Do not need to run this, as I already put this data into the GamedayDB.sqlite3 in google drive. Collect and store all PITCHf/x data from one date to the next. 
+# scrape(start = "2016-04-03", end = Sys.Date() - 1,
+# suffix = "inning/inning_all.xml", connect = my_db$con)
+
+#tbl creates a reference to the SQL database
+# First, create pitch and atbat, which are representations of data in my_db. That is, pitch does not actually pull data from every pitch into memory, but is a portrayal of the relevant data sitting in my_db.
+pitch = tbl(my_db$con, "pitch")
+atbat = tbl(my_db$con, "atbat")
+
+# This extracts the infromation into a df in r. This will take a long time to run
+pitch_data <- collect(inner_join(pitch, atbat, by = c("num", "url")))
+
+```
+
+```{r, message = FALSE}
+#Import and clean pitching data 
+pitch_tidy_db = pitch_data %>%  
+  separate(gameday_link.x, into = c("remove", "away_home"), sep = ".............._") %>%
+  separate(away_home, into = c("away", "home"), sep = "mlb_") %>% 
+  select(start_speed, end_speed, home, away, pitcher_name, stand, pitch_type, date, inning.x, pitcher, type,
+         num, event, score) %>% 
+  mutate(date = ymd(date)) %>% 
+  rename(inning = inning.x)
+
+#Add team names to pitching data 
+team_names = read_csv("./data/team_abbrv.csv")
+pitch_tidy_db = left_join(pitch_tidy_db, team_names)  
+```
+
+```{r, message=FALSE}
+#Import weather data 
+weather_db = read_csv("./data/weather.csv") 
+
+#Join databases and remove: 1) teams with roofs, 2) spring training games, 3) AS games 
+complete_db = left_join(pitch_tidy_db, weather_db) %>% 
+  filter(!home %in% c("aas", "nas", "tor", "ari", "sea", "hou", "tba", "mia", "1", "2")) %>%  
+  separate(date, c("y", "m", "d")) 
+```
+
+```{r}
+#Examining missing data
+missing_data = complete_db %>% 
+  filter(is.na(start_speed)) %>% #we are missing pitch speed for 62,971 pitches 
+  group_by(team_name) %>% 
+  count() #see if the missing data are (roughly) evenly distributed among the teams 
+```
+
+```{r}
+# Below runs a hierarchical linear model / nested model with pitcher_name set as the grouping factor.
+# It takes a few minutes to run.
+library(lme4)
+# Without the below package, lme4 will not give you p-values.
+library(lmerTest)
+lme_results <- lmer(start_speed ~ heat_index + (1|pitcher_name), data=complete_db, REML=F)
+
+# Summary of results.
+summary(lme_results)
+```
+
+```{r}
+complete_db %>%
+  filter(pitch_type == "FF") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point()
+```
+
