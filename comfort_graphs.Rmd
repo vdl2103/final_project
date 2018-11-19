@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Nicole's EDA looking at humidity and heat index
+## Nicole's EDA looking at humidity and heat index 
 
 ```{r}
 
