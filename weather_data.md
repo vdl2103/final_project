@@ -55,16 +55,17 @@ weather <- as.tibble(
   )
 ```
 
-Heat Index
-----------
+Heat Index and RH
+-----------------
 
-This chunk creates daily heat index values from mean daily air temperature and mean daily dew point temperature. The `heat.index` function of the `weathermetrics` package is used. The heat index equation is derived from the US National Weather Service's online heat index calculator.
+This chunk creates daily heat index values from mean daily air temperature and mean daily dew point temperature. The `heat.index` function of the `weathermetrics` package is used. The heat index equation is derived from the US National Weather Service's online heat index calculator. The `dewpoint.to.humidity` function is used to obtain relative humidity.
 
 ``` r
 weather <-
   weather %>% 
     mutate(tmean = (tmax + tmin)/2,
-           heat_index = weathermetrics::heat.index(t = tmean, dp = tdmean, temperature.metric = "celsius", output.metric = "celsius", round = 2))
+           heat_index = weathermetrics::heat.index(t = tmean, dp = tdmean, temperature.metric = "celsius", output.metric = "celsius", round = 2),
+           rh = weathermetrics::dewpoint.to.humidity(dp = tdmean, t = tmean, temperature.metric = "celsius"))
 ```
 
     ## Warning in dewpoint.to.humidity(t = t, dp = dp, temperature.metric =
@@ -72,23 +73,28 @@ weather <-
     ## higher than temperature. Since dew point temperature cannot be higher than
     ## air temperature, relative humidty for these observations was set to 'NA'.
 
+    ## Warning in weathermetrics::dewpoint.to.humidity(dp = tdmean, t = tmean, :
+    ## For some observations, dew point temperature was higher than temperature.
+    ## Since dew point temperature cannot be higher than air temperature, relative
+    ## humidty for these observations was set to 'NA'.
+
 ``` r
 weather
 ```
 
-    ## # A tibble: 37,961 x 7
-    ##    team_name               date        tmax   tmin tdmean tmean heat_index
-    ##    <fct>                   <date>     <dbl>  <dbl>  <dbl> <dbl>      <dbl>
-    ##  1 Minnesota Twins         2015-04-01  17.9  0.160  -1.07  9.02       7.27
-    ##  2 Seattle Mariners        2015-04-01  12.3  6.41    4.47  9.34       8.2 
-    ##  3 San Francisco Giants    2015-04-01  16.3 11.2     6.92 13.8       12.9 
-    ##  4 Oakland Athletics       2015-04-01  19.3 10.7     6.31 15.0       14   
-    ##  5 Los Angeles Dodgers     2015-04-01  24.3 13.2    11.1  18.8       18.3 
-    ##  6 San Diego Padres        2015-04-01  20.0 15.7    12.2  17.9       17.5 
-    ##  7 Los Angeles Angels of ~ 2015-04-01  23.2 13.6    11.7  18.4       18   
-    ##  8 Houston Astros          2015-04-01  28.3 17.6    18.0  23.0       23.2 
-    ##  9 Texas Rangers           2015-04-01  28.3 17.8    16.3  23.1       23.1 
-    ## 10 Arizona Diamondbacks    2015-04-01  34.1 18.8     1.54 26.4       25.7 
+    ## # A tibble: 37,961 x 8
+    ##    team_name         date        tmax   tmin tdmean tmean heat_index    rh
+    ##    <fct>             <date>     <dbl>  <dbl>  <dbl> <dbl>      <dbl> <dbl>
+    ##  1 Minnesota Twins   2015-04-01  17.9  0.160  -1.07  9.02       7.27  49.6
+    ##  2 Seattle Mariners  2015-04-01  12.3  6.41    4.47  9.34       8.2   71.9
+    ##  3 San Francisco Gi~ 2015-04-01  16.3 11.2     6.92 13.8       12.9   63.5
+    ##  4 Oakland Athletics 2015-04-01  19.3 10.7     6.31 15.0       14     56.4
+    ##  5 Los Angeles Dodg~ 2015-04-01  24.3 13.2    11.1  18.8       18.3   61.2
+    ##  6 San Diego Padres  2015-04-01  20.0 15.7    12.2  17.9       17.5   69.7
+    ##  7 Los Angeles Ange~ 2015-04-01  23.2 13.6    11.7  18.4       18     65.0
+    ##  8 Houston Astros    2015-04-01  28.3 17.6    18.0  23.0       23.2   73.6
+    ##  9 Texas Rangers     2015-04-01  28.3 17.8    16.3  23.1       23.1   65.9
+    ## 10 Arizona Diamondb~ 2015-04-01  34.1 18.8     1.54 26.4       25.7   19.8
     ## # ... with 37,951 more rows
 
 Export tidy weather dataframe
