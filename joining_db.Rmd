@@ -7,6 +7,16 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(lubridate)
+library(pitchRx)
+library(RMySQL)
+```
+
+
+```{r}
+my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
+pitch = tbl(my_db$con, "pitch")
+atbat = tbl(my_db$con, "atbat")
+test2 <- collect(inner_join(pitch, atbat, by = c("num", "url")))
 ```
 
 
