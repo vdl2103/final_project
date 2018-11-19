@@ -2,4 +2,4 @@
 .Rhistory
 .RData
 .Ruserdata
-GamedayDB.sqlite3
+data/GamedayDB.sqlite3
