@@ -24,7 +24,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 # Heat Index
 
-```{r pitch speed & heat index}
+```{r start pitch speed & heat index}
 
 # examine distribution of heat index
 complete_db %>% 
@@ -97,5 +97,20 @@ complete_db %>%
   facet_wrap(~pitch_type)
 # the line looks pretty flat; appears there's no association between heat index and pitch speed.
 
+```
+
+# Humidity 
+
+```{r start pitch speed & humidity}
+
+# scatterplot looking at pitch speed vs. relative humidity 
+complete_db %>% 
+  ggplot(aes(x = rh, y = start_speed, color = region)) +
+  geom_point(alpha = .3) +
+  facet_wrap(~pitch_type)
+
+# maybe EP, FO, KN, PO, and SC are increasing speed with increasing relative humidity? Could change teh scale on the start_speed to better assess
+
+# also, what pitch type is EP and SC? It looks like the only pitcher(s) throwing these belong to the american league central division 
 ```
 
