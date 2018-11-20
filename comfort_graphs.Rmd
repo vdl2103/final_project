@@ -24,7 +24,9 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 # Heat Index
 
-```{r start pitch speed & heat index}
+For people working outdoors in hot weather, both air temperature and humidity affect how hot they feel. The "heat index" is a single value that takes both temperature and humidity into account. The higher the heat index, the hotter the weather feels, since sweat does not readily evaporate and cool the skin. The heat index is a better measure than air temperature alone for estimating the risk to workers from environmental heat sources.
+
+```{r start pitch speed & heat index, continuous}
 
 # examine distribution of heat index
 complete_db %>% 
@@ -97,9 +99,25 @@ complete_db %>%
   facet_wrap(~pitch_type)
 # the line looks pretty flat; appears there's no association between heat index and pitch speed.
 
+# look at pitch speed (all pitches) vs. relative humidity
+complete_db %>% 
+  ggplot(aes(x = heat_index, y = start_speed)) +
+  geom_hex() + 
+  geom_smooth()
+# again, looks like no association. maybe it dips slightly at the highest heat index, like above 35? Let me try to categorize heat index  
+
 ```
 
-# Humidity 
+```{r start pitch speed & heat index, categorical}
+
+
+
+```
+
+
+# Relative Humidity 
+
+Relative humidity is a measure of the amount of moisture in the air. Sweat does not evaporate as quickly when the air is moist as it does in a dry climate. Since evaporation of sweat from the skin is one of the ways the human body cools itself on a hot day, high humidity reduces our natural cooling potential and we feel hotter. Low humidity can also be a problem for outdoor workers in hot, desert-like climates. Sweat evaporates very rapidly in low humidity, which can lead to severe dehydration if a person does not drink enough water throughout the day.
 
 ```{r start pitch speed & humidity}
 
@@ -112,5 +130,14 @@ complete_db %>%
 # maybe EP, FO, KN, PO, and SC are increasing speed with increasing relative humidity? Could change teh scale on the start_speed to better assess
 
 # also, what pitch type is EP and SC? It looks like the only pitcher(s) throwing these belong to the american league central division 
+
+# look at pitch speed (all pitches) vs. relative humidity
+complete_db %>% 
+  ggplot(aes(x = rh, y = start_speed)) +
+  geom_hex() + 
+  geom_smooth()
+# again, looks like no association 
+
+
 ```
 
