@@ -46,16 +46,27 @@ complete_db %>%
 
 # separate by region
 # create new region variable
-# complete_db = 
-#   dplyr::mutate(complete_db, region = ifelse(team_name == "Baltimore Orioles" | team_name == "Boston Red Sox" | team_name == "New York Yankees" | team_name == "Tampa Bay Rays", "al_east",
-#                          ifelse(team_name == "Atlanta Braves" | team_name == "Miami Marlins" | team_name == "New York Mets" | team_name == "Philadelphia Phillies" | team_name == "Washington Nationals", "nl_east",
-#                                 ifelse(team_name == "Chicago White Sox" | team_name == "Cleveland Indians" | team_name == "Detroit Tigers" | team_name == "Kansas City Royals" | team_name == "Minnesota Twins", "al_central",
-#                                        ifelse(team_name == "Chicago Cubs" | team_name == "Cincinnati Reds" | team_name == "Milwaukee Brewers" | team_name == "Pittsburgh Pirates" | team_name == "St. Louis Cardinals", "nl_central",
-#                                               ifelse(team_name == "Houston Astros" | team_name == "Los Angeles Angels" | team_name == "Oakland Athletics" | team_name == "Seattle Mariners" | team_name == "Texas Rangers", "al_west",
-#                                                      ifelse(team_name == "Arizona Diamondbacks" | team_name == "Colorado Rockies" | team_name == "Los Angeles Dodgers" | team_name == "San Diego Padres" | team_name == "San Francisco Giants", "nl_west")))))))
-
-# really want to get the region variable to work! 
-
+complete_db =
+  dplyr::mutate(complete_db,
+                region =
+                  ifelse(team_name == "Baltimore Orioles" | team_name == "Boston Red Sox" |
+                           team_name == "New York Yankees" | team_name == "Tampa Bay Rays", "al_east",
+                  ifelse(team_name == "Atlanta Braves" | team_name == "Miami Marlins" |
+                           team_name == "New York Mets" | team_name == "Philadelphia Phillies" |
+                           team_name == "Washington Nationals", "nl_east",
+                  ifelse(team_name == "Chicago White Sox" | team_name == "Cleveland Indians" |
+                           team_name == "Detroit Tigers" | team_name == "Kansas City Royals" |
+                           team_name == "Minnesota Twins", "al_central",
+                  ifelse(team_name == "Chicago Cubs" | team_name == "Cincinnati Reds" |
+                           team_name == "Milwaukee Brewers" | team_name == "Pittsburgh Pirates" |
+                           team_name == "St. Louis Cardinals", "nl_central",
+                  ifelse(team_name == "Houston Astros" | team_name == "Los Angeles Angels" |
+                           team_name == "Oakland Athletics" | team_name == "Seattle Mariners" |
+                           team_name == "Texas Rangers", "al_west",
+                  ifelse(team_name == "Arizona Diamondbacks" | team_name == "Colorado Rockies" |
+                           team_name == "Los Angeles Dodgers" | team_name == "San Diego Padres" |
+                           team_name == "San Francisco Giants", "nl_west", "")))))))
+# not sure why there is any group falling into the last "no" category...
 
 # basic scatterplot of pitch speed vs. heat index, facet by pitch type
 complete_db %>% 
@@ -69,6 +80,22 @@ complete_db %>%
   facet_wrap(~pitch_type)
 # very ugly and messy
 
+# heat index distribution by region (now that I made the region variable)
+complete_db %>% 
+  ggplot(aes(x = heat_index, fill = region)) + 
+  geom_density(alpha = .4, adjust = .5)
+
+complete_db %>% 
+  ggplot(aes(x = heat_index)) + 
+  geom_density(alpha = .4, adjust = .5) +
+  facet_wrap(~region)
+
+# basic scatterplot of pitch speed vs. heat index, facet by pitch type, color by region
+complete_db %>% 
+  ggplot(aes(x = heat_index, y = start_speed, color = region)) +
+  geom_point(alpha = .3) +
+  facet_wrap(~pitch_type)
+# the line looks pretty flat; appears there's no association between heat index and pitch speed.
 
 ```
 
