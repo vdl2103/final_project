@@ -1,26 +1,14 @@
----
-title: "Joining pitching and weather databases"
-output: github_document
----
+Joining pitching and weather databases
+================
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-library(lubridate)
-library(pitchRx)
-library(RMySQL)
-```
-
-
-```{r}
+``` r
 my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
 pitch = tbl(my_db$con, "pitch")
 atbat = tbl(my_db$con, "atbat")
 test2 <- collect(inner_join(pitch, atbat, by = c("num", "url")))
 ```
 
-
-```{r, message = FALSE}
+``` r
 #Import and clean pitching data 
 pitch_tidy_db = test2 %>% #test2 comes from pitch_data.rmd, but I included a few more variables 
   separate(gameday_link.x, into = c("remove", "away_home"), sep = ".............._") %>%
@@ -29,13 +17,18 @@ pitch_tidy_db = test2 %>% #test2 comes from pitch_data.rmd, but I included a few
          num, event, score) %>% 
   mutate(date = ymd(date)) %>% 
   rename(inning = inning.x)
+```
 
+    ## Warning: Expected 2 pieces. Additional pieces discarded in 2744247 rows [1,
+    ## 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].
+
+``` r
 #Add team names to pitching data 
 team_names = read_csv("./data/team_abbrv.csv")
 pitch_tidy_db = left_join(pitch_tidy_db, team_names)  
 ```
 
-```{r, message=FALSE}
+``` r
 #Import weather data 
 weather_db = read_csv("./data/weather.csv") 
 
@@ -45,11 +38,10 @@ complete_db = left_join(pitch_tidy_db, weather_db) %>%
   separate(date, c("y", "m", "d")) 
 ```
 
-```{r}
+``` r
 #Examining missing data
 missing_data = complete_db %>% 
   filter(is.na(start_speed)) %>% #we are missing pitch speed for 62,971 pitches 
   group_by(team_name) %>% 
   count() #see if the missing data are (roughly) evenly distributed among the teams 
 ```
-

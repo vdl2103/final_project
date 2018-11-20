@@ -3,5 +3,6 @@
 .RData
 .Ruserdata
 data/GamedayDB.sqlite3
+GamedayDB.sqlite3
 .DS_Store
 data/.DS_Store
