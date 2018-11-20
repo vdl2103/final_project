@@ -35,32 +35,6 @@ complete_db %>%
   count() %>% 
   ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
 
-# numerical summary
-skim(complete_db$heat_index)
-
-heat_index_df =
-  complete_db %>%
-  group_by(team_name, m) %>%
-  summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
-            median_heat_index = median(heat_index),
-            sd_heat_index = sd(heat_index))
-
-# the teams with the greatest range/variability in heat index are the Minnesota TWins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
-
-# the teams with the lowest range/variability in heat index are the 
-
-# plot the above table
-heat_index_df %>% 
-  ggplot(aes(x = m, y = mean_heat_index, color = team_name)) +
-  geom_point() + geom_line()
-# why doesn't geom_line work???
-
-
-```
-
-
-```{r start pitch speed & heat index, continuous}
-
 # examine distribution of heat index
 complete_db %>% 
   ggplot(aes(x = heat_index)) +
@@ -73,35 +47,41 @@ complete_db %>%
   geom_density(alpha = .4, adjust = .5)
 # we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
 
+# numerical summary
+skim(complete_db$heat_index)
+
+heat_index_df =
+  complete_db %>%
+  group_by(team_name, m) %>%
+  summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
+            median_heat_index = median(heat_index),
+            sd_heat_index = sd(heat_index))
+
+# the teams with the greatest range/variability in heat index are the Minnesota Twins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
+
+# the teams with the lowest range/variability in heat index (excluding values of 0.00) are the Los Angeles Angels of Anaheim, Detroit Tigers, Chicago White Sox, St. Louis Cardinals
+
+# maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
+
+# plot the above table/info 
+heat_index_df %>% 
+  ggplot(aes(x = m, y = mean_heat_index, color = team_name)) +
+  geom_point() + geom_line()
+# why doesn't geom_line work???
+
+# could also plot as a box plot of heat index for each team / US region 
+
+
+```
+
+
+```{r start pitch speed & heat index, continuous, by MLB region}
+
 # basic scatterplot of pitch speed (all pitches) vs. heat index
 complete_db %>% 
   ggplot(aes(x = heat_index, y = start_speed)) +
   geom_point(alpha = .3)
 # not informative
-
-# separate by region
-# create new region variable
-complete_db =
-  dplyr::mutate(complete_db,
-                region =
-                  ifelse(team_name == "Baltimore Orioles" | team_name == "Boston Red Sox" |
-                           team_name == "New York Yankees" | team_name == "Tampa Bay Rays", "al_east",
-                  ifelse(team_name == "Atlanta Braves" | team_name == "Miami Marlins" |
-                           team_name == "New York Mets" | team_name == "Philadelphia Phillies" |
-                           team_name == "Washington Nationals", "nl_east",
-                  ifelse(team_name == "Chicago White Sox" | team_name == "Cleveland Indians" |
-                           team_name == "Detroit Tigers" | team_name == "Kansas City Royals" |
-                           team_name == "Minnesota Twins", "al_central",
-                  ifelse(team_name == "Chicago Cubs" | team_name == "Cincinnati Reds" |
-                           team_name == "Milwaukee Brewers" | team_name == "Pittsburgh Pirates" |
-                           team_name == "St. Louis Cardinals", "nl_central",
-                  ifelse(team_name == "Houston Astros" | team_name == "Los Angeles Angels of Anaheim" |
-                           team_name == "Oakland Athletics" | team_name == "Seattle Mariners" |
-                           team_name == "Texas Rangers", "al_west",
-                  ifelse(team_name == "Arizona Diamondbacks" | team_name == "Colorado Rockies" |
-                           team_name == "Los Angeles Dodgers" | team_name == "San Diego Padres" |
-                           team_name == "San Francisco Giants", "nl_west", "")))))))
-# not sure why there is any group falling into the last "no" category...
 
 # basic scatterplot of pitch speed vs. heat index, facet by pitch type
 complete_db %>% 
@@ -115,31 +95,118 @@ complete_db %>%
   facet_wrap(~pitch_type)
 # very ugly and messy
 
-# heat index distribution by region (now that I made the region variable)
+# separate by MLB region
+# create new region variable
+complete_db =
+  dplyr::mutate(complete_db,
+                mlb_region =
+                  ifelse(team_name == "Baltimore Orioles" | team_name == "Boston Red Sox" |
+                           team_name == "New York Yankees" | team_name == "Tampa Bay Rays", "al_east",
+                         
+                  ifelse(team_name == "Atlanta Braves" | team_name == "Miami Marlins" |
+                           team_name == "New York Mets" | team_name == "Philadelphia Phillies" |
+                           team_name == "Washington Nationals", "nl_east",
+                         
+                  ifelse(team_name == "Chicago White Sox" | team_name == "Cleveland Indians" |
+                           team_name == "Detroit Tigers" | team_name == "Kansas City Royals" |
+                           team_name == "Minnesota Twins", "al_central",
+                         
+                  ifelse(team_name == "Chicago Cubs" | team_name == "Cincinnati Reds" |
+                           team_name == "Milwaukee Brewers" | team_name == "Pittsburgh Pirates" |
+                           team_name == "St. Louis Cardinals", "nl_central",
+                         
+                  ifelse(team_name == "Houston Astros" | team_name == "Los Angeles Angels of Anaheim" |
+                           team_name == "Oakland Athletics" | team_name == "Seattle Mariners" |
+                           team_name == "Texas Rangers", "al_west",
+                         
+                  ifelse(team_name == "Arizona Diamondbacks" | team_name == "Colorado Rockies" |
+                           team_name == "Los Angeles Dodgers" | team_name == "San Diego Padres" |
+                           team_name == "San Francisco Giants", "nl_west", "")))))))
+
+# heat index distribution by MLB region (now that I made the region variable)
 complete_db %>% 
-  ggplot(aes(x = heat_index, fill = region)) + 
+  ggplot(aes(x = heat_index, fill = mlb_region)) + 
   geom_density(alpha = .4, adjust = .5)
 
 complete_db %>% 
   ggplot(aes(x = heat_index)) + 
   geom_density(alpha = .4, adjust = .5) +
-  facet_wrap(~region)
+  facet_wrap(~mlb_region)
 
-# basic scatterplot of pitch speed vs. heat index, facet by pitch type, color by region
+
+# basic scatterplot of pitch speed vs. heat index, facet by pitch type, color by MLB region
 complete_db %>% 
-  ggplot(aes(x = heat_index, y = start_speed, color = region)) +
+  ggplot(aes(x = heat_index, y = start_speed, color = mlb_region)) +
   geom_point(alpha = .3) +
   facet_wrap(~pitch_type)
 # the line looks pretty flat; appears there's no association between heat index and pitch speed.
+
 
 # look at pitch speed (all pitches) vs. heat index
 complete_db %>% 
   ggplot(aes(x = heat_index, y = start_speed)) +
   geom_hex() + 
   geom_smooth()
-# again, looks like no association. maybe it dips slightly at the highest heat index, like above 35? Let me try to categorize heat index  
+# again, looks like no association. maybe it dips slightly at the highest heat index, like above 35? Let me try to categorize heat index next
 
 ```
+
+```{r pitch speed & heat index, continuous, by US region}
+
+# create new variable for US region
+complete_db = 
+   dplyr::mutate(complete_db,
+                  US_region =
+                  ifelse(team_name == "Baltimore Orioles" |
+                           team_name == "Boston Red Sox" |
+                           team_name == "New York Yankees" |
+                           team_name == "New York Mets" |
+                           team_name == "Tampa Bay Rays" |
+                           team_name == "Philadelphia Phillies" |
+                           team_name == "Pittsburgh Pirates" |
+                           team_name == "Washington Nationals", "northeast",
+                  ifelse(team_name == "Chicago Cubs" |
+                           team_name == "Chicago White Sox" |
+                           team_name == "Cleveland Indians" |
+                           team_name == "Detroit Tigers" |
+                           team_name == "Kansas City Royals" |
+                           team_name == "Minnesota Twins" |
+                           team_name == "Cincinnati Reds" |
+                           team_name == "Milwaukee Brewers" |
+                           team_name == "St. Louis Cardinals", "midwest",
+                  ifelse(team_name == "Texas Rangers" |
+                           team_name == "Houston Astros", "southwest",
+                  ifelse(team_name == "Los Angeles Angels of Anaheim" |
+                           team_name == "Los Angeles Dodgers" |
+                           team_name == "Oakland Athletics" |
+                           team_name == "Seattle Mariners" |
+                           team_name == "San Diego Padres" |
+                           team_name == "San Francisco Giants" |
+                           team_name == "Colorado Rockies", "west",
+                  ifelse(team_name == "Atlanta Braves", "southeast", ""))))))
+
+# heat index distribution by US region 
+complete_db %>% 
+  ggplot(aes(x = heat_index, fill = US_region)) + 
+  geom_density(alpha = .4, adjust = .5)
+# southwest followed by southeast has highest heat index, west is most stable/pleasant
+
+complete_db %>% 
+  ggplot(aes(x = heat_index)) + 
+  geom_density(alpha = .4, adjust = .5) +
+  facet_wrap(~US_region)
+# west has pretty normal distribution, southeast and southwest skewed 
+
+# same but by US region
+complete_db %>% 
+  ggplot(aes(x = heat_index, y = start_speed, color = US_region)) +
+  geom_point(alpha = .3) +
+  facet_wrap(~pitch_type)
+# fastball affected by higher heat index??
+# looks like fastball speed decreases with higher heat index (at least in the southwest and west)
+
+```
+
 
 ```{r start pitch speed & heat index, categorical}
 
@@ -147,8 +214,23 @@ complete_db %>%
 # try above and below 35
 # then try quartiles (based on skim summary statistics) 
 
+library(patchwork)
 
+# look at pitch speed (all pitches) vs. heat index
+plot_1 = complete_db %>% 
+  filter(heat_index < 35) %>% 
+  ggplot(aes(x = heat_index, y = start_speed)) +
+  geom_hex() + 
+  geom_smooth(color = "blue")
 
+plot_2 = complete_db %>% 
+  filter(heat_index >= 35) %>% 
+  ggplot(aes(x = heat_index, y = start_speed)) +
+  geom_point() + 
+  geom_smooth(color = "red")
+# run a linear regression to see if it increases at these extreme heat indexes? 
+
+plot_1 / plot_2
 
 ```
 
@@ -161,7 +243,7 @@ Relative humidity is a measure of the amount of moisture in the air. Sweat does 
 
 # scatterplot looking at pitch speed vs. relative humidity 
 complete_db %>% 
-  ggplot(aes(x = rh, y = start_speed, color = region)) +
+  ggplot(aes(x = rh, y = start_speed, color = mlb_region)) +
   geom_point(alpha = .3) +
   facet_wrap(~pitch_type)
 
@@ -169,12 +251,26 @@ complete_db %>%
 
 # also, what pitch type is EP and SC? It looks like the only pitcher(s) throwing these belong to the american league central division 
 
+complete_db %>% 
+  ggplot(aes(x = rh, y = start_speed, color = US_region)) +
+  geom_point(alpha = .3) +
+  facet_wrap(~pitch_type)
+# U-shaped for fastball? 
+
 # look at pitch speed (all pitches) vs. relative humidity
 complete_db %>% 
   ggplot(aes(x = rh, y = start_speed)) +
   geom_hex() + 
   geom_smooth()
 # again, looks like no association 
+
+
+```
+
+## Examine across years? 
+
+```{r}
+
 
 
 ```
