@@ -2,16 +2,73 @@
 title: "comfort_graphs"
 author: "Nicole Comfort"
 date: "11/19/2018"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
 ```
 
-## Nicole's EDA looking at humidity and heat index 
+## Nicole's EDA looking at humidity and heat index as variables of interest
 
-```{r}
+# Heat Index
+
+```{r pitch speed & heat index}
+
+# examine distribution of heat index
+complete_db %>% 
+  ggplot(aes(x = heat_index)) +
+  geom_histogram()
+# pretty much normally distributed overall
+
+# distribution by stadium
+complete_db %>% 
+  ggplot(aes(x = heat_index, fill = team_name)) + 
+  geom_density(alpha = .4, adjust = .5)
+# we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
+
+# basic scatterplot of pitch speed (all pitches) vs. heat index
+complete_db %>% 
+  ggplot(aes(x = heat_index, y = start_speed)) +
+  geom_point(alpha = .3)
+# not informative
+
+# separate by region
+# create new region variable
+# complete_db = 
+#   dplyr::mutate(complete_db, region = ifelse(team_name == "Baltimore Orioles" | team_name == "Boston Red Sox" | team_name == "New York Yankees" | team_name == "Tampa Bay Rays", "al_east",
+#                          ifelse(team_name == "Atlanta Braves" | team_name == "Miami Marlins" | team_name == "New York Mets" | team_name == "Philadelphia Phillies" | team_name == "Washington Nationals", "nl_east",
+#                                 ifelse(team_name == "Chicago White Sox" | team_name == "Cleveland Indians" | team_name == "Detroit Tigers" | team_name == "Kansas City Royals" | team_name == "Minnesota Twins", "al_central",
+#                                        ifelse(team_name == "Chicago Cubs" | team_name == "Cincinnati Reds" | team_name == "Milwaukee Brewers" | team_name == "Pittsburgh Pirates" | team_name == "St. Louis Cardinals", "nl_central",
+#                                               ifelse(team_name == "Houston Astros" | team_name == "Los Angeles Angels" | team_name == "Oakland Athletics" | team_name == "Seattle Mariners" | team_name == "Texas Rangers", "al_west",
+#                                                      ifelse(team_name == "Arizona Diamondbacks" | team_name == "Colorado Rockies" | team_name == "Los Angeles Dodgers" | team_name == "San Diego Padres" | team_name == "San Francisco Giants", "nl_west")))))))
+
+# really want to get the region variable to work! 
+
+
+# basic scatterplot of pitch speed vs. heat index, facet by pitch type
+complete_db %>% 
+  ggplot(aes(x = heat_index, y = start_speed)) +
+  geom_point(alpha = .3) +
+  facet_wrap(~pitch_type)
+# too many points... let's use geom_hex
+complete_db %>% 
+  ggplot(aes(x = heat_index, y = start_speed, color = team_name)) +
+  geom_hex() +
+  facet_wrap(~pitch_type)
+# very ugly and messy
+
 
 ```
 
