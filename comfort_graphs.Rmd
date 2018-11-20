@@ -26,6 +26,39 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 For people working outdoors in hot weather, both air temperature and humidity affect how hot they feel. The "heat index" is a single value that takes both temperature and humidity into account. The higher the heat index, the hotter the weather feels, since sweat does not readily evaporate and cool the skin. The heat index is a better measure than air temperature alone for estimating the risk to workers from environmental heat sources.
 
+```{r heat index EDA}
+
+# Examining missing data
+complete_db %>% 
+  group_by(team_name) %>% 
+  filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
+  count() %>% 
+  ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
+
+# numerical summary
+skim(complete_db$heat_index)
+
+heat_index_df =
+  complete_db %>%
+  group_by(team_name, m) %>%
+  summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
+            median_heat_index = median(heat_index),
+            sd_heat_index = sd(heat_index))
+
+# the teams with the greatest range/variability in heat index are the Minnesota TWins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
+
+# the teams with the lowest range/variability in heat index are the 
+
+# plot the above table
+heat_index_df %>% 
+  ggplot(aes(x = m, y = mean_heat_index, color = team_name)) +
+  geom_point() + geom_line()
+# why doesn't geom_line work???
+
+
+```
+
+
 ```{r start pitch speed & heat index, continuous}
 
 # examine distribution of heat index
@@ -62,7 +95,7 @@ complete_db =
                   ifelse(team_name == "Chicago Cubs" | team_name == "Cincinnati Reds" |
                            team_name == "Milwaukee Brewers" | team_name == "Pittsburgh Pirates" |
                            team_name == "St. Louis Cardinals", "nl_central",
-                  ifelse(team_name == "Houston Astros" | team_name == "Los Angeles Angels" |
+                  ifelse(team_name == "Houston Astros" | team_name == "Los Angeles Angels of Anaheim" |
                            team_name == "Oakland Athletics" | team_name == "Seattle Mariners" |
                            team_name == "Texas Rangers", "al_west",
                   ifelse(team_name == "Arizona Diamondbacks" | team_name == "Colorado Rockies" |
@@ -99,7 +132,7 @@ complete_db %>%
   facet_wrap(~pitch_type)
 # the line looks pretty flat; appears there's no association between heat index and pitch speed.
 
-# look at pitch speed (all pitches) vs. relative humidity
+# look at pitch speed (all pitches) vs. heat index
 complete_db %>% 
   ggplot(aes(x = heat_index, y = start_speed)) +
   geom_hex() + 
@@ -109,6 +142,11 @@ complete_db %>%
 ```
 
 ```{r start pitch speed & heat index, categorical}
+
+# put heat index into meaningful(?) categories - might need Stephen's input on this
+# try above and below 35
+# then try quartiles (based on skim summary statistics) 
+
 
 
 
