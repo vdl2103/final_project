@@ -57,12 +57,6 @@ heat_index_df =
             median_heat_index = median(heat_index),
             sd_heat_index = sd(heat_index))
 
-# the teams with the greatest range/variability in heat index are the Minnesota Twins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
-
-# the teams with the lowest range/variability in heat index (excluding values of 0.00) are the Los Angeles Angels of Anaheim, Detroit Tigers, Chicago White Sox, St. Louis Cardinals
-
-# maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
-
 # plot the above table/info 
 heat_index_df %>% 
   ggplot(aes(x = m, y = mean_heat_index, color = team_name)) +
@@ -71,7 +65,18 @@ heat_index_df %>%
 
 # could also plot as a box plot of heat index for each team / US region 
 
+# the teams with the greatest range/variability in heat index are the Minnesota Twins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
 
+# the teams with the lowest range/variability in heat index (excluding values of 0.00) are the Los Angeles Angels of Anaheim, Detroit Tigers, Chicago White Sox, St. Louis Cardinals
+
+# maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
+
+complete_db %>% 
+  filter(team_name == "Washington Nationals") %>% 
+  ggplot(aes(x = m, y = start_speed)) +
+  geom_boxplot()
+# tried adding geom_jitter but there are too many points 
+# more outliers at the warmer months with hotter heat index, but overall start speed looks the same 
 ```
 
 
@@ -247,7 +252,7 @@ complete_db %>%
   geom_point(alpha = .3) +
   facet_wrap(~pitch_type)
 
-# maybe EP, FO, KN, PO, and SC are increasing speed with increasing relative humidity? Could change teh scale on the start_speed to better assess
+# maybe EP, FO, KN, PO, and SC are increasing speed with increasing relative humidity? Could change the scale on the start_speed to better assess
 
 # also, what pitch type is EP and SC? It looks like the only pitcher(s) throwing these belong to the american league central division 
 
@@ -271,7 +276,9 @@ complete_db %>%
 
 ```{r}
 
-
+# complete_db %>% 
+#   group_by(y) %>% 
+#   summarize(mean = mean(start_speed))
 
 ```
 
