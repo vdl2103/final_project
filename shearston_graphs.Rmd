@@ -19,9 +19,84 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ```
 
-```{r temp & pitch speed}
 
-# tmax and pitch speed, facet by pitch type (with full data takes ~5min to run)
+## Graph of variation in proportion of fastball vs off-speed pitches and temperature
+
+
+```{r temp and prop ff}
+
+# Create proportion of ff to all pitch dataset
+
+propff_db = complete_db %>% 
+  mutate(ff = str_detect(pitch_type, "FF")) %>% 
+  group_by(y, m, d, tmax) %>% 
+  summarise(n = n(),
+            ff_sum = sum(ff, na.rm = TRUE),
+            prop_ff = (ff_sum/n)*100) %>% 
+  mutate(prop_ff = round(prop_ff, digits = 1))
+
+# tmax and proportion of ff  
+
+propff_db %>%
+  filter(prop_ff != 0) %>% 
+  ggplot(aes(x = prop_ff, y = tmax)) +
+  geom_point() +
+  geom_smooth()
+
+
+```
+
+
+## Graph of speed of fastballs and temperature
+
+
+```{r temp & pitch speed (fastball only)}
+
+## HEADS UP -- each graph takes 2-6 minutes to run and view
+
+# tmax and pitch speed, fastball only, facet by inning
+
+complete_db %>% 
+  filter(pitch_type == "FF") %>% 
+  ggplot(aes(x = start_speed, y = tmax)) +
+  geom_point() +
+  facet_wrap(~inning)
+
+# tmax and pitch speed, fastball only, facet by team
+
+complete_db %>% 
+  filter(pitch_type == "FF") %>% 
+  ggplot(aes(x = start_speed, y = tmax)) +
+  geom_point() +
+  facet_wrap(~team_name)
+
+# tmax and pitch speed, fastball only, facet by outcome (homerun, strikeout, etc)
+
+complete_db %>% 
+  filter(pitch_type == "FF") %>% 
+  ggplot(aes(x = start_speed, y = tmax)) +
+  geom_point() +
+  facet_wrap(~event)
+
+# tmax and pitch speed, fastball only, facet by ball/strike/foul
+
+complete_db %>% 
+  filter(pitch_type == "FF") %>% 
+  ggplot(aes(x = start_speed, y = tmax)) +
+  geom_point() +
+  facet_wrap(~type)
+
+```
+
+
+## Exploratory -- graphs of temp and pitch speed (all pitch types)
+
+
+```{r temp & pitch speed (all pitch type)}
+
+## HEADS UP -- each graph takes 2-6 minutes to run and view
+
+# tmax and pitch speed, facet by pitch type
 
 complete_db %>% 
   filter(y == "2016") %>% 
@@ -58,14 +133,6 @@ complete_db %>%
   geom_point() +
   facet_wrap(~team_name_f) +
   theme(legend.position = "bottom")
-
-
-```
-
-
-```{r}
-
-
 
 
 ```
