@@ -1,0 +1,25 @@
+---
+title: "Final Project"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Hierarchical Linear Model
+
+```{r models}
+#From Brennan's data_pipeline.Rmd
+# Below runs a hierarchical linear model / nested model with pitcher_name set as the grouping factor.
+# It takes a few minutes to run.
+library(lme4)
+# Without the below package, lme4 will not give you p-values.
+library(lmerTest)
+lme_results <- lmer(start_speed ~ heat_index + (1|pitcher_name), data=complete_db, REML=F)
+
+# Summary of results.
+summary(lme_results)
+```
+
+
