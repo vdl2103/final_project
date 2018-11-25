@@ -1,0 +1,17 @@
+name: "Final Project"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "EDA"
+      href: EDA.html
+    - text: "Flex Dashboard"
+      href: Flex_Dashboard.html
+    - text: "Models"
+      href: models.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<tory.lynch@gmail.com>
+    - icon: fa-github fa-lg
+      href: http://github.com/vdl2103
+output:
+  html_document

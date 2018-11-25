@@ -1,0 +1,52 @@
+---
+title: "EDA"
+---
+
+#### Methods
+
+- Data from NLDAS and pitchRx
+- 2016 - 2018
+- Removed games played indoors
+
+#### Outliers
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(skimr)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
+```
+
+```{r}
+# From Nicole's comfort_graphs.Rmd
+
+# Examining missing data
+eda_1 = complete_db %>% 
+  group_by(team_name) %>% 
+  filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
+  count() %>% 
+  ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
+eda_1
+# examine distribution of heat index
+eda_2 = complete_db %>% 
+  ggplot(aes(x = heat_index)) +
+  geom_histogram()
+# pretty much normally distributed overall
+eda_2
+# distribution by stadium
+eda_3 = complete_db %>% 
+  ggplot(aes(x = heat_index, fill = team_name)) + 
+  geom_density(alpha = .4, adjust = .5)
+# we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
+eda_3
+
+```
+

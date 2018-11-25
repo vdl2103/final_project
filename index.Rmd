@@ -1,0 +1,29 @@
+---
+title: "Association between Temperature and Pitching"
+---
+
+####Brennan Baker, Nicole Comfort, Stephen Lewandowski, Tory Lynch, Jenni Shearston
+ 
+
+
+<img src = "./party-hats-party-animals.png" height = "400px" width = "300px" /> <img src = "./small_cow.png" height = "200px" width = "300px" /> <img src = "./flower_cow.png" height = "410px" width = "300px" />
+ 
+ 
+
+```{r}
+
+```
+
+#### Introduction
+
+Baseball is good. 
+
+#### Presentation 
+```{r echo=FALSE}
+library(vembedr)
+```
+
+```{r echo=FALSE}
+embed_url("https://youtu.be/LPazONtQ080")
+```
+
