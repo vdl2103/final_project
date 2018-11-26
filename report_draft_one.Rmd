@@ -1,0 +1,45 @@
+---
+title: "Report - first draft"
+output: github_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### REPORT- FIRST DRAFT 
+
+#### motivation + related 
+```{r}
+# Tory 
+```
+
+#### questions
+```{r}
+# All of us - take from project proposal 
+```
+
+#### data
+```{r}
+#Stephen + Brennan 
+```
+
+#### exploratory analysis 
+```{r}
+#Jenni + Nicole 
+```
+
+#### additional anlaysis: plots
+```{r}
+#Jenni + Nicole 
+```
+
+#### additional analysis: models
+```{r}
+#Stephen
+```
+
+#### discussion
+```{r}
+#All of us
+```
+
