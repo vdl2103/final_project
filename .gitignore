@@ -6,3 +6,8 @@ data/GamedayDB.sqlite3
 GamedayDB.sqlite3
 .DS_Store
 data/.DS_Store
+data/.stadium_index.csv
+data/.tdmean_ballpark_PRISM.csv
+data/.tmax_ballpark_PRISM.csv
+data/.tmin_ballpark_PRISM.csv
+data/.weather.csv
