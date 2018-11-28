@@ -236,11 +236,29 @@ $(document).ready(function () {
 <pre class="r"><code>#Stephen + Brennan </code></pre>
 </div>
 </div>
-<div id="weather-data" class="section level3">
-<h3>Weather data</h3>
-<p>We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model (PRISM) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks aound the United States and applies interpolation routines to simulate variations with elevation, coastal effects, temperature inversions, and terrain barriers. The model includes 7 bands of output parameters at a 2.5 arc minute grid resolution (<a href="https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d" class="uri">https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d</a>).</p>
-<p>Using the code editor in the Google Earth Engine platform (<a href="https://code.earthengine.google.com" class="uri">https://code.earthengine.google.com</a>), we extracted maximum daily temperature (<code>tmax</code>), minimum daily temperature (<code>tmin</code>), and mean daily dew point temperature (<code>tdmean</code>) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (<a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a>), which we imported to Earth Engine. We used Javascript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.</p>
-<p>Next, we imported the PRISM files for <code>tmax</code>, <code>tmin</code>, and <code>tdmean</code> into R, tidyed the data from “wide” to “long”, and joined each parameter to a single dataframe by team and date. We created daily heat index values (<code>heat_index</code>) from mean daily air temperature and mean daily dew point temperature using the <code>heat.index</code> function of the <code>weathermetrics</code> package, which applies a heat index equation derived from the US National Weather Service’s online heat index calculator. We also used the <code>dewpoint.to.humidity</code> function to obtain relative humidity (<code>rh</code>).</p>
+<div id="weather-data" class="section level2">
+<h2>Weather data</h2>
+<div id="prism-climate-model" class="section level3">
+<h3>PRISM climate model</h3>
+<p>We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model (PRISM) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks around the United States and applies interpolation routines to simulate variations with elevation, coastal effects, temperature inversions, and terrain barriers. The model includes 7 bands of output parameters at a 2.5 arc minute grid resolution (<a href="https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d" class="uri">https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d</a>).</p>
+</div>
+<div id="google-earth-engine" class="section level3">
+<h3>Google Earth Engine</h3>
+<p>Using the code editor in the Google Earth Engine platform (<a href="https://code.earthengine.google.com" class="uri">https://code.earthengine.google.com</a>), we extracted maximum daily temperature (<code>tmax</code>), minimum daily temperature (<code>tmin</code>), and mean daily dew point temperature (<code>tdmean</code>) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (<a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a>), which we imported to Earth Engine. We used JavaScript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.</p>
+</div>
+<div id="tidy-weather-data" class="section level3">
+<h3>Tidy weather data</h3>
+<p>Next, we imported the PRISM files for <code>tmax</code>, <code>tmin</code>, and <code>tdmean</code> into R, tidied the data from “wide” to “long”, and joined each parameter to a single dataframe by team and date. We created daily heat index values (<code>heat_index</code>) from mean daily air temperature and mean daily dew point temperature using the <code>heat.index</code> function of the <code>weathermetrics</code> package, which applies a heat index equation derived from the US National Weather Service’s online heat index calculator. We also used the <code>dewpoint.to.humidity</code> function to obtain relative humidity (<code>rh</code>).</p>
+</div>
+<div id="reproducability" class="section level3">
+<h3>Reproducability</h3>
+<p>The raw data files from Earth Engine and the stadium index from Fusion Table are available at the links below:</p>
+<p>“tdmean_ballpark.PRISM.csv”: <a href="https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK" class="uri">https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK</a><br />
+“tmin_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa" class="uri">https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa</a><br />
+“tmax_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq" class="uri">https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq</a><br />
+“stadium_index.csv” : <a href="https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo" class="uri">https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo</a></p>
+<p>The joined and cleaned weather dataframe is available at:</p>
+<p>“weather.csv” : <a href="https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W" class="uri">https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W</a></p>
 <div id="exploratory-analysis" class="section level4">
 <h4>exploratory analysis</h4>
 <pre class="r"><code>#Jenni + Nicole </code></pre>
@@ -256,6 +274,7 @@ $(document).ready(function () {
 <div id="discussion" class="section level4">
 <h4>discussion</h4>
 <pre class="r"><code>#All of us</code></pre>
+</div>
 </div>
 </div>
 
