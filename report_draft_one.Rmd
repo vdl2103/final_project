@@ -21,7 +21,20 @@ knitr::opts_chunk$set(echo = TRUE)
 #### data
 ```{r}
 #Stephen + Brennan 
+
 ```
+
+### Weather data
+
+We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model (PRISM) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks aound the United States and applies interpolation routines to simulate variations with elevation, coastal effects, temperature inversions, and terrain barriers. The model includes 7 bands of output parameters at a 2.5 arc minute grid resolution (https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d).
+
+Using the code editor in the Google Earth Engine platform (https://code.earthengine.google.com), we extracted maximum daily temperature (`tmax`), minimum daily temperature (`tmin`), and mean daily dew point temperature (`tdmean`) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1), which we imported to Earth Engine. We used Javascript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.
+
+Next, we imported the PRISM files for `tmax`, `tmin`, and `tdmean` into R, tidyed the data from "wide" to "long", and joined each parameter to a single dataframe by team and date. We created daily heat index values (`heat_index`) from mean daily air temperature and mean daily dew point temperature using the `heat.index` function of the `weathermetrics` package, which applies a heat index equation derived from the US National Weather Service's online heat index calculator. We also used the `dewpoint.to.humidity` function to obtain relative humidity (`rh`).   
+
+
+
+
 
 #### exploratory analysis 
 ```{r}
