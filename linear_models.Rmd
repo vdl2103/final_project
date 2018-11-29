@@ -18,8 +18,17 @@ library(kableExtra)
 ### Pitch type frequency
 ```{r pitch_type table}
 
-pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv")
+pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv") %>%    
+  mutate(home = factor(home),
+         away = factor(away),
+         pitcher_name = factor(pitcher_name),
+         pitch_type = factor(pitch_type),
+         pitcher = factor(pitcher),
+         type = factor(type),
+         event = factor(event),
+         team_name = factor(team_name))
 
+  
 pitch_tidy_db %>%
   filter(pitch_type != "NA") %>% 
   group_by(pitch_type) %>% 
@@ -101,6 +110,6 @@ pitch_tidy_db %>%
 ### Model fitting
 
 ```{r}
-
+# fit = lm(price ~ stars + boro, data = nyc_airbnb)
 ```
 

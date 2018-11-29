@@ -230,8 +230,17 @@ $(document).ready(function () {
 <h2>Data tables</h2>
 <div id="pitch-type-frequency" class="section level3">
 <h3>Pitch type frequency</h3>
-<pre class="r"><code>pitch_tidy_db &lt;- read.csv(&quot;./data/pitch_tidy_db.csv&quot;)
+<pre class="r"><code>pitch_tidy_db &lt;- read.csv(&quot;./data/pitch_tidy_db.csv&quot;) %&gt;%    
+  mutate(home = factor(home),
+         away = factor(away),
+         pitcher_name = factor(pitcher_name),
+         pitch_type = factor(pitch_type),
+         pitcher = factor(pitcher),
+         type = factor(type),
+         event = factor(event),
+         team_name = factor(team_name))
 
+  
 pitch_tidy_db %&gt;%
   filter(pitch_type != &quot;NA&quot;) %&gt;% 
   group_by(pitch_type) %&gt;% 
@@ -1244,6 +1253,7 @@ Strikeout
 </div>
 <div id="model-fitting" class="section level3">
 <h3>Model fitting</h3>
+<pre class="r"><code># fit = lm(price ~ stars + boro, data = nyc_airbnb)</code></pre>
 </div>
 </div>
 
