@@ -1,0 +1,44 @@
+---
+title: "linear_models"
+author: "Stephen Lewandowski"
+date: "November 29, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+### Data tables
+
+Pitch type frequency
+```{r pitch_type table}
+
+pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv")
+
+pitch_tidy_db %>% 
+  count(pitch_type) %>%
+  top_n(n = 10, wt = n) %>% 
+  arrange(desc(n)) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+Pitch type abbreviations and descriptions are listed at https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/. The top 5 by frequency are:
+
+FF = four-seam fastball
+SL = slider 
+FT = two-seam fastball
+CH = changeup
+CU = curveball
+
+
+### Model fitting
+
+```{r}
+
+```
+
