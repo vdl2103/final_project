@@ -226,11 +226,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="data-tables" class="section level2">
-<h2>Data tables</h2>
-<div id="pitch-type-frequency" class="section level3">
-<h3>Pitch type frequency</h3>
-<pre class="r"><code>pitch_tidy_db &lt;- read.csv(&quot;./data/pitch_tidy_db.csv&quot;) %&gt;%    
+<pre class="r"><code>pitch_tidy_db &lt;- read.csv(&quot;./data/pitch_tidy_db.csv&quot;) %&gt;%
+  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tmax, tmin, tmean, tdmean, heat_index, rh) %&gt;% 
   mutate(home = factor(home),
          away = factor(away),
          pitcher_name = factor(pitcher_name),
@@ -240,8 +237,12 @@ $(document).ready(function () {
          event = factor(event),
          team_name = factor(team_name))
 
-  
-pitch_tidy_db %&gt;%
+# missing `date` from latest data_pipeline</code></pre>
+<div id="data-tables" class="section level2">
+<h2>Data tables</h2>
+<div id="pitch-type-frequency" class="section level3">
+<h3>Pitch type frequency</h3>
+<pre class="r"><code>pitch_tidy_db %&gt;%
   filter(pitch_type != &quot;NA&quot;) %&gt;% 
   group_by(pitch_type) %&gt;% 
   summarise(n = n(),
@@ -303,22 +304,22 @@ mean_inning
 FF
 </td>
 <td style="text-align:right;">
-950720
+756133
 </td>
 <td style="text-align:right;">
-92.83799
+92.84753
 </td>
 <td style="text-align:right;">
-2.780184
+2.781956
 </td>
 <td style="text-align:right;">
-85.12015
+85.21839
 </td>
 <td style="text-align:right;">
-2.581406
+2.578296
 </td>
 <td style="text-align:right;">
-5.044859
+5.040757
 </td>
 </tr>
 <tr>
@@ -326,22 +327,22 @@ FF
 SL
 </td>
 <td style="text-align:right;">
-425233
+338307
 </td>
 <td style="text-align:right;">
-84.34082
+84.42657
 </td>
 <td style="text-align:right;">
-3.403988
+3.392580
 </td>
 <td style="text-align:right;">
-78.08974
+78.24500
 </td>
 <td style="text-align:right;">
-3.332949
+3.310105
 </td>
 <td style="text-align:right;">
-5.339388
+5.317286
 </td>
 </tr>
 <tr>
@@ -349,22 +350,22 @@ SL
 FT
 </td>
 <td style="text-align:right;">
-310279
+248676
 </td>
 <td style="text-align:right;">
-92.20600
+92.19853
 </td>
 <td style="text-align:right;">
-2.666706
+2.679753
 </td>
 <td style="text-align:right;">
-84.66918
+84.71952
 </td>
 <td style="text-align:right;">
-2.487726
+2.513686
 </td>
 <td style="text-align:right;">
-4.480213
+4.485998
 </td>
 </tr>
 <tr>
@@ -372,45 +373,22 @@ FT
 CH
 </td>
 <td style="text-align:right;">
-272031
+215879
 </td>
 <td style="text-align:right;">
-83.87600
+83.91853
 </td>
 <td style="text-align:right;">
-3.506977
+3.495811
 </td>
 <td style="text-align:right;">
-77.34595
+77.45500
 </td>
 <td style="text-align:right;">
-3.299651
+3.278466
 </td>
 <td style="text-align:right;">
-4.766148
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-CU
-</td>
-<td style="text-align:right;">
-225045
-</td>
-<td style="text-align:right;">
-77.78339
-</td>
-<td style="text-align:right;">
-3.930148
-</td>
-<td style="text-align:right;">
-71.89153
-</td>
-<td style="text-align:right;">
-3.783538
-</td>
-<td style="text-align:right;">
-4.742616
+4.740003
 </td>
 </tr>
 <tr>
@@ -418,22 +396,45 @@ CU
 SI
 </td>
 <td style="text-align:right;">
-224659
+184263
 </td>
 <td style="text-align:right;">
-91.43655
+91.56055
 </td>
 <td style="text-align:right;">
-2.938737
+2.892592
 </td>
 <td style="text-align:right;">
-83.97831
+84.17433
 </td>
 <td style="text-align:right;">
-2.751060
+2.700352
 </td>
 <td style="text-align:right;">
-5.286652
+5.246392
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CU
+</td>
+<td style="text-align:right;">
+180200
+</td>
+<td style="text-align:right;">
+77.75082
+</td>
+<td style="text-align:right;">
+3.897832
+</td>
+<td style="text-align:right;">
+71.93778
+</td>
+<td style="text-align:right;">
+3.759452
+</td>
+<td style="text-align:right;">
+4.741082
 </td>
 </tr>
 <tr>
@@ -441,22 +442,22 @@ SI
 FC
 </td>
 <td style="text-align:right;">
-138860
+107156
 </td>
 <td style="text-align:right;">
-88.34696
+88.41910
 </td>
 <td style="text-align:right;">
-2.929170
+2.950208
 </td>
 <td style="text-align:right;">
-81.77043
+81.92798
 </td>
 <td style="text-align:right;">
-2.698843
+2.712845
 </td>
 <td style="text-align:right;">
-5.180887
+5.160999
 </td>
 </tr>
 <tr>
@@ -464,22 +465,22 @@ FC
 KC
 </td>
 <td style="text-align:right;">
-62344
+48274
 </td>
 <td style="text-align:right;">
-80.47568
+80.27274
 </td>
 <td style="text-align:right;">
-3.201194
+3.184227
 </td>
 <td style="text-align:right;">
-74.31402
+74.20072
 </td>
 <td style="text-align:right;">
-3.030853
+3.017181
 </td>
 <td style="text-align:right;">
-4.954783
+5.055827
 </td>
 </tr>
 <tr>
@@ -487,22 +488,22 @@ KC
 FS
 </td>
 <td style="text-align:right;">
-40922
+31083
 </td>
 <td style="text-align:right;">
-84.62997
+84.62038
 </td>
 <td style="text-align:right;">
-2.912475
+2.946624
 </td>
 <td style="text-align:right;">
-78.17384
+78.27640
 </td>
 <td style="text-align:right;">
-2.762221
+2.795827
 </td>
 <td style="text-align:right;">
-5.102219
+5.197793
 </td>
 </tr>
 <tr>
@@ -510,22 +511,22 @@ FS
 KN
 </td>
 <td style="text-align:right;">
-11408
+7612
 </td>
 <td style="text-align:right;">
-75.49227
+75.59147
 </td>
 <td style="text-align:right;">
-2.738997
+2.755427
 </td>
 <td style="text-align:right;">
-69.03313
+69.18987
 </td>
 <td style="text-align:right;">
-2.573112
+2.577815
 </td>
 <td style="text-align:right;">
-3.773931
+3.739884
 </td>
 </tr>
 </tbody>
@@ -536,7 +537,7 @@ SL = slider<br />
 FT = two-seam fastball<br />
 CH = changeup<br />
 CU = curveball</p>
-<p>I will restrict analysis to four-seam fastballs, of which nearly 1 million were thrown in outdoor ballparks during our selected time period.</p>
+<p>I will restrict analysis to four-seam fastballs, of which over 750,000 were thrown in outdoor ballparks during our selected time period.</p>
 </div>
 <div id="fastballs-by-pitcher" class="section level3">
 <h3>Fastballs by pitcher</h3>
@@ -572,44 +573,30 @@ sd_speed
 <tbody>
 <tr>
 <td style="text-align:left;">
-Justin Verlander
-</td>
-<td style="text-align:right;">
-8076
-</td>
-<td style="text-align:right;">
-94.15579
-</td>
-<td style="text-align:right;">
-1.915560
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Kevin Gausman
-</td>
-<td style="text-align:right;">
-6578
-</td>
-<td style="text-align:right;">
-94.50339
-</td>
-<td style="text-align:right;">
-1.836558
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Max Scherzer
 </td>
 <td style="text-align:right;">
-6528
+5793
 </td>
 <td style="text-align:right;">
-94.22442
+94.29660
 </td>
 <td style="text-align:right;">
-1.291290
+1.229043
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Justin Verlander
+</td>
+<td style="text-align:right;">
+5581
+</td>
+<td style="text-align:right;">
+94.07371
+</td>
+<td style="text-align:right;">
+1.875879
 </td>
 </tr>
 <tr>
@@ -617,83 +604,97 @@ Max Scherzer
 Jon Lester
 </td>
 <td style="text-align:right;">
-5787
+5530
 </td>
 <td style="text-align:right;">
-91.61792
+91.65311
 </td>
 <td style="text-align:right;">
-1.216890
+1.194075
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-J.A. Happ
+Kevin Gausman
 </td>
 <td style="text-align:right;">
-5679
+5425
 </td>
 <td style="text-align:right;">
-92.08081
+94.38501
 </td>
 <td style="text-align:right;">
-1.218431
+1.828185
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Matt Moore
+Jonathan Gray
 </td>
 <td style="text-align:right;">
-5583
+4622
 </td>
 <td style="text-align:right;">
-92.48203
+95.19422
 </td>
 <td style="text-align:right;">
-1.354426
+1.315647
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Christopher Archer
+Julio Teheran
 </td>
 <td style="text-align:right;">
-5384
+4500
 </td>
 <td style="text-align:right;">
-94.63044
+90.69960
 </td>
 <td style="text-align:right;">
-1.411970
+1.667050
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Gerrit Cole
+Jose Quintana
 </td>
 <td style="text-align:right;">
-5248
+4470
 </td>
 <td style="text-align:right;">
-95.76082
+91.98085
 </td>
 <td style="text-align:right;">
-1.507309
+1.095752
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Marco Estrada
+Clayton Kershaw
 </td>
 <td style="text-align:right;">
-5180
+4466
 </td>
 <td style="text-align:right;">
-88.80539
+92.39447
 </td>
 <td style="text-align:right;">
-1.331409
+1.258154
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Luis Severino
+</td>
+<td style="text-align:right;">
+4349
+</td>
+<td style="text-align:right;">
+96.83925
+</td>
+<td style="text-align:right;">
+1.545939
 </td>
 </tr>
 <tr>
@@ -701,13 +702,13 @@ Marco Estrada
 Ian Kennedy
 </td>
 <td style="text-align:right;">
-5134
+4320
 </td>
 <td style="text-align:right;">
-91.87330
+91.88771
 </td>
 <td style="text-align:right;">
-1.104121
+1.134765
 </td>
 </tr>
 </tbody>
@@ -747,13 +748,13 @@ n_ff
 Mauricio Cabrera
 </td>
 <td style="text-align:right;">
-100.03457
+100.11995
 </td>
 <td style="text-align:right;">
-1.1752321
+1.1899044
 </td>
 <td style="text-align:right;">
-457
+406
 </td>
 </tr>
 <tr>
@@ -761,13 +762,13 @@ Mauricio Cabrera
 Aroldis Chapman
 </td>
 <td style="text-align:right;">
-99.75628
+99.81404
 </td>
 <td style="text-align:right;">
-1.7646943
+1.7582704
 </td>
 <td style="text-align:right;">
-2548
+2314
 </td>
 </tr>
 <tr>
@@ -775,13 +776,13 @@ Aroldis Chapman
 Diego Castillo
 </td>
 <td style="text-align:right;">
-98.81759
+99.05417
 </td>
 <td style="text-align:right;">
-1.5199501
+1.4515297
 </td>
 <td style="text-align:right;">
-108
+24
 </td>
 </tr>
 <tr>
@@ -789,41 +790,13 @@ Diego Castillo
 Tayron Guerrero
 </td>
 <td style="text-align:right;">
-98.62421
+98.55378
 </td>
 <td style="text-align:right;">
-1.5936381
+1.6559777
 </td>
 <td style="text-align:right;">
-855
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Arquimedes Caminero
-</td>
-<td style="text-align:right;">
-98.21401
-</td>
-<td style="text-align:right;">
-1.8035902
-</td>
-<td style="text-align:right;">
-671
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Brian Ellington
-</td>
-<td style="text-align:right;">
-98.05903
-</td>
-<td style="text-align:right;">
-1.3209131
-</td>
-<td style="text-align:right;">
-1030
+437
 </td>
 </tr>
 <tr>
@@ -831,13 +804,41 @@ Brian Ellington
 Ryne Stanek
 </td>
 <td style="text-align:right;">
-98.01233
+98.46194
 </td>
 <td style="text-align:right;">
-0.9481789
+0.8974139
 </td>
 <td style="text-align:right;">
-933
+289
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Brian Ellington
+</td>
+<td style="text-align:right;">
+98.19503
+</td>
+<td style="text-align:right;">
+1.3016014
+</td>
+<td style="text-align:right;">
+483
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Arquimedes Caminero
+</td>
+<td style="text-align:right;">
+98.17756
+</td>
+<td style="text-align:right;">
+1.8615747
+</td>
+<td style="text-align:right;">
+566
 </td>
 </tr>
 <tr>
@@ -845,13 +846,13 @@ Ryne Stanek
 Seranthony Dominguez
 </td>
 <td style="text-align:right;">
-98.00543
+98.04969
 </td>
 <td style="text-align:right;">
-0.8977694
+0.8998111
 </td>
 <td style="text-align:right;">
-516
+479
 </td>
 </tr>
 <tr>
@@ -859,27 +860,27 @@ Seranthony Dominguez
 Raymond Black
 </td>
 <td style="text-align:right;">
-97.92248
+97.90044
 </td>
 <td style="text-align:right;">
-1.1282879
+1.1472124
 </td>
 <td style="text-align:right;">
-258
+229
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Jose Alvarado
+Noah Syndergaard
 </td>
 <td style="text-align:right;">
-97.91605
+97.85635
 </td>
 <td style="text-align:right;">
-1.1560008
+1.1991196
 </td>
 <td style="text-align:right;">
-380
+2039
 </td>
 </tr>
 </tbody>
@@ -889,7 +890,7 @@ Jose Alvarado
   filter(pitcher_name != &quot;NA&quot;) %&gt;% 
   arrange(desc(start_speed, end_speed)) %&gt;% 
   slice(1:10) %&gt;%
-  select(-c(stand, pitcher, num, score, team_name)) %&gt;% 
+  select(start_speed, end_speed, pitch_type, pitcher_name, batter_name, inning, des, home, away, tmax, heat_index) %&gt;% 
   kable() %&gt;% 
   kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;)) </code></pre>
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
@@ -902,28 +903,31 @@ start_speed
 end_speed
 </th>
 <th style="text-align:left;">
-home
-</th>
-<th style="text-align:left;">
-away
+pitch_type
 </th>
 <th style="text-align:left;">
 pitcher_name
 </th>
 <th style="text-align:left;">
-pitch_type
-</th>
-<th style="text-align:left;">
-date
+batter_name
 </th>
 <th style="text-align:right;">
 inning
 </th>
 <th style="text-align:left;">
-type
+des
 </th>
 <th style="text-align:left;">
-event
+home
+</th>
+<th style="text-align:left;">
+away
+</th>
+<th style="text-align:right;">
+tmax
+</th>
+<th style="text-align:right;">
+heat_index
 </th>
 </tr>
 </thead>
@@ -936,28 +940,31 @@ event
 96.0
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-bal
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2016-07-18
+J.J. Hardy
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-B
+Ball
 </td>
 <td style="text-align:left;">
-Flyout
+nya
+</td>
+<td style="text-align:left;">
+bal
+</td>
+<td style="text-align:right;">
+32.429
+</td>
+<td style="text-align:right;">
+29.50
 </td>
 </tr>
 <tr>
@@ -968,28 +975,31 @@ Flyout
 95.9
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-bal
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2016-07-18
+Ryan Flaherty
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-X
+In play, out(s)
 </td>
 <td style="text-align:left;">
-Groundout
+nya
+</td>
+<td style="text-align:left;">
+bal
+</td>
+<td style="text-align:right;">
+32.429
+</td>
+<td style="text-align:right;">
+29.50
 </td>
 </tr>
 <tr>
@@ -1000,28 +1010,31 @@ Groundout
 94.6
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-sfn
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2016-07-22
+Brandon Belt
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-S
+Foul
 </td>
 <td style="text-align:left;">
-Strikeout
+nya
+</td>
+<td style="text-align:left;">
+sfn
+</td>
+<td style="text-align:right;">
+31.914
+</td>
+<td style="text-align:right;">
+28.29
 </td>
 </tr>
 <tr>
@@ -1032,28 +1045,31 @@ Strikeout
 94.8
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-atl
+SI
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-SI
-</td>
-<td style="text-align:left;">
-2018-07-02
+NA
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-B
+Ball
 </td>
 <td style="text-align:left;">
-Strikeout
+nya
+</td>
+<td style="text-align:left;">
+atl
+</td>
+<td style="text-align:right;">
+35.399
+</td>
+<td style="text-align:right;">
+33.02
 </td>
 </tr>
 <tr>
@@ -1064,28 +1080,31 @@ Strikeout
 94.9
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-bal
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2016-07-18
+Nolan Reimold
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-B
+Ball
 </td>
 <td style="text-align:left;">
-Walk
+nya
+</td>
+<td style="text-align:left;">
+bal
+</td>
+<td style="text-align:right;">
+32.429
+</td>
+<td style="text-align:right;">
+29.50
 </td>
 </tr>
 <tr>
@@ -1096,28 +1115,31 @@ Walk
 94.5
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-sfn
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2016-07-22
+Brandon Belt
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-B
+Ball
 </td>
 <td style="text-align:left;">
-Strikeout
+nya
+</td>
+<td style="text-align:left;">
+sfn
+</td>
+<td style="text-align:right;">
+31.914
+</td>
+<td style="text-align:right;">
+28.29
 </td>
 </tr>
 <tr>
@@ -1128,28 +1150,31 @@ Strikeout
 96.5
 </td>
 <td style="text-align:left;">
-chn
-</td>
-<td style="text-align:left;">
-mia
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2016-08-02
+Jacob Realmuto
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-S
+Foul
 </td>
 <td style="text-align:left;">
-Groundout
+chn
+</td>
+<td style="text-align:left;">
+mia
+</td>
+<td style="text-align:right;">
+27.377
+</td>
+<td style="text-align:right;">
+24.22
 </td>
 </tr>
 <tr>
@@ -1160,28 +1185,31 @@ Groundout
 95.9
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-sea
+SI
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-SI
-</td>
-<td style="text-align:left;">
-2018-06-20
+Nelson Cruz
 </td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
-X
+In play, out(s)
 </td>
 <td style="text-align:left;">
-Groundout
+nya
+</td>
+<td style="text-align:left;">
+sea
+</td>
+<td style="text-align:right;">
+31.006
+</td>
+<td style="text-align:right;">
+25.62
 </td>
 </tr>
 <tr>
@@ -1192,28 +1220,31 @@ Groundout
 95.5
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-sfn
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2016-07-23
+Mac Williamson
 </td>
 <td style="text-align:right;">
 10
 </td>
 <td style="text-align:left;">
-B
+Ball
 </td>
 <td style="text-align:left;">
-Strikeout
+nya
+</td>
+<td style="text-align:left;">
+sfn
+</td>
+<td style="text-align:right;">
+34.908
+</td>
+<td style="text-align:right;">
+32.13
 </td>
 </tr>
 <tr>
@@ -1224,28 +1255,31 @@ Strikeout
 94.7
 </td>
 <td style="text-align:left;">
-nya
-</td>
-<td style="text-align:left;">
-bos
+FF
 </td>
 <td style="text-align:left;">
 Aroldis Chapman
 </td>
 <td style="text-align:left;">
-FF
-</td>
-<td style="text-align:left;">
-2017-09-01
+Dustin Pedroia
 </td>
 <td style="text-align:right;">
 8
 </td>
 <td style="text-align:left;">
-S
+Foul (Runner Going)
 </td>
 <td style="text-align:left;">
-Strikeout
+nya
+</td>
+<td style="text-align:left;">
+bos
+</td>
+<td style="text-align:right;">
+27.326
+</td>
+<td style="text-align:right;">
+19.84
 </td>
 </tr>
 </tbody>

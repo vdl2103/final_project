@@ -11,5 +11,5 @@ data/.tdmean_ballpark_PRISM.csv
 data/.tmax_ballpark_PRISM.csv
 data/.tmin_ballpark_PRISM.csv
 data/.weather.csv
-data/.complete_db.csv
+data/.pitch_tidy_db.csv
 final_project_sl.Rproj

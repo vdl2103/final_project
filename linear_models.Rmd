@@ -2,7 +2,7 @@
 title: "linear_models"
 author: "Stephen Lewandowski"
 date: "November 29, 2018"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -13,12 +13,11 @@ library(knitr)
 library(kableExtra)
 ```
 
-## Data tables
 
-### Pitch type frequency
-```{r pitch_type table}
 
-pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv") %>%    
+```{r import_reduce_data}
+pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv") %>%
+  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tmax, tmin, tmean, tdmean, heat_index, rh) %>% 
   mutate(home = factor(home),
          away = factor(away),
          pitcher_name = factor(pitcher_name),
@@ -28,7 +27,14 @@ pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv") %>%
          event = factor(event),
          team_name = factor(team_name))
 
-  
+# missing `date` from latest data_pipeline
+```
+
+## Data tables
+
+### Pitch type frequency
+```{r pitch_type table}
+
 pitch_tidy_db %>%
   filter(pitch_type != "NA") %>% 
   group_by(pitch_type) %>% 
@@ -52,7 +58,7 @@ FT = two-seam fastball
 CH = changeup  
 CU = curveball  
   
-I will restrict analysis to four-seam fastballs, of which nearly 1 million were thrown in outdoor ballparks during our selected time period.
+I will restrict analysis to four-seam fastballs, of which over 750,000 were thrown in outdoor ballparks during our selected time period.
 
 ### Fastballs by pitcher
 
@@ -100,7 +106,7 @@ pitch_tidy_db %>%
   filter(pitcher_name != "NA") %>% 
   arrange(desc(start_speed, end_speed)) %>% 
   slice(1:10) %>%
-  select(-c(stand, pitcher, num, score, team_name)) %>% 
+  select(start_speed, end_speed, pitch_type, pitcher_name, batter_name, inning, des, home, away, tmax, heat_index) %>% 
   kable() %>% 
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
 ```
