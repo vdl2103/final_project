@@ -13,27 +13,89 @@ library(knitr)
 library(kableExtra)
 ```
 
-### Data tables
+## Data tables
 
-Pitch type frequency
+### Pitch type frequency
 ```{r pitch_type table}
 
 pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv")
 
-pitch_tidy_db %>% 
-  count(pitch_type) %>%
+pitch_tidy_db %>%
+  filter(pitch_type != "NA") %>% 
+  group_by(pitch_type) %>% 
+  summarise(n = n(),
+            mean_s_s = mean(start_speed, na.rm = TRUE),
+            sd_s_s = sd(start_speed, na.rm = TRUE),
+            mean_e_s = mean(end_speed, na.rm = TRUE),
+            sd_e_s = sd(end_speed, na.rm = TRUE),
+            mean_inning = mean(inning)) %>%
   top_n(n = 10, wt = n) %>% 
   arrange(desc(n)) %>% 
   kable() %>% 
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+   add_header_above(c(" " = 2, "Start Speed" = 2, "End Speed" = 2, " " = 1))
 ```
 Pitch type abbreviations and descriptions are listed at https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/. The top 5 by frequency are:
 
-FF = four-seam fastball
-SL = slider 
-FT = two-seam fastball
-CH = changeup
-CU = curveball
+FF = four-seam fastball  
+SL = slider   
+FT = two-seam fastball  
+CH = changeup  
+CU = curveball  
+  
+I will restrict analysis to four-seam fastballs, of which nearly 1 million were thrown in outdoor ballparks during our selected time period.
+
+### Fastballs by pitcher
+
+Most fastballs thrown
+
+```{r number_FF_pitcher}
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF",
+         pitcher_name != "NA") %>% 
+  group_by(pitcher_name) %>% 
+  summarise(n_ff = n(),
+            mean_speed = mean(start_speed, na.rm = TRUE),
+            sd_speed = sd(start_speed, na.rm = TRUE)) %>% 
+  arrange(desc(n_ff)) %>% 
+  slice(1:10) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
+  
+```
+
+
+
+Fastest average speed
+```{r fastest_pitchers}
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF",
+         pitcher_name != "NA") %>% 
+  group_by(pitcher_name) %>% 
+  summarise(mean_speed = mean(start_speed, na.rm = TRUE),
+            sd_speed = sd(start_speed, na.rm = TRUE),
+            n_ff = n()) %>% 
+  arrange(desc(mean_speed)) %>% 
+  slice(1:10) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
+
+```
+
+Top speed pitches in our database
+
+```{r}
+pitch_tidy_db %>% 
+  filter(pitcher_name != "NA") %>% 
+  arrange(desc(start_speed, end_speed)) %>% 
+  slice(1:10) %>%
+  select(-c(stand, pitcher, num, score, team_name)) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
+```
+
 
 
 ### Model fitting
