@@ -13,9 +13,21 @@ knitr::opts_chunk$set(echo = TRUE)
 # Tory 
 ```
 
-#### questions
+#### Project Questions
+
+Initially, our project aimed to answer the following question:
+
+* What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.  
+
+To operationalize this, we focused on the following weather data: maximum temperature, relative humidity, and heat index. We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
+
+As our research progressed, and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began investigating if a potential relationship between pitch speed and weather could be modified by if a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:
+
+* Revised question here.
+
 ```{r}
 # All of us - take from project proposal 
+
 ```
 
 #### data
