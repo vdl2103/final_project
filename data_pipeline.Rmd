@@ -15,19 +15,20 @@ library(pitchRx)
 
 # Gathering pitch data!
 
-Once you scrape, it is stored in the db even if you quit r. When you re open r, run everything except for the scrape function and that will load the data into the actual r session.
+Pitch data is scraped from the MLB website using tools in the pitchRx package. Data is scraped into an SQlite3 database that you should store on your computer so that you do not have to scrape it at a later time. You bring this data into an r session by creating SQlite3 database representations (called "pitch" and "atbat" below). Finally, we load in weather data and an index of the team names and their corresponding abbreviations.
+
 ```{r import all data}
 # first argument is the path to the SQlite database. 
 # if TRUE, will create a new SQlite3 database at path if path does not exist. Will connect to the existing database if path does exist.
 
 my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
 
-# Do not need to run this, as I already put this data into the GamedayDB.sqlite3 in google drive. Collect and store all PITCHf/x data from one date to the next. 
-# scrape(start = "2016-04-03", end = Sys.Date() - 1,
-# suffix = "inning/inning_all.xml", connect = my_db$con)
+# Only run the code below if you have never scraped the data. This code collects and stores all PITCHf/x data from one date to the next, and saves it as GamedayDB.sqlite3.
+####### scrape(start = "2016-04-03", end = Sys.Date() - 1,
+####### suffix = "inning/inning_all.xml", connect = my_db$con)
 
-#tbl creates a reference to the SQL database
-# First, create pitch and atbat, which are representations of data in my_db. That is, pitch does not actually pull data from every pitch into memory, but is a portrayal of the relevant data sitting in my_db.
+
+# Create pitch and atbat, which are representations of data in my_db. That is, pitch does not actually pull data from every pitch into memory, but is a portrayal of the relevant data sitting in my_db.
 pitch = tbl(my_db$con, "pitch")
 atbat = tbl(my_db$con, "atbat")
 
@@ -40,8 +41,9 @@ weather_db = read_csv("./data/weather.csv")
 
 ```
 
-Tidy the pitching data. 
-```{r, message = FALSE, cache = TRUE}
+Below we bring the pitch data into r from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data. 
+
+```{r tidy pitch data, message = FALSE, cache = TRUE}
 # First line collects data into an r dataframe from the pitch and atbat representations established above
 pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>% 
   # Extract home and away team information from url link
@@ -63,45 +65,13 @@ pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>%
   separate(date, c("y", "m", "d")) 
 ```
 
-```{r}
-pitch_tidy_db = pitch_tidy_db %>% 
-  rename_at(.vars = vars(ends_with(".x")),
-          .funs = funs(sub("[.]x$", "", .)))
-```
+Examining missing data
 
-```{r, message=FALSE}
-
-
-#Join databases and remove: 1) teams with roofs, 2) spring training games, 3) AS games 
-complete_db = left_join(pitch_tidy_db, weather_db) %>% 
-  filter(!home %in% c("aas", "nas", "tor", "ari", "sea", "hou", "tba", "mia", "1", "2")) %>%  
-  separate(date, c("y", "m", "d")) 
-```
-
-```{r}
+```{r missing data}
 #Examining missing data
-missing_data = complete_db %>% 
+missing_data = pitch_tidy_db %>% 
   filter(is.na(start_speed)) %>% #we are missing pitch speed for 62,971 pitches 
   group_by(team_name) %>% 
   count() #see if the missing data are (roughly) evenly distributed among the teams 
-```
-
-```{r}
-# Below runs a hierarchical linear model / nested model with pitcher_name set as the grouping factor.
-# It takes a few minutes to run.
-library(lme4)
-# Without the below package, lme4 will not give you p-values.
-library(lmerTest)
-lme_results <- lmer(start_speed ~ heat_index + (1|pitcher_name), data=complete_db, REML=F)
-
-# Summary of results.
-summary(lme_results)
-```
-
-```{r}
-complete_db %>%
-  filter(pitch_type == "FF") %>% 
-  ggplot(aes(x = tmax, y = start_speed)) +
-  geom_point()
 ```
 
