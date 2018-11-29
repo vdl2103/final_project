@@ -43,7 +43,7 @@ weather_db = read_csv("./data/weather.csv")
 
 Below we bring the pitch data into r from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data. 
 
-```{r tidy pitch data, message = FALSE, cache = TRUE}
+```{r tidy pitch data, message = FALSE}
 # First line collects data into an r dataframe from the pitch and atbat representations established above
 pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>% 
   # Extract home and away team information from url link
