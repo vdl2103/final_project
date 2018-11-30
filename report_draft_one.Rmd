@@ -48,13 +48,13 @@ Using the code editor in the Google Earth Engine platform (https://code.eartheng
 
 <img src = "./gee_screen_capture.PNG" height = "500px" width = "400px" />
 
-The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.
+Figure XX. The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.
 
 The JavaScript code for downloading PRISM data is provided at (gee.html). A registered Google account is required to access the code editor. 
 
 ### Tidy weather data  
 
-Next, we imported the PRISM files for `tmax`, `tmin`, and `tdmean` into R, tidied the data from "wide" to "long", and joined each parameter to a single dataframe by team and date. We created daily heat index values (`heat_index`) from mean daily air temperature and mean daily dew point temperature using the `heat.index` function of the `weathermetrics` package, which applies a heat index equation derived from the US National Weather Service's online heat index calculator. We also used the `dewpoint.to.humidity` function to obtain relative humidity (`rh`).   
+Next, we imported the PRISM files for `tmax`, `tmin`, and `tdmean` into R, tidied the data from "wide" format to "long" format, and joined each parameter to a single dataframe by team and date. We created daily heat index values (`heat_index`) from mean daily air temperature and mean daily dew point temperature using the `heat.index` function of the `weathermetrics` package, which applies a heat index equation derived from the US National Weather Service's online heat index calculator. We also used the `dewpoint.to.humidity` function to obtain relative humidity (`rh`).   
 
 ### Reproducability  
 
@@ -78,9 +78,53 @@ The joined and cleaned weather dataframe is available at:
 
 
 
-#### exploratory analysis 
-```{r}
-#Jenni + Nicole 
+#### Exploratory Analysis 
+
+As outlined in our 11/07/2018 project proposal, based on previous reports and anecdotal evidence, we hypothesized that weather would impact pitch speeds. Specifically, we hypothesized that high temperatures/humidity would be negatively associated with pitch speeds. Therefor, our weather variables of interest were: **temperature (max or mean?), relative humidity, and heat index.** 
+
+We planned to produce the following:  
+
+* Linear model for the effect of temperature on pitch speed (fastball), adjusted for pitcher and other covariates to be determined.
+
+* Graph of variation in proportion of fastball vs off-speed pitches and temperature
+
+* Graph of speed of fastballs and temperature
+
+* Graph of pitch speed (all pitch types) and humidity
+
+* Graph of pitch speed (all pitch types) and heat index
+
+We first conducted exploratory analyses looking at the **heat index (ºC).**
+
+For people working outdoors in hot weather, both air temperature and humidity affect how hot they feel. The "heat index" is a single value that takes both temperature and humidity into account. The higher the heat index, the hotter the weather feels, since sweat does not readily evaporate and cool the skin. The heat index is a better measure than air temperature alone for estimating the risk to workers from environmental heat sources. Thus, we also assumed that high heat index would negatively affect pitchers' performance. 
+
+In the exploratory analysis, we first examined missing data. While the Cubs were missing the most heat index data, the distribution of missing heat index data was fairly evenly distributed across all teams.
+
+**note that I'm going to put this code in here for now (basically just combining everything from my EDA doc) and we can edit out later** 
+
+We next explored the distribution of the heat index. 
+
+```{r eda}
+# Nicole's EDA
+
+# Examining missing data
+complete_db %>% 
+  group_by(team_name) %>% 
+  filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
+  count() %>% 
+  ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
+
+
+
+
+
+
+
+
+# Jenni's EDA 
+
+
+
 ```
 
 #### additional anlaysis: plots
