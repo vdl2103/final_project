@@ -132,18 +132,18 @@ Next, several graphs were created to explore the associations between the speed 
 
 pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
-  ggplot(aes(x = start_speed, y = tmax)) +
+  ggplot(aes(x = tmax, y = start_speed)) +
   geom_point() +
   facet_wrap(~event) +
   labs(
     title = "Fastball Pitch Speed and Max Temperature, by Pitch Outcome",
-    x = "Pitch Starting Speed (MPH)",
-    y = "Max Temperature (C)"
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
   )
 
 ```
 
-Interestingly, we can see from the left tails on facets such as "Double," "Flyout," "Lineout," "Home Run," and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches that are slightly slower are more likely to result in hits.  
+Interestingly, we can see from the increase in points on the right side of facets such as "Double," "Flyout," "Lineout," "Home Run," and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches that are slightly slower are more likely to result in hits.  
 
 In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. We decided to perform further analysis on this hypothesis; plots are shown in the Additional Analysis: Plots section of this report. 
 
@@ -151,13 +151,13 @@ In further exploratory analysis, fastball speed and tempearture was also faceted
 
 pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
-  ggplot(aes(x = start_speed, y = tmax)) +
+  ggplot(aes(x = tmax, y = start_speed)) +
   geom_point() +
   facet_wrap(~team_name) +
   labs(
     title = "Fastball Pitch Speed and Max Temperature, by Home Team",
-    x = "Pitch Starting Speed (MPH)",
-    y = "Max Temperature (C)"
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
   )
 
 ```
@@ -167,12 +167,16 @@ pitch_tidy_db %>%
 #Nicole 
 ```
 
-#### additional anlaysis: plots
+#### Additional Anlaysis: Plots
 
 
 
 ```{r}
 
+```
+
+```{r}
+#Brennan - add shiny plot in here
 ```
 
 
@@ -180,12 +184,12 @@ pitch_tidy_db %>%
 #Nicole 
 ```
 
-#### additional analysis: models
+#### Additional Analysis: Models
 ```{r}
 #Stephen
 ```
 
-#### discussion
+#### Discussion
 ```{r}
 #All of us
 ```

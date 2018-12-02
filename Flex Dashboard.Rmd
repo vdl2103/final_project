@@ -28,13 +28,13 @@ Column {data-width=350}
 
 pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
-  ggplot(aes(x = start_speed, y = tmax)) +
+  ggplot(aes(x = tmax, y = start_speed)) +
   geom_point() +
   facet_wrap(~event) +
   labs(
     title = "Fastball Pitch Speed and Max Temperature, by Pitch Outcome",
-    x = "Pitch Starting Speed (MPH)",
-    y = "Max Temperature (C)"
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
   )
 
 ```
