@@ -25,16 +25,31 @@ As our research progressed, and it became clear that overall trends relating max
 
 * Revised question here.
 
+As part of addressing this question, we proposed the following analytic deliverables (AD): 
+
+* Linear model for the effect of temperature on pitch speed (fastball), adjusted for pitcher and other covariates to be determined. (AD1)
+* Graph of variation in proportion of fastball vs off-speed pitches and temperature (AD2)
+* Graph of speed of fastballs and temperature (AD3)
+* Graph of pitch speed (all pitch types) and humidity (AD4)
+* Graph of pitch speed (all pitch types) and heat index (AD5)
+
 ```{r}
 # All of us - take from project proposal 
 
 ```
 
-#### data
+#### Data
 ```{r}
 #Stephen + Brennan 
 
 ```
+
+## Basball Data
+
+```{r}
+#Brennan
+```
+
 
 ## Weather data
 
@@ -70,15 +85,50 @@ The joined and cleaned weather dataframe is available at:
 "weather.csv" : https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W
 
 
+## Data Pipeline
+
+Data was joined...
+
+```{r}
+#insert data pipeline
+```
 
 
 
+#### Exploratory Analysis
+
+In order to become familiar with the data, a series of graphs were created to explore potential associations between temperature, relative humidity, heat index, and pitch speed. Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fasballs and max temperature was created (AD2, below). However, the graph indicated that absolutely no association existed between these variables.
+
+```{r prop. ff and tmax}
+
+# Create proportion of ff to all pitch dataset
+
+propff_db = pitch_tidy_db %>% 
+  mutate(ff = str_detect(pitch_type, "FF")) %>% 
+  group_by(y, m, d, tmax) %>% 
+  summarise(n = n(),
+            ff_sum = sum(ff, na.rm = TRUE),
+            prop_ff = (ff_sum/n)*100) %>% 
+  mutate(prop_ff = round(prop_ff, digits = 1))
+
+# tmax and proportion of ff  
+
+propff_db %>%
+  filter(prop_ff != 0) %>% 
+  ggplot(aes(x = prop_ff, y = tmax)) +
+  geom_point() +
+  geom_smooth() +
+  labs(
+    title = "Proportion of Thrown Pitches that are Fastballs and Max Temperature",
+    x = "Proportion of Pitches that are Fastballs",
+    y = "Max Temperature (C)"
+  )
+
+```
+
+Next, several graphs were created to explore the associations between the speed of fasballs and temperature (AD3). 
 
 
-
-
-
-#### exploratory analysis 
 ```{r}
 #Jenni + Nicole 
 ```

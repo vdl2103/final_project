@@ -27,7 +27,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 # Create proportion of ff to all pitch dataset
 
-propff_db = complete_db %>% 
+propff_db = pitch_tidy_db %>% 
   mutate(ff = str_detect(pitch_type, "FF")) %>% 
   group_by(y, m, d, tmax) %>% 
   summarise(n = n(),
@@ -41,7 +41,12 @@ propff_db %>%
   filter(prop_ff != 0) %>% 
   ggplot(aes(x = prop_ff, y = tmax)) +
   geom_point() +
-  geom_smooth()
+  geom_smooth() +
+  labs(
+    title = "Proportion of Thrown Pitches that are Fastballs and Max Temperature",
+    x = "Proportion of Pitches that are Fastballs",
+    y = "Max Temperature (C)"
+  )
 
 
 ```
