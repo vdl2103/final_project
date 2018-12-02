@@ -1,6 +1,8 @@
 ---
 title: "Report - first draft"
-output: github_document
+output: 
+  github_document:
+    toc: true
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -169,16 +171,57 @@ pitch_tidy_db %>%
 
 #### Additional Anlaysis: Plots
 
-
-
-```{r}
-
-```
+The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers's stadium was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.
 
 ```{r}
 #Brennan - add shiny plot in here
 ```
 
+Further analysis restricted pitch type to the four-seam fastball, and facetted by top and bottom of the inning, to see if Rangers' pitchers were less effected by heat than visiting pitchers. Additionally, a team from a colder climate, the Boston Red Sox, was selected for the same analysis. Month was restricted to September for two reasons:  (1) during this month temperatures are in greater flux across the United States, and it may be reasonable to assume Texas is much hotter than other parts of the US and Boston is much colder, and (2) it has been suggested anecdotally that baseball pitchers may be affected most by changes in temperature, rather than by absolute heat or cold, particularly if they are not acclimatized to that temperature.  
+
+The resulting plot is shown below. 
+
+```{r ff speed and tmax in sept, rangers and red sox stadiums}
+# Texas Rangers Stadium in September
+
+tr9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Texas Rangers" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium", subtitle = "Pitchers = Colors, Month = September",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+# Boston Red Sox Stadium in September
+
+brs9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Boston Red Sox" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium", subtitle = "Pitchers = Colors, Month = September",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+#Join Graphs
+
+library(patchwork)
+tr9 + brs9
+
+```
+
+In the plot, we can see that in Arlington, Texas, at the Texas Rangers's Stadium, the Rangers appear to be less effected by variations in temperature, whereas visiting pitchers (the bottom of the inning) have a decrease in fastball speed at high temperatures. However, it should be noted that this trend may be driven by one visiting pitcher with particularly slow pitches in hotter weather. In Boston, it appears that visiting pitchers have decreases in fastball speed at colder temperatures, whereas Red Sox pitchers are more consistent regardless of temperature. 
 
 ```{r}
 #Nicole 

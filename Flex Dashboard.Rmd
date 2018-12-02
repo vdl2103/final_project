@@ -8,6 +8,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(tidyverse)
 ```
 
 Column {data-width=650}
@@ -15,7 +16,44 @@ Column {data-width=650}
 
 ### Chart A
 
-```{r}
+```{r ff speed and tmax in sept, rangers and red sox stadiums}
+
+# Texas Rangers Stadium in September
+
+tr9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Texas Rangers" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium", subtitle = "Pitchers = Colors, Month = September",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+# Boston Red Sox Stadium in September
+
+brs9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Boston Red Sox" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium", subtitle = "Pitchers = Colors, Month = September",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+#Join Graphs
+
+library(patchwork)
+tr9 + brs9
 
 ```
 
