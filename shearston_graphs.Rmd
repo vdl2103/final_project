@@ -69,19 +69,29 @@ complete_db %>%
 
 # tmax and pitch speed, fastball only, facet by team
 
-complete_db %>% 
+pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
   ggplot(aes(x = start_speed, y = tmax)) +
   geom_point() +
-  facet_wrap(~team_name)
+  facet_wrap(~team_name) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature, by Home Team",
+    x = "Pitch Starting Speed (MPH)",
+    y = "Max Temperature (C)"
+  )
 
 # tmax and pitch speed, fastball only, facet by outcome (homerun, strikeout, etc)
 
-complete_db %>% 
+pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
   ggplot(aes(x = start_speed, y = tmax)) +
   geom_point() +
-  facet_wrap(~event)
+  facet_wrap(~event) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature, by Pitch Outcome",
+    x = "Pitch Starting Speed (MPH)",
+    y = "Max Temperature (C)"
+  )
 
 # tmax and pitch speed, fastball only, facet by ball/strike/foul
 
