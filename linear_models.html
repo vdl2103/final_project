@@ -1287,7 +1287,121 @@ bos
 </div>
 <div id="model-fitting" class="section level3">
 <h3>Model fitting</h3>
-<pre class="r"><code># fit = lm(price ~ stars + boro, data = nyc_airbnb)</code></pre>
+<pre class="r"><code>pitch_tidy_ff &lt;-
+  pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot;)</code></pre>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ heat_index, data = .) </code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = start_speed ~ heat_index, data = .)
+## 
+## Coefficients:
+## (Intercept)   heat_index  
+##    92.17442      0.03565</code></pre>
+<pre class="r"><code>  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<p>A one degree increase in heat index increased the start speed of four-seam fastballs by 0.036 mph (p &lt; 0.001).</p>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ tmax, data = .) %&gt;% summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = start_speed ~ tmax, data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -36.743  -1.721   0.035   1.852  11.839 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 9.197e+01  1.144e-02 8041.28   &lt;2e-16 ***
+## tmax        3.687e-02  4.591e-04   80.32   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.77 on 756131 degrees of freedom
+## Multiple R-squared:  0.008459,   Adjusted R-squared:  0.008458 
+## F-statistic:  6451 on 1 and 756131 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<p>A one degree increase in maximum daily temperature increased the start speed of four-seam fastballs by 0.037 mph (p &lt; 0.0001).</p>
+</div>
+<div id="pitch-speed-by-inning" class="section level3">
+<h3>Pitch speed by inning</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ inning, data = .) %&gt;%  
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std.error
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+91.856
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+13936.055
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inning
+</td>
+<td style="text-align:right;">
+0.197
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+171.011
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p &lt; 0.001).</p>
 </div>
 </div>
 
