@@ -81,6 +81,8 @@ The raw data files from Earth Engine and the stadium index from Fusion Table are
 "tmin_ballpark.PRISM.csv"  : https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa  
 "tmax_ballpark.PRISM.csv"  : https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq  
 "stadium_index.csv"        : https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo  
+ 
+The geocoded stadium index source is: https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1
 
 The joined and cleaned weather dataframe is available at:
 
@@ -91,8 +93,73 @@ The joined and cleaned weather dataframe is available at:
 
 Data was joined...
 
-```{r}
-#insert data pipeline
+### Weather data pipeline
+
+```{r stadium_index}
+stadium_index <-
+  read.csv("./data/stadium_index.csv")
+```
+
+#### Import PRISM variables
+Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.
+
+```{r import_PRISM_parameters}
+
+tmax <-
+  read.csv("./data/tmax_ballpark_PRISM.csv") %>% 
+    janitor::clean_names() %>% 
+    select(-c("system_index", "geo")) %>% 
+    select(team_name, everything()) %>% 
+    gather(key = date, value = tmax, "x20150401":"x20181030")
+  
+tmin <-
+  read.csv("./data/tmin_ballpark_PRISM.csv") %>% 
+    janitor::clean_names() %>% 
+    select(-c("system_index", "geo")) %>% 
+    select(team_name, everything()) %>% 
+    gather(key = date, value = tmin, "x20150401":"x20181030")
+
+tdmean <-
+  read.csv("./data/tdmean_ballpark_PRISM.csv") %>% 
+    janitor::clean_names() %>% 
+    select(-c("system_index", "geo")) %>% 
+    select(team_name, everything()) %>% 
+    gather(key = date, value = tdmean, "x20150401":"x20181030")
+
+```
+
+#### Join PRISM data
+Join `tmax`, `tmin` and `tdmean`.
+
+```{r weather_tidy}
+
+weather <- as.tibble(
+    full_join(tmax, tmin, by = c("team_name", "date")) %>% 
+    full_join(., tdmean, by = c("team_name", "date")) %>% 
+    mutate(date = str_replace(date, "x", ""),
+           date = as.Date(date, format = "%Y%m%d"))
+  )
+
+```
+
+#### Heat Index and RH
+
+This chunk creates daily heat index values from mean daily air temperature and mean daily dew point temperature. The `heat.index` function of the `weathermetrics` package is used. The heat index equation is derived from the US National Weather Service's online heat index calculator. The `dewpoint.to.humidity` function is used to obtain relative humidity.
+
+```{r heat_index}
+weather <-
+  weather %>% 
+    mutate(tmean = (tmax + tmin)/2,
+           heat_index = weathermetrics::heat.index(t = tmean, dp = tdmean, temperature.metric = "celsius", output.metric = "celsius", round = 2),
+           rh = weathermetrics::dewpoint.to.humidity(dp = tdmean, t = tmean, temperature.metric = "celsius"))
+
+weather
+```
+
+#### Export tidy weather dataframe
+
+```{r export_weather_data}
+write_csv(weather, path = "./data/weather.csv")
 ```
 
 
