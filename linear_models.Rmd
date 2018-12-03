@@ -17,7 +17,7 @@ library(kableExtra)
 
 ```{r import_reduce_data}
 pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv") %>%
-  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tmax, tmin, tmean, tdmean, heat_index, rh) %>% 
+  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tfs_zulu, tmax, tmin, tmean, tdmean, heat_index, rh) %>% 
   mutate(home = factor(home),
          away = factor(away),
          pitcher_name = factor(pitcher_name),
@@ -151,4 +151,16 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p < 0.001).
+A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p < 0.001). This may be due to closers coming into the game and throwing more heat.
+
+
+
+### Controlled for pitcher (top 200 fastball throwers)
+```{r}
+
+pitch_tidy_ff %>% 
+  lm(start_speed ~ inning, data = .) %>%  
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
+
