@@ -5,13 +5,6 @@ output:
     toc: true
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  fig.width = 6,
-  fig.asp = .6,
-  out.width = "90%"
-)
-
-theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 library(tidyverse)
 library(lubridate)
@@ -20,12 +13,22 @@ library(knitr)
 library(kableExtra)
 library(weathermetrics)
 
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
+
 ```
 
-### REPORT- FIRST DRAFT 
+# REPORT- FIRST DRAFT 
 
-#### motivation + related 
-Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball, where teams that prioritize sabermetrics have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats. 
+## Motivation and Related Work
+
+Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball (MLB), where teams that prioritize sabermetrics have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats. 
 
 Sabermetric analysts sift through this exhaustive amount of data to identify competitive advantages among increasingly similar, dominant players. The arms race between pitchers and hitters has elevated the game, as pitchers are throwing harder and batters are hitting more home runs than at any point in MLB history. 
 
@@ -35,46 +38,41 @@ Sabermetric analysts sift through this exhaustive amount of data to identify com
 
 In addition to assessing player matchups, analysts aim to identify external factors that could influence players’ performances, especially weather.  Over the course of a six-month MLB season, teams expect to play in a range of weather extremes, from 100-degree days in Arlington, Texas to snowy conditions in Milwaukee, Wisconsin in the early spring. A growing body of sabermetric research has found that game-day weather affects umpiring decisions, pitcher ball control, and distance of hits (and thereby number of homeruns).  
 
+## Initial Project Questions
 
-#### Project Questions
-
-Initially, our project aimed to answer the following question:
+Initially, our project aimed to answer the following overarching question:
 
 * What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.  
 
-To operationalize this, we focused on the following weather data: maximum temperature, relative humidity, and heat index. We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
+To operationalize this, we focused on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
 
-As our research progressed, and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began investigating if a potential relationship between pitch speed and weather could be modified by if a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:
+As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:
 
 * Revised question here.
 
-As part of addressing this question, we proposed the following analytic deliverables (AD): 
+As part of addressing this question, we proposed the following analytic deliverables (AD) in our submitted project proposal: 
 
 * Linear model for the effect of temperature on pitch speed (fastball), adjusted for pitcher and other covariates to be determined. (AD1)
+
 * Graph of variation in proportion of fastball vs off-speed pitches and temperature (AD2)
-* Graph of speed of fastballs and temperature (AD3)
-* Graph of pitch speed (all pitch types) and humidity (AD4)
+
+* Graph of speed of fastballs and maximum temperature (AD3)
+
+* Graph of pitch speed (all pitch types) and relative humidity (AD4)
+
 * Graph of pitch speed (all pitch types) and heat index (AD5)
 
-#### Data
-```{r}
-#Stephen + Brennan - intro sentences for data section?
-```
+## Collecting and Tidying Data
 
-## Basball Data
+**Stephen or Brennan to add intro sentences for data section as a general overview of the process that's detailed below?** 
 
-```{r}
-#Brennan
-```
+### Weather data - Overview
 
-
-## Weather data
-
-### PRISM climate model  
+#### PRISM climate model  
 
 We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model (PRISM) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks around the United States and applies interpolation routines to simulate variations with elevation, coastal effects, temperature inversions, and terrain barriers. The model includes 7 bands of output parameters at a 2.5 arc minute grid resolution (https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d).
 
-### Google Earth Engine  
+#### Google Earth Engine  
 
 Using the code editor in the Google Earth Engine platform (https://code.earthengine.google.com), we extracted maximum daily temperature (`tmax`), minimum daily temperature (`tmin`), and mean daily dew point temperature (`tdmean`) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1), which we imported to Earth Engine. We used JavaScript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.    
 
@@ -84,11 +82,11 @@ Figure XX. The image above is a screenshot of the Earth Engine code editor. The 
 
 The JavaScript code for downloading PRISM data is provided at (gee.html). A registered Google account is required to access the code editor. 
 
-### Tidy weather data  
+#### Tidy weather data  
 
 Next, we imported the PRISM files for `tmax`, `tmin`, and `tdmean` into R, tidied the data from "wide" format to "long" format, and joined each parameter to a single dataframe by team and date. We created daily heat index values (`heat_index`) from mean daily air temperature and mean daily dew point temperature using the `heat.index` function of the `weathermetrics` package, which applies a heat index equation derived from the US National Weather Service's online heat index calculator. We also used the `dewpoint.to.humidity` function to obtain relative humidity (`rh`).   
 
-### Reproducability  
+#### Reproducibility  
 
 The raw data files from Earth Engine and the stadium index from Fusion Table are available at the links below:  
 
@@ -99,23 +97,24 @@ The raw data files from Earth Engine and the stadium index from Fusion Table are
  
 The geocoded stadium index source is: https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1
 
-The joined and cleaned weather dataframe is available at:
+The joined and cleaned weather dataframe, `weather.csv`, is available at:
 
 "weather.csv" : https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W
 
+### Weather data - Complete pipeline
 
-## Data Pipeline
-
-Data was joined...
-
-### Weather data pipeline
+See the code chunks below for the steps that were discussed above.
+**Or Stephen, intermingle these code chunks with the text above as appropriate so that we're not repeating oursevles too much??** 
 
 ```{r stadium_index}
+
 stadium_index <-
   read.csv("./data/stadium_index.csv")
+
 ```
 
 #### Import PRISM variables
+
 Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.
 
 ```{r import_PRISM_parameters}
@@ -157,11 +156,12 @@ weather <- as.tibble(
 
 ```
 
-#### Heat Index and RH
+#### Heat Index and Relative Humidity (RH)
 
 This chunk creates daily heat index values from mean daily air temperature and mean daily dew point temperature. The `heat.index` function of the `weathermetrics` package is used. The heat index equation is derived from the US National Weather Service's online heat index calculator. The `dewpoint.to.humidity` function is used to obtain relative humidity.
 
 ```{r heat_index}
+
 weather <-
   weather %>% 
     mutate(tmean = (tmax + tmin)/2,
@@ -174,14 +174,19 @@ weather
 #### Export tidy weather dataframe
 
 ```{r export_weather_data}
-write_csv(weather, path = "./data/weather.csv")
+
+write_csv(weather, path = "./data/weather.csv") # export tidy dataframe, to be joined with baseball data
+
 ```
+
+### Baseball data
 
 #### Gathering pitch data!
 
-Pitch data is scraped from the MLB website using tools in the pitchRx package. Data is scraped into an SQlite3 database that you should store on your computer so that you do not have to scrape it at a later time. You bring this data into an r session by creating SQlite3 database representations (called "pitch" and "atbat" below). Finally, we load in weather data and an index of the team names and their corresponding abbreviations.
+Pitch data was scraped from the MLB website using tools in the `pitchRx` package. The data was scraped into an SQlite3 database that was stored on a personal computer so that the user did not have to scrape it at a later time. We brought this data into an R session by creating SQlite3 database representations (called "pitch" and "atbat" below). Finally, we loaded in the weather data, an index of the team names, and their corresponding abbreviations.
 
 ```{r import all data}
+
 # first argument is the path to the SQlite database. 
 # if TRUE, will create a new SQlite3 database at path if path does not exist. Will connect to the existing database if path does exist.
 
@@ -197,17 +202,20 @@ pitch = tbl(my_db$con, "pitch")
 atbat = tbl(my_db$con, "atbat")
 
 
-#Import team names data
+# Import team names data
 team_names = read_csv("./data/team_abbrv.csv")
 
-#Import weather data 
+# Import weather data 
 weather_db = read_csv("./data/weather.csv")
 
 ```
 
-Below we bring the pitch data into r from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data. 
+### Combining Datasets
+
+Below, we bring the pitch data into R from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data:
 
 ```{r tidy pitch data, message = FALSE}
+
 # First line collects data into an r dataframe from the pitch and atbat representations established above
 pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>% 
   # Extract home and away team information from url link
@@ -226,28 +234,36 @@ pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>%
   left_join(weather_db) %>% 
   # Remove stadiums with a roof
   filter(!home %in% c("aas", "nas", "tor", "ari", "sea", "hou", "tba", "mia", "1", "2")) %>%  
-  separate(date, c("y", "m", "d")) 
-  # Remove unneeded intermediary data sets
-  rm(atbat, my_db, pitch, team_names, weather_db)
+  separate(date, c("y", "m", "d"))
+  # Retain only XX of 81 variables, to make the size of the dataset easier to work with 
+  # select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type) 
 
+  # Remove unneeded intermediary data sets to clean environment
+  rm(atbat, my_db, pitch, team_names, weather_db)
 
 ```
 
 Our final dataset that combines the pitch and weather data is named `pitch_tidy_db`.
 
-We examine missing data: 
+We examine missing data in our dataset: 
 
 ```{r missing data}
-#Examining missing data
+
+# Examining pitch speed missing data
 missing_data = pitch_tidy_db %>% 
-  filter(is.na(start_speed)) %>% #we are missing pitch speed for 62,971 pitches 
+  filter(is.na(start_speed)) %>% # we are missing pitch speed for 62,971 pitches 
   group_by(team_name) %>% 
-  count() #see if the missing data are (roughly) evenly distributed among the teams 
+  count() # see if the missing data are (roughly) evenly distributed among the teams 
+
 ```
 
-#### Exploratory Analysis
+## Exploratory Analysis
 
-In order to become familiar with the data, a series of graphs were created to explore potential associations between temperature, relative humidity, heat index, and pitch speed. Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fasballs and max temperature was created (AD2, below). However, the graph indicated that absolutely no association existed between these variables.
+As outlined in our 11/07/2018 project proposal, based on previous reports and anecdotal evidence, our group hypothesized that weather would impact Major League Baseball players' pitch speeds. Specifically, we hypothesized that higher temperatures, humidity, and heat index would be negatively associated with pitch speeds. Therefore, our weather variables of interest were: **maximum temperature (ºC), relative humidity (expressed as a percentage), and heat index (ºC).** 
+
+In order to become familiar with the data, a series of graphs were created to explore potential associations between pitch speed (miles per hour) with our weather variables of interest.
+
+Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fastballs and maximum temperature was created (AD2, below). 
 
 ```{r prop. ff and tmax}
 
@@ -276,7 +292,9 @@ propff_db %>%
 
 ```
 
-Next, several graphs were created to explore the associations between the speed of fasballs and temperature (AD3). Graphs that depicted fasball speed and temperature overall did not suggest specific associations (not shown), so the data was instead faceted by various variables to explore the potential for variation by items such as pitch outcome, team, and pitch type. As one example below, fastball pitch speed against max temperature was plotted, and then faceted by pitch outcome (such as Strikeout, Walk, Single, etc).
+However, the graph indicated that absolutely no association existed between these variables.
+
+Next, several graphs were created to explore the associations between the speed of fastballs and maximum temperature (AD3). Graphs that depicted fasball speed and temperature overall did not suggest specific associations (not shown), so the data was instead faceted by various variables to explore the potential for variation by items such as pitch outcome, team, and pitch type. As one example below, fastball pitch speed against max temperature was plotted, and then faceted by pitch outcome (such as Strikeout, Walk, Single, etc).
 
 ```{r ff speed and temp, by outcome}
 
@@ -313,16 +331,7 @@ pitch_tidy_db %>%
 ```
 
 
-```{r}
-#Nicole 
-```
-
-#### Additional Anlaysis: Plots
-
-The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers's stadium was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.
-
-<<<<<<< HEAD
-#### Exploratory Analysis 
+## Exploratory Analysis 
 
 As outlined in our 11/07/2018 project proposal, based on previous reports and anecdotal evidence, we hypothesized that weather would impact pitch speeds. Specifically, we hypothesized that high temperatures/humidity would be negatively associated with pitch speeds. Therefor, our weather variables of interest were: **temperature (max or mean?), relative humidity, and heat index.** 
 
@@ -348,10 +357,10 @@ In the exploratory analysis, we first examined missing data. While the Cubs were
 
 We next explored the distribution of the heat index across stadiums and found that it would be more informative to examine the heat index distribution grouped by the US region the stadium falls in. 
 
-```{r eda}
+```{r Nicole's EDA}
 # Nicole's EDA
 
-# Examining missing data
+# Examining heat index missing data
 pitch_tidy_db %>% 
   group_by(team_name) %>% 
   filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
@@ -520,12 +529,16 @@ tr9 + brs9
 
 In the plot, we can see that in Arlington, Texas, at the Texas Rangers's Stadium, the Rangers appear to be less effected by variations in temperature, whereas visiting pitchers (the bottom of the inning) have a decrease in fastball speed at high temperatures. However, it should be noted that this trend may be driven by one visiting pitcher with particularly slow pitches in hotter weather. In Boston, it appears that visiting pitchers have decreases in fastball speed at colder temperatures, whereas Red Sox pitchers are more consistent regardless of temperature. 
 
-#### Additional Analysis: Models
+## Additional Anlaysis: Plots
+
+The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers's stadium was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.
+
+## Additional Analysis: Models
 ```{r}
 #Stephen
 ```
 
-#### Discussion
+## Discussion
 
 The multitude of available MLB data provides a golden opportunity to use statistical analysis to determine how environmental factors, such as weather, impact sports performance at the very apex of human accomplishment. Using data from more than 2.5 million pitches, this project attempted to answer a small portion of this question, by focusing on the impact of temperature, heat index, and relative humidity on starting pitch speed of four-seam fastballs thrown by MLB pitchers in the 2016, 2017, and 2018 seasons.  
 
