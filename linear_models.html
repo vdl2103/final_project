@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Stephen Lewandowski" />
+
+<meta name="date" content="2018-11-29" />
+
+<title>linear_models</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="EDA.html">EDA</a>
+</li>
+<li>
+  <a href="Flex_Dashboard.html">Flex Dashboard</a>
+</li>
+<li>
+  <a href="models.html">Models</a>
+</li>
+<li>
+  <a href="mailto:&lt;tory.lynch@gmail.com&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/vdl2103">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">linear_models</h1>
+<h4 class="author"><em>Stephen Lewandowski</em></h4>
+<h4 class="date"><em>November 29, 2018</em></h4>
+
+</div>
+
+
+<pre class="r"><code>pitch_tidy_db &lt;- read.csv(&quot;./data/pitch_tidy_db.csv&quot;) %&gt;%
+  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tmax, tmin, tmean, tdmean, heat_index, rh) %&gt;% 
+  mutate(home = factor(home),
+         away = factor(away),
+         pitcher_name = factor(pitcher_name),
+         pitch_type = factor(pitch_type),
+         pitcher = factor(pitcher),
+         type = factor(type),
+         event = factor(event),
+         team_name = factor(team_name))
+
+# missing `date` from latest data_pipeline</code></pre>
+<div id="data-tables" class="section level2">
+<h2>Data tables</h2>
+<div id="pitch-type-frequency" class="section level3">
+<h3>Pitch type frequency</h3>
+<pre class="r"><code>pitch_tidy_db %&gt;%
+  filter(pitch_type != &quot;NA&quot;) %&gt;% 
+  group_by(pitch_type) %&gt;% 
+  summarise(n = n(),
+            mean_s_s = mean(start_speed, na.rm = TRUE),
+            sd_s_s = sd(start_speed, na.rm = TRUE),
+            mean_e_s = mean(end_speed, na.rm = TRUE),
+            sd_e_s = sd(end_speed, na.rm = TRUE),
+            mean_inning = mean(inning)) %&gt;%
+  top_n(n = 10, wt = n) %&gt;% 
+  arrange(desc(n)) %&gt;% 
+  kable() %&gt;% 
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;)) %&gt;% 
+   add_header_above(c(&quot; &quot; = 2, &quot;Start Speed&quot; = 2, &quot;End Speed&quot; = 2, &quot; &quot; = 1))</code></pre>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden" colspan="2">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+Start Speed
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+End Speed
+</div>
+</th>
+<th style="border-bottom:hidden" colspan="1">
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+pitch_type
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean_s_s
+</th>
+<th style="text-align:right;">
+sd_s_s
+</th>
+<th style="text-align:right;">
+mean_e_s
+</th>
+<th style="text-align:right;">
+sd_e_s
+</th>
+<th style="text-align:right;">
+mean_inning
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:right;">
+756133
+</td>
+<td style="text-align:right;">
+92.84753
+</td>
+<td style="text-align:right;">
+2.781956
+</td>
+<td style="text-align:right;">
+85.21839
+</td>
+<td style="text-align:right;">
+2.578296
+</td>
+<td style="text-align:right;">
+5.040757
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SL
+</td>
+<td style="text-align:right;">
+338307
+</td>
+<td style="text-align:right;">
+84.42657
+</td>
+<td style="text-align:right;">
+3.392580
+</td>
+<td style="text-align:right;">
+78.24500
+</td>
+<td style="text-align:right;">
+3.310105
+</td>
+<td style="text-align:right;">
+5.317286
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FT
+</td>
+<td style="text-align:right;">
+248676
+</td>
+<td style="text-align:right;">
+92.19853
+</td>
+<td style="text-align:right;">
+2.679753
+</td>
+<td style="text-align:right;">
+84.71952
+</td>
+<td style="text-align:right;">
+2.513686
+</td>
+<td style="text-align:right;">
+4.485998
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CH
+</td>
+<td style="text-align:right;">
+215879
+</td>
+<td style="text-align:right;">
+83.91853
+</td>
+<td style="text-align:right;">
+3.495811
+</td>
+<td style="text-align:right;">
+77.45500
+</td>
+<td style="text-align:right;">
+3.278466
+</td>
+<td style="text-align:right;">
+4.740003
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SI
+</td>
+<td style="text-align:right;">
+184263
+</td>
+<td style="text-align:right;">
+91.56055
+</td>
+<td style="text-align:right;">
+2.892592
+</td>
+<td style="text-align:right;">
+84.17433
+</td>
+<td style="text-align:right;">
+2.700352
+</td>
+<td style="text-align:right;">
+5.246392
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CU
+</td>
+<td style="text-align:right;">
+180200
+</td>
+<td style="text-align:right;">
+77.75082
+</td>
+<td style="text-align:right;">
+3.897832
+</td>
+<td style="text-align:right;">
+71.93778
+</td>
+<td style="text-align:right;">
+3.759452
+</td>
+<td style="text-align:right;">
+4.741082
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FC
+</td>
+<td style="text-align:right;">
+107156
+</td>
+<td style="text-align:right;">
+88.41910
+</td>
+<td style="text-align:right;">
+2.950208
+</td>
+<td style="text-align:right;">
+81.92798
+</td>
+<td style="text-align:right;">
+2.712845
+</td>
+<td style="text-align:right;">
+5.160999
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KC
+</td>
+<td style="text-align:right;">
+48274
+</td>
+<td style="text-align:right;">
+80.27274
+</td>
+<td style="text-align:right;">
+3.184227
+</td>
+<td style="text-align:right;">
+74.20072
+</td>
+<td style="text-align:right;">
+3.017181
+</td>
+<td style="text-align:right;">
+5.055827
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FS
+</td>
+<td style="text-align:right;">
+31083
+</td>
+<td style="text-align:right;">
+84.62038
+</td>
+<td style="text-align:right;">
+2.946624
+</td>
+<td style="text-align:right;">
+78.27640
+</td>
+<td style="text-align:right;">
+2.795827
+</td>
+<td style="text-align:right;">
+5.197793
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KN
+</td>
+<td style="text-align:right;">
+7612
+</td>
+<td style="text-align:right;">
+75.59147
+</td>
+<td style="text-align:right;">
+2.755427
+</td>
+<td style="text-align:right;">
+69.18987
+</td>
+<td style="text-align:right;">
+2.577815
+</td>
+<td style="text-align:right;">
+3.739884
+</td>
+</tr>
+</tbody>
+</table>
+<p>Pitch type abbreviations and descriptions are listed at <a href="https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/" class="uri">https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/</a>. The top 5 by frequency are:</p>
+<p>FF = four-seam fastball<br />
+SL = slider<br />
+FT = two-seam fastball<br />
+CH = changeup<br />
+CU = curveball</p>
+<p>I will restrict analysis to four-seam fastballs, of which over 750,000 were thrown in outdoor ballparks during our selected time period.</p>
+</div>
+<div id="fastballs-by-pitcher" class="section level3">
+<h3>Fastballs by pitcher</h3>
+<p>Most fastballs thrown</p>
+<pre class="r"><code>pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot;,
+         pitcher_name != &quot;NA&quot;) %&gt;% 
+  group_by(pitcher_name) %&gt;% 
+  summarise(n_ff = n(),
+            mean_speed = mean(start_speed, na.rm = TRUE),
+            sd_speed = sd(start_speed, na.rm = TRUE)) %&gt;% 
+  arrange(desc(n_ff)) %&gt;% 
+  slice(1:10) %&gt;% 
+  kable() %&gt;% 
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;)) </code></pre>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+pitcher_name
+</th>
+<th style="text-align:right;">
+n_ff
+</th>
+<th style="text-align:right;">
+mean_speed
+</th>
+<th style="text-align:right;">
+sd_speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Max Scherzer
+</td>
+<td style="text-align:right;">
+5793
+</td>
+<td style="text-align:right;">
+94.29660
+</td>
+<td style="text-align:right;">
+1.229043
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Justin Verlander
+</td>
+<td style="text-align:right;">
+5581
+</td>
+<td style="text-align:right;">
+94.07371
+</td>
+<td style="text-align:right;">
+1.875879
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jon Lester
+</td>
+<td style="text-align:right;">
+5530
+</td>
+<td style="text-align:right;">
+91.65311
+</td>
+<td style="text-align:right;">
+1.194075
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Kevin Gausman
+</td>
+<td style="text-align:right;">
+5425
+</td>
+<td style="text-align:right;">
+94.38501
+</td>
+<td style="text-align:right;">
+1.828185
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jonathan Gray
+</td>
+<td style="text-align:right;">
+4622
+</td>
+<td style="text-align:right;">
+95.19422
+</td>
+<td style="text-align:right;">
+1.315647
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Julio Teheran
+</td>
+<td style="text-align:right;">
+4500
+</td>
+<td style="text-align:right;">
+90.69960
+</td>
+<td style="text-align:right;">
+1.667050
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jose Quintana
+</td>
+<td style="text-align:right;">
+4470
+</td>
+<td style="text-align:right;">
+91.98085
+</td>
+<td style="text-align:right;">
+1.095752
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Clayton Kershaw
+</td>
+<td style="text-align:right;">
+4466
+</td>
+<td style="text-align:right;">
+92.39447
+</td>
+<td style="text-align:right;">
+1.258154
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Luis Severino
+</td>
+<td style="text-align:right;">
+4349
+</td>
+<td style="text-align:right;">
+96.83925
+</td>
+<td style="text-align:right;">
+1.545939
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ian Kennedy
+</td>
+<td style="text-align:right;">
+4320
+</td>
+<td style="text-align:right;">
+91.88771
+</td>
+<td style="text-align:right;">
+1.134765
+</td>
+</tr>
+</tbody>
+</table>
+<p>Fastest average speed</p>
+<pre class="r"><code>pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot;,
+         pitcher_name != &quot;NA&quot;) %&gt;% 
+  group_by(pitcher_name) %&gt;% 
+  summarise(mean_speed = mean(start_speed, na.rm = TRUE),
+            sd_speed = sd(start_speed, na.rm = TRUE),
+            n_ff = n()) %&gt;% 
+  arrange(desc(mean_speed)) %&gt;% 
+  slice(1:10) %&gt;% 
+  kable() %&gt;% 
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;)) </code></pre>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+pitcher_name
+</th>
+<th style="text-align:right;">
+mean_speed
+</th>
+<th style="text-align:right;">
+sd_speed
+</th>
+<th style="text-align:right;">
+n_ff
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Mauricio Cabrera
+</td>
+<td style="text-align:right;">
+100.11995
+</td>
+<td style="text-align:right;">
+1.1899044
+</td>
+<td style="text-align:right;">
+406
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:right;">
+99.81404
+</td>
+<td style="text-align:right;">
+1.7582704
+</td>
+<td style="text-align:right;">
+2314
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Diego Castillo
+</td>
+<td style="text-align:right;">
+99.05417
+</td>
+<td style="text-align:right;">
+1.4515297
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tayron Guerrero
+</td>
+<td style="text-align:right;">
+98.55378
+</td>
+<td style="text-align:right;">
+1.6559777
+</td>
+<td style="text-align:right;">
+437
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ryne Stanek
+</td>
+<td style="text-align:right;">
+98.46194
+</td>
+<td style="text-align:right;">
+0.8974139
+</td>
+<td style="text-align:right;">
+289
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Brian Ellington
+</td>
+<td style="text-align:right;">
+98.19503
+</td>
+<td style="text-align:right;">
+1.3016014
+</td>
+<td style="text-align:right;">
+483
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Arquimedes Caminero
+</td>
+<td style="text-align:right;">
+98.17756
+</td>
+<td style="text-align:right;">
+1.8615747
+</td>
+<td style="text-align:right;">
+566
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Seranthony Dominguez
+</td>
+<td style="text-align:right;">
+98.04969
+</td>
+<td style="text-align:right;">
+0.8998111
+</td>
+<td style="text-align:right;">
+479
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Raymond Black
+</td>
+<td style="text-align:right;">
+97.90044
+</td>
+<td style="text-align:right;">
+1.1472124
+</td>
+<td style="text-align:right;">
+229
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Noah Syndergaard
+</td>
+<td style="text-align:right;">
+97.85635
+</td>
+<td style="text-align:right;">
+1.1991196
+</td>
+<td style="text-align:right;">
+2039
+</td>
+</tr>
+</tbody>
+</table>
+<p>Top speed pitches in our database</p>
+<pre class="r"><code>pitch_tidy_db %&gt;% 
+  filter(pitcher_name != &quot;NA&quot;) %&gt;% 
+  arrange(desc(start_speed, end_speed)) %&gt;% 
+  slice(1:10) %&gt;%
+  select(start_speed, end_speed, pitch_type, pitcher_name, batter_name, inning, des, home, away, tmax, heat_index) %&gt;% 
+  kable() %&gt;% 
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;)) </code></pre>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+start_speed
+</th>
+<th style="text-align:right;">
+end_speed
+</th>
+<th style="text-align:left;">
+pitch_type
+</th>
+<th style="text-align:left;">
+pitcher_name
+</th>
+<th style="text-align:left;">
+batter_name
+</th>
+<th style="text-align:right;">
+inning
+</th>
+<th style="text-align:left;">
+des
+</th>
+<th style="text-align:left;">
+home
+</th>
+<th style="text-align:left;">
+away
+</th>
+<th style="text-align:right;">
+tmax
+</th>
+<th style="text-align:right;">
+heat_index
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+105.0
+</td>
+<td style="text-align:right;">
+96.0
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+J.J. Hardy
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Ball
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+bal
+</td>
+<td style="text-align:right;">
+32.429
+</td>
+<td style="text-align:right;">
+29.50
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.7
+</td>
+<td style="text-align:right;">
+95.9
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Ryan Flaherty
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+In play, out(s)
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+bal
+</td>
+<td style="text-align:right;">
+32.429
+</td>
+<td style="text-align:right;">
+29.50
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.5
+</td>
+<td style="text-align:right;">
+94.6
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Brandon Belt
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Foul
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+sfn
+</td>
+<td style="text-align:right;">
+31.914
+</td>
+<td style="text-align:right;">
+28.29
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.4
+</td>
+<td style="text-align:right;">
+94.8
+</td>
+<td style="text-align:left;">
+SI
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Ball
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+atl
+</td>
+<td style="text-align:right;">
+35.399
+</td>
+<td style="text-align:right;">
+33.02
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.4
+</td>
+<td style="text-align:right;">
+94.9
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Nolan Reimold
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Ball
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+bal
+</td>
+<td style="text-align:right;">
+32.429
+</td>
+<td style="text-align:right;">
+29.50
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.4
+</td>
+<td style="text-align:right;">
+94.5
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Brandon Belt
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Ball
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+sfn
+</td>
+<td style="text-align:right;">
+31.914
+</td>
+<td style="text-align:right;">
+28.29
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.4
+</td>
+<td style="text-align:right;">
+96.5
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Jacob Realmuto
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Foul
+</td>
+<td style="text-align:left;">
+chn
+</td>
+<td style="text-align:left;">
+mia
+</td>
+<td style="text-align:right;">
+27.377
+</td>
+<td style="text-align:right;">
+24.22
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.3
+</td>
+<td style="text-align:right;">
+95.9
+</td>
+<td style="text-align:left;">
+SI
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Nelson Cruz
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+In play, out(s)
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+sea
+</td>
+<td style="text-align:right;">
+31.006
+</td>
+<td style="text-align:right;">
+25.62
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.3
+</td>
+<td style="text-align:right;">
+95.5
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Mac Williamson
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+Ball
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+sfn
+</td>
+<td style="text-align:right;">
+34.908
+</td>
+<td style="text-align:right;">
+32.13
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104.2
+</td>
+<td style="text-align:right;">
+94.7
+</td>
+<td style="text-align:left;">
+FF
+</td>
+<td style="text-align:left;">
+Aroldis Chapman
+</td>
+<td style="text-align:left;">
+Dustin Pedroia
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+Foul (Runner Going)
+</td>
+<td style="text-align:left;">
+nya
+</td>
+<td style="text-align:left;">
+bos
+</td>
+<td style="text-align:right;">
+27.326
+</td>
+<td style="text-align:right;">
+19.84
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="model-fitting" class="section level3">
+<h3>Model fitting</h3>
+<pre class="r"><code>pitch_tidy_ff &lt;-
+  pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot;)</code></pre>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ heat_index, data = .) </code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = start_speed ~ heat_index, data = .)
+## 
+## Coefficients:
+## (Intercept)   heat_index  
+##    92.17442      0.03565</code></pre>
+<pre class="r"><code>  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<p>A one degree increase in heat index increased the start speed of four-seam fastballs by 0.036 mph (p &lt; 0.001).</p>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ tmax, data = .) %&gt;% summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = start_speed ~ tmax, data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -36.743  -1.721   0.035   1.852  11.839 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 9.197e+01  1.144e-02 8041.28   &lt;2e-16 ***
+## tmax        3.687e-02  4.591e-04   80.32   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.77 on 756131 degrees of freedom
+## Multiple R-squared:  0.008459,   Adjusted R-squared:  0.008458 
+## F-statistic:  6451 on 1 and 756131 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<p>A one degree increase in maximum daily temperature increased the start speed of four-seam fastballs by 0.037 mph (p &lt; 0.0001).</p>
+</div>
+<div id="pitch-speed-by-inning" class="section level3">
+<h3>Pitch speed by inning</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ inning, data = .) %&gt;%  
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std.error
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+91.856
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+13936.055
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inning
+</td>
+<td style="text-align:right;">
+0.197
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+171.011
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p &lt; 0.001).</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

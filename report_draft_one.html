@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Report - first draft</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="EDA.html">EDA</a>
+</li>
+<li>
+  <a href="Flex_Dashboard.html">Flex Dashboard</a>
+</li>
+<li>
+  <a href="models.html">Models</a>
+</li>
+<li>
+  <a href="mailto:&lt;tory.lynch@gmail.com&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/vdl2103">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Report - first draft</h1>
+
+</div>
+
+
+<div id="report--first-draft" class="section level3">
+<h3>REPORT- FIRST DRAFT</h3>
+<div id="motivation-related" class="section level4">
+<h4>motivation + related</h4>
+<pre class="r"><code># Tory </code></pre>
+</div>
+<div id="project-questions" class="section level4">
+<h4>Project Questions</h4>
+<p>Initially, our project aimed to answer the following question:</p>
+<ul>
+<li>What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.</li>
+</ul>
+<p>To operationalize this, we focused on the following weather data: maximum temperature, relative humidity, and heat index. We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.</p>
+<p>As our research progressed, and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began investigating if a potential relationship between pitch speed and weather could be modified by if a team <em>typically</em> played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:</p>
+<ul>
+<li>Revised question here.</li>
+</ul>
+<pre class="r"><code># All of us - take from project proposal </code></pre>
+</div>
+<div id="data" class="section level4">
+<h4>data</h4>
+<pre class="r"><code>#Stephen + Brennan </code></pre>
+</div>
+</div>
+<div id="weather-data" class="section level2">
+<h2>Weather data</h2>
+<div id="prism-climate-model" class="section level3">
+<h3>PRISM climate model</h3>
+<p>We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model (PRISM) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks around the United States and applies interpolation routines to simulate variations with elevation, coastal effects, temperature inversions, and terrain barriers. The model includes 7 bands of output parameters at a 2.5 arc minute grid resolution (<a href="https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d" class="uri">https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d</a>).</p>
+</div>
+<div id="google-earth-engine" class="section level3">
+<h3>Google Earth Engine</h3>
+<p>Using the code editor in the Google Earth Engine platform (<a href="https://code.earthengine.google.com" class="uri">https://code.earthengine.google.com</a>), we extracted maximum daily temperature (<code>tmax</code>), minimum daily temperature (<code>tmin</code>), and mean daily dew point temperature (<code>tdmean</code>) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (<a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a>), which we imported to Earth Engine. We used JavaScript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.</p>
+<p><img src = "gee_screen_capture.PNG" height = "500px" width = "400px" /></p>
+<p>The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.</p>
+<p>The JavaScript code for downloading PRISM data is provided at (gee.html). A registered Google account is required to access the code editor.</p>
+</div>
+<div id="tidy-weather-data" class="section level3">
+<h3>Tidy weather data</h3>
+<p>Next, we imported the PRISM files for <code>tmax</code>, <code>tmin</code>, and <code>tdmean</code> into R, tidied the data from “wide” to “long”, and joined each parameter to a single dataframe by team and date. We created daily heat index values (<code>heat_index</code>) from mean daily air temperature and mean daily dew point temperature using the <code>heat.index</code> function of the <code>weathermetrics</code> package, which applies a heat index equation derived from the US National Weather Service’s online heat index calculator. We also used the <code>dewpoint.to.humidity</code> function to obtain relative humidity (<code>rh</code>).</p>
+</div>
+<div id="reproducability" class="section level3">
+<h3>Reproducability</h3>
+<p>The raw data files from Earth Engine and the stadium index from Fusion Table are available at the links below:</p>
+<p>“tdmean_ballpark.PRISM.csv”: <a href="https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK" class="uri">https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK</a><br />
+“tmin_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa" class="uri">https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa</a><br />
+“tmax_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq" class="uri">https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq</a><br />
+“stadium_index.csv” : <a href="https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo" class="uri">https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo</a></p>
+<p>The joined and cleaned weather dataframe is available at:</p>
+<p>“weather.csv” : <a href="https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W" class="uri">https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W</a></p>
+<div id="exploratory-analysis" class="section level4">
+<h4>exploratory analysis</h4>
+<pre class="r"><code>#Jenni + Nicole </code></pre>
+</div>
+<div id="additional-anlaysis-plots" class="section level4">
+<h4>additional anlaysis: plots</h4>
+<pre class="r"><code>#Jenni + Nicole </code></pre>
+</div>
+<div id="additional-analysis-models" class="section level4">
+<h4>additional analysis: models</h4>
+<pre class="r"><code>#Stephen</code></pre>
+</div>
+<div id="discussion" class="section level4">
+<h4>discussion</h4>
+<pre class="r"><code>#All of us</code></pre>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

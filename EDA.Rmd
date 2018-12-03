@@ -50,3 +50,32 @@ eda_3
 
 ```
 
+```{r}
+
+# From Jenni's shearston_graphs.Rmd
+
+# Create proportion of ff to all pitch dataset
+
+propff_db = pitch_tidy_db %>% 
+  mutate(ff = str_detect(pitch_type, "FF")) %>% 
+  group_by(y, m, d, tmax) %>% 
+  summarise(n = n(),
+            ff_sum = sum(ff, na.rm = TRUE),
+            prop_ff = (ff_sum/n)*100) %>% 
+  mutate(prop_ff = round(prop_ff, digits = 1))
+
+# tmax and proportion of ff  
+
+propff_db %>%
+  filter(prop_ff != 0) %>% 
+  ggplot(aes(x = prop_ff, y = tmax)) +
+  geom_point() +
+  geom_smooth() +
+  labs(
+    title = "Proportion of Thrown Pitches that are Fastballs and Max Temperature",
+    x = "Proportion of Pitches that are Fastballs",
+    y = "Max Temperature (C)"
+  )
+
+```
+
