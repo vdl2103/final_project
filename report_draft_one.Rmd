@@ -169,7 +169,73 @@ weather
 write_csv(weather, path = "./data/weather.csv")
 ```
 
+#### Gathering pitch data!
 
+Pitch data is scraped from the MLB website using tools in the pitchRx package. Data is scraped into an SQlite3 database that you should store on your computer so that you do not have to scrape it at a later time. You bring this data into an r session by creating SQlite3 database representations (called "pitch" and "atbat" below). Finally, we load in weather data and an index of the team names and their corresponding abbreviations.
+
+```{r import all data}
+# first argument is the path to the SQlite database. 
+# if TRUE, will create a new SQlite3 database at path if path does not exist. Will connect to the existing database if path does exist.
+
+my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
+
+# Only run the code below if you have never scraped the data. This code collects and stores all PITCHf/x data from one date to the next, and saves it as GamedayDB.sqlite3.
+####### scrape(start = "2016-04-03", end = Sys.Date() - 1,
+####### suffix = "inning/inning_all.xml", connect = my_db$con)
+
+
+# Create pitch and atbat, which are representations of data in my_db. That is, pitch does not actually pull data from every pitch into memory, but is a portrayal of the relevant data sitting in my_db.
+pitch = tbl(my_db$con, "pitch")
+atbat = tbl(my_db$con, "atbat")
+
+
+#Import team names data
+team_names = read_csv("./data/team_abbrv.csv")
+
+#Import weather data 
+weather_db = read_csv("./data/weather.csv")
+
+```
+
+Below we bring the pitch data into r from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data. 
+
+```{r tidy pitch data, message = FALSE}
+# First line collects data into an r dataframe from the pitch and atbat representations established above
+pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>% 
+  # Extract home and away team information from url link
+  separate(gameday_link.x, into = c("remove", "away_home"), sep = ".............._") %>%
+  separate(away_home, into = c("away", "home"), sep = "mlb_") %>% 
+  # Tidy date
+  mutate(date = ymd(date)) %>% 
+  # Joining pitch with atbat created redundant columns coded .x or .y. Remove redundant cols ending with .y. Remove spanish columns ending with _es
+  select(-ends_with(".y"), -ends_with("_es")) %>% 
+  # Remove .x from the end of columns
+  rename_at(.vars = vars(ends_with(".x")),
+          .funs = funs(sub("[.]x$", "", .))) %>% 
+  # Add full team names
+  left_join(team_names) %>% 
+  # Add weather data
+  left_join(weather_db) %>% 
+  # Remove stadiums with a roof
+  filter(!home %in% c("aas", "nas", "tor", "ari", "sea", "hou", "tba", "mia", "1", "2")) %>%  
+  separate(date, c("y", "m", "d")) 
+  # Remove unneeded intermediary data sets
+  rm(atbat, my_db, pitch, team_names, weather_db)
+
+
+```
+
+Our final dataset that combines the pitch and weather data is named `pitch_tidy_db`.
+
+We examine missing data: 
+
+```{r missing data}
+#Examining missing data
+missing_data = pitch_tidy_db %>% 
+  filter(is.na(start_speed)) %>% #we are missing pitch speed for 62,971 pitches 
+  group_by(team_name) %>% 
+  count() #see if the missing data are (roughly) evenly distributed among the teams 
+```
 
 #### Exploratory Analysis
 
@@ -278,23 +344,23 @@ We next explored the distribution of the heat index across stadiums and found th
 # Nicole's EDA
 
 # Examining missing data
-complete_db %>% 
+pitch_tidy_db %>% 
   group_by(team_name) %>% 
   filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
   count() %>% 
   ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
 
 # # distribution by stadium
-# complete_db %>% 
+# pitch_tidy_db %>% 
 #   ggplot(aes(x = heat_index, fill = team_name)) + 
 #   geom_density(alpha = .4, adjust = .5)
 # # we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
 
 # # numerical summary
-# skim(complete_db$heat_index)
+# skim(pitch_tidy_db$heat_index)
 # 
 # heat_index_df =
-#   complete_db %>%
+#   pitch_tidy_db %>%
 #   group_by(team_name, m) %>%
 #   summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
 #             median_heat_index = median(heat_index),
@@ -312,7 +378,7 @@ complete_db %>%
 
 # maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
 
-# complete_db %>% 
+# pitch_tidy_db %>% 
 #   filter(team_name == "Washington Nationals") %>% 
 #   ggplot(aes(x = m, y = start_speed)) +
 #   geom_boxplot()
@@ -321,8 +387,8 @@ complete_db %>%
 
 
 # create new variable for US region
-complete_db = 
-   dplyr::mutate(complete_db,
+pitch_tidy_db = 
+   dplyr::mutate(pitch_tidy_db,
                   US_region =
                   ifelse(team_name == "Baltimore Orioles" |
                            team_name == "Boston Red Sox" |
@@ -353,12 +419,12 @@ complete_db =
                   ifelse(team_name == "Atlanta Braves", "southeast", ""))))))
 
 # heat index distribution by US region 
-complete_db %>% 
+pitch_tidy_db %>% 
   ggplot(aes(x = heat_index, fill = US_region)) + 
   geom_density(alpha = .4, adjust = .5)
 # southwest followed by southeast has highest heat index, west is most stable/pleasant
 
-complete_db %>% 
+pitch_tidy_db %>% 
   ggplot(aes(x = heat_index)) + 
   geom_density(alpha = .4, adjust = .5) +
   facet_wrap(~US_region) +
@@ -382,7 +448,7 @@ Rather than group all stadiums/teams together, we then explored pitch speed of v
 ```{r pitch speed (all types) vs. heat index}
 
 # pitch speed (all types) vs. heat index, colored by US region 
-complete_db %>% 
+pitch_tidy_db %>% 
   ggplot(aes(x = heat_index, y = start_speed, color = US_region)) +
   geom_point(alpha = .3) +
   facet_wrap(~pitch_type) +
