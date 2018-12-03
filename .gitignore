@@ -6,6 +6,9 @@ data/GamedayDB.sqlite3
 GamedayDB.sqlite3
 .DS_Store
 data/.DS_Store
+<<<<<<< HEAD
+
+=======
 data/.stadium_index.csv
 data/.tdmean_ballpark_PRISM.csv
 data/.tmax_ballpark_PRISM.csv
@@ -13,3 +16,4 @@ data/.tmin_ballpark_PRISM.csv
 data/.weather.csv
 data/.pitch_tidy_db.csv
 final_project_sl.Rproj
+>>>>>>> 4bdff73897f25a5e2b413285cc4d0bd1e667546b
