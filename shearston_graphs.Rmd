@@ -27,7 +27,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 # Create proportion of ff to all pitch dataset
 
-propff_db = complete_db %>% 
+propff_db = pitch_tidy_db %>% 
   mutate(ff = str_detect(pitch_type, "FF")) %>% 
   group_by(y, m, d, tmax) %>% 
   summarise(n = n(),
@@ -41,7 +41,12 @@ propff_db %>%
   filter(prop_ff != 0) %>% 
   ggplot(aes(x = prop_ff, y = tmax)) +
   geom_point() +
-  geom_smooth()
+  geom_smooth() +
+  labs(
+    title = "Proportion of Thrown Pitches that are Fastballs and Max Temperature",
+    x = "Proportion of Pitches that are Fastballs",
+    y = "Max Temperature (C)"
+  )
 
 
 ```
@@ -64,19 +69,29 @@ complete_db %>%
 
 # tmax and pitch speed, fastball only, facet by team
 
-complete_db %>% 
+pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
-  ggplot(aes(x = start_speed, y = tmax)) +
+  ggplot(aes(x = tmax, y = start_speed)) +
   geom_point() +
-  facet_wrap(~team_name)
+  facet_wrap(~team_name) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature, by Home Team",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  )
 
 # tmax and pitch speed, fastball only, facet by outcome (homerun, strikeout, etc)
 
-complete_db %>% 
+pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
-  ggplot(aes(x = start_speed, y = tmax)) +
+  ggplot(aes(x = tmax, y = start_speed)) +
   geom_point() +
-  facet_wrap(~event)
+  facet_wrap(~event) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature, by Pitch Outcome",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  )
 
 # tmax and pitch speed, fastball only, facet by ball/strike/foul
 
@@ -137,4 +152,148 @@ complete_db %>%
 
 ```
 
+
+## Further Analysis - stadium specific
+
+
+```{r Texas Rangers stadium}
+
+#games at Texas Rangers stadium
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Texas Rangers") %>% 
+  ggplot(aes(x = tmax, y = start_speed, color = pitcher_name)) +
+  geom_point() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+#restrict to sept
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Texas Rangers" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+#restrict to oct
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Texas Rangers" & m == "10") %>% 
+  ggplot(aes(x = tmax, y = start_speed, color = pitcher_name)) +
+  geom_point() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+```
+
+
+```{r Red Sox stadium}
+
+#games at Boston Red Sox stadium
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Boston Red Sox") %>% 
+  ggplot(aes(x = tmax, y = start_speed, color = pitcher_name)) +
+  geom_point() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+#restrict to sept
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Boston Red Sox" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+#restrict to oct
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Boston Red Sox" & m == "10") %>% 
+  ggplot(aes(x = tmax, y = start_speed, color = pitcher_name)) +
+  geom_point() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+```
+
+
+## Further Analysis - create final graph
+
+```{r}
+
+# Texas Rangers Stadium in September
+
+tr9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Texas Rangers" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium", subtitle = "Pitchers = Colors, Month = September",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+# Boston Red Sox Stadium in September
+
+brs9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Boston Red Sox" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium", subtitle = "Pitchers = Colors, Month = September",
+    x = "Max Temperature (C)",
+    y = "Pitch Starting Speed (MPH)"
+  ) +
+  theme(legend.position = "none")
+
+#Join Graphs
+
+library(patchwork)
+tr9 + brs9
+
+```
 
