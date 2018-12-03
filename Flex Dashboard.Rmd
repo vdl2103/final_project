@@ -79,7 +79,20 @@ pitch_tidy_db %>%
 
 ### Chart C
 
-```{r}
+```{r pitch speed (all pitch types) vs. heat index}
+
+# look at pitch speed (all pitches) vs. heat index
+complete_db %>% 
+  ggplot(aes(x = heat_index, y = start_speed)) +
+  geom_hex() + 
+  geom_smooth() +
+    labs(
+    title = "Pitch Speed (All Pitches) vs. Heat Index",
+    x = "Pitch Start Speed (MPH)",
+    y = "Heat Index (ºC)"
+  )
+# again, looks like no association. maybe it dips slightly at the highest heat index, like above 35? However when categorizing (e.g. looking at pitch speeds at heat indexes only above 35) there was still no association 
+
 
 ```
 
