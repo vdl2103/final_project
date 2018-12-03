@@ -230,8 +230,6 @@ missing_data = pitch_tidy_db %>%
   count() #see if the missing data are (roughly) evenly distributed among the teams 
 ```
 
-
-
 #### Exploratory Analysis
 
 In order to become familiar with the data, a series of graphs were created to explore potential associations between temperature, relative humidity, heat index, and pitch speed. Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fasballs and max temperature was created (AD2, below). However, the graph indicated that absolutely no association existed between these variables.
@@ -339,23 +337,23 @@ We next explored the distribution of the heat index across stadiums and found th
 # Nicole's EDA
 
 # Examining missing data
-complete_db %>% 
+pitch_tidy_db %>% 
   group_by(team_name) %>% 
   filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
   count() %>% 
   ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
 
 # # distribution by stadium
-# complete_db %>% 
+# pitch_tidy_db %>% 
 #   ggplot(aes(x = heat_index, fill = team_name)) + 
 #   geom_density(alpha = .4, adjust = .5)
 # # we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
 
 # # numerical summary
-# skim(complete_db$heat_index)
+# skim(pitch_tidy_db$heat_index)
 # 
 # heat_index_df =
-#   complete_db %>%
+#   pitch_tidy_db %>%
 #   group_by(team_name, m) %>%
 #   summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
 #             median_heat_index = median(heat_index),
@@ -373,7 +371,7 @@ complete_db %>%
 
 # maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
 
-# complete_db %>% 
+# pitch_tidy_db %>% 
 #   filter(team_name == "Washington Nationals") %>% 
 #   ggplot(aes(x = m, y = start_speed)) +
 #   geom_boxplot()
@@ -382,8 +380,8 @@ complete_db %>%
 
 
 # create new variable for US region
-complete_db = 
-   dplyr::mutate(complete_db,
+pitch_tidy_db = 
+   dplyr::mutate(pitch_tidy_db,
                   US_region =
                   ifelse(team_name == "Baltimore Orioles" |
                            team_name == "Boston Red Sox" |
@@ -414,12 +412,12 @@ complete_db =
                   ifelse(team_name == "Atlanta Braves", "southeast", ""))))))
 
 # heat index distribution by US region 
-complete_db %>% 
+pitch_tidy_db %>% 
   ggplot(aes(x = heat_index, fill = US_region)) + 
   geom_density(alpha = .4, adjust = .5)
 # southwest followed by southeast has highest heat index, west is most stable/pleasant
 
-complete_db %>% 
+pitch_tidy_db %>% 
   ggplot(aes(x = heat_index)) + 
   geom_density(alpha = .4, adjust = .5) +
   facet_wrap(~US_region) +
@@ -443,7 +441,7 @@ Rather than group all stadiums/teams together, we then explored pitch speed of v
 ```{r pitch speed (all types) vs. heat index}
 
 # pitch speed (all types) vs. heat index, colored by US region 
-complete_db %>% 
+pitch_tidy_db %>% 
   ggplot(aes(x = heat_index, y = start_speed, color = US_region)) +
   geom_point(alpha = .3) +
   facet_wrap(~pitch_type) +
