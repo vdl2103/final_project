@@ -108,8 +108,7 @@ See the code chunks below for the steps that were discussed above.
 
 ```{r stadium_index}
 
-stadium_index <-
-  read.csv("./data/stadium_index.csv")
+stadium_index = read_csv("./data/stadium_index.csv")
 
 ```
 
@@ -119,22 +118,22 @@ Import max and min daily temperatures and mean daily dew points for all MLB stad
 
 ```{r import_PRISM_parameters}
 
-tmax <-
-  read.csv("./data/tmax_ballpark_PRISM.csv") %>% 
+tmax =
+  read_csv("./data/tmax_ballpark_PRISM.csv") %>% 
     janitor::clean_names() %>% 
     select(-c("system_index", "geo")) %>% 
     select(team_name, everything()) %>% 
     gather(key = date, value = tmax, "x20150401":"x20181030")
   
-tmin <-
-  read.csv("./data/tmin_ballpark_PRISM.csv") %>% 
+tmin =
+  read_csv("./data/tmin_ballpark_PRISM.csv") %>% 
     janitor::clean_names() %>% 
     select(-c("system_index", "geo")) %>% 
     select(team_name, everything()) %>% 
     gather(key = date, value = tmin, "x20150401":"x20181030")
 
-tdmean <-
-  read.csv("./data/tdmean_ballpark_PRISM.csv") %>% 
+tdmean =
+  read_csv("./data/tdmean_ballpark_PRISM.csv") %>% 
     janitor::clean_names() %>% 
     select(-c("system_index", "geo")) %>% 
     select(team_name, everything()) %>% 
