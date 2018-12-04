@@ -142,6 +142,7 @@ tdmean =
 ```
 
 #### Join PRISM data
+
 Join `tmax`, `tmin` and `tdmean`.
 
 ```{r weather_tidy}
