@@ -97,20 +97,14 @@ The joined and cleaned weather dataframe, `weather.csv`, is available at:
 
 #### Weather data - Complete pipeline
 
-See the code chunks below for the steps that were discussed above.
-**Or Stephen, intermingle these code chunks with the text above as appropriate so that we're not repeating oursevles too much??** 
+See the code below for the above-described steps.
 
-```{r stadium_index}
-
+```{r weather_pipeline}
+# Import stadium index
 stadium_index = read_csv("./data/stadium_index.csv")
 
-```
-
-#### Import PRISM variables
-
-Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.
-
-```{r import_PRISM_parameters}
+# Import PRISM variables
+# Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.
 
 tmax =
   read_csv("./data/tmax_ballpark_PRISM.csv") %>% 
@@ -133,13 +127,8 @@ tdmean =
     select(team_name, everything()) %>% 
     gather(key = date, value = tdmean, "x20150401":"x20181030")
 
-```
-
-#### Join PRISM data
-
-Join `tmax`, `tmin` and `tdmean`.
-
-```{r weather_tidy}
+# Join PRISM data
+# Join `tmax`, `tmin` and `tdmean`
 
 weather <- as.tibble(
     full_join(tmax, tmin, by = c("team_name", "date")) %>% 
@@ -148,13 +137,8 @@ weather <- as.tibble(
            date = as.Date(date, format = "%Y%m%d"))
   )
 
-```
-
-#### Heat Index and Relative Humidity (RH)
-
-This chunk creates daily heat index values from mean daily air temperature and mean daily dew point temperature. The `heat.index` function of the `weathermetrics` package is used. The heat index equation is derived from the US National Weather Service's online heat index calculator. The `dewpoint.to.humidity` function is used to obtain relative humidity.
-
-```{r heat_index}
+# Heat Index and Relative Humidity (RH)
+# Calculates daily heat index values from mean daily air temperature and mean daily dew point temperature using `heat.index` function of the `weathermetrics` package is used.  The `dewpoint.to.humidity` function is used to obtain relative humidity.
 
 weather <-
   weather %>% 
@@ -163,15 +147,12 @@ weather <-
            rh = weathermetrics::dewpoint.to.humidity(dp = tdmean, t = tmean, temperature.metric = "celsius"))
 
 weather
-```
 
-#### Export tidy weather dataframe
-
-```{r export_weather_data}
-
-write_csv(weather, path = "./data/weather.csv") # export tidy dataframe, to be joined with baseball data
+# Export tidy weather dataframe
+write_csv(weather, path = "./data/weather.csv") 
 
 ```
+
 
 ### Baseball data
 
