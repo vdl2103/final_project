@@ -262,7 +262,7 @@ $(document).ready(function () {
 <div id="google-earth-engine" class="section level4">
 <h4>Google Earth Engine</h4>
 <p>Using the code editor in the Google Earth Engine platform (<a href="https://code.earthengine.google.com" class="uri">https://code.earthengine.google.com</a>), we extracted maximum daily temperature (<code>tmax</code>), minimum daily temperature (<code>tmin</code>), and mean daily dew point temperature (<code>tdmean</code>) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (<a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a>), which we imported to Earth Engine. We used JavaScript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.</p>
-<p><img src = "gee_screen_capture.PNG" height = "500px" width = "400px" /></p>
+<p>img src = “./gee_screen_capture.PNG” height = “500px” width = “400px” /</p>
 <p>Figure 1. The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.</p>
 <p>The JavaScript code for downloading PRISM data is provided at (gee.html). A registered Google account is required to access the code editor.</p>
 </div>
