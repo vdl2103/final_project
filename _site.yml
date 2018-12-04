@@ -9,6 +9,8 @@ navbar:
       href: Flex_Dashboard.html
     - text: "Models"
       href: models.html
+    - text: "Texas Heat"
+      href: https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/
     - icon: fa-envelope fa-lg
       href: mailto:<tory.lynch@gmail.com>
     - icon: fa-github fa-lg
