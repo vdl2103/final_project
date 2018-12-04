@@ -216,7 +216,7 @@ weather_db = read_csv("./data/weather.csv")
 
 ```
 
-### Combining Datasets
+## Combining Datasets
 
 Below, we bring the pitch data into R from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data:
 
