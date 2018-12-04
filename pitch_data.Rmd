@@ -11,10 +11,12 @@ Once you scrape, it is stored in the db even if you quit r. When you re open r, 
 ```{r}
 library(pitchRx)
 library(tidyverse)
+library(RSQLite)
+
 # first argument is the path to the SQlite database. 
 # if TRUE, will create a new SQlite3 database at path if path does not exist. Will connect to the existing database if path does exist.
 
-my_db <- src_sqlite("GamedayDB.sqlite3", create = TRUE)
+my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
 
 # Do not need to run this, as I already put this data into the GamedayDB.sqlite3 in google drive. Collect and store all PITCHf/x data from one date to the next. 
 scrape(start = "2016-04-03", end = Sys.Date() - 1,
