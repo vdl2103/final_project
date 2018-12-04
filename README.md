@@ -53,3 +53,4 @@ If you intend to knit the R Markdown document to replicate this project, be sure
 `install.packages("kableExtra")`   
 `install.packages("weathermetrics")`   
 `install.packages("patchwork")`
+
