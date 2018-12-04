@@ -181,14 +181,24 @@ write_csv(weather, path = "./data/weather.csv") # export tidy dataframe, to be j
 
 ### Baseball data
 
-#### Gathering pitch data!
+#### PITCHf/x data
 
-Pitch data was scraped from the MLB website using tools in the `pitchRx` package. The data was scraped into an SQlite3 database that was stored on a personal computer so that the user did not have to scrape it at a later time. We brought this data into an R session by creating SQlite3 database representations (called "pitch" and "atbat" below). Finally, we loaded in the weather data, an index of the team names, and their corresponding abbreviations.
+PITCHf/x is a system of cameras set up at every MLB baseball stadium that collects pitch data including pitch speed, type, and trajectory. The data are stored in XML format and maintained by MLB Advanced Media.
+
+#### Helpful packages
+
+We gathered PITCHf/x data from using the r package “pitchRx” (https://pitchrx.cpsievert.me/).  The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date. The pitchRx also includes 
+
+Gathering a large amount of pitch data, however, may use up too much random-access memory. To solve this problem, we used the “dplyr” package to create an SQLite database, which aids in memory management. 
+
+#### Gathering pitch data
+
+The data was scraped into an SQlite3 database that was stored on a personal computer so that the user did not have to scrape it at a later time. We brought this data into an R session by creating SQlite3 database representations (called "pitch" and "atbat" below). Finally, we loaded in the weather data, an index of the team names, and their corresponding abbreviations.
 
 ```{r import all data}
 
-# first argument is the path to the SQlite database. 
-# if TRUE, will create a new SQlite3 database at path if path does not exist. Will connect to the existing database if path does exist.
+# The first argument is the path to the SQlite database. 
+# If create is set to TRUE, the code will create a new SQlite3 database at the specified path if it does not exist. If the path does exist, it will connect to the existing database.
 
 my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
 
