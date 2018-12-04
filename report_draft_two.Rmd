@@ -17,7 +17,7 @@ library(weathermetrics)
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,
-  out.width = "90%"
+  out.width = "100%"
 )
 
 theme_set(theme_bw() + theme(legend.position = "bottom"))
@@ -29,7 +29,7 @@ By: Brennan Baker, Nicole Comfort, Victoria Lynch, Stephen Lewandowski, Jenni Sh
 
 ## Motivation and Related Work
 
-Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball, where teams that prioritize [sabermetrics] (https://sabr.org/sabermetrics) have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats. 
+Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball, where teams that prioritize [sabermetrics](https://sabr.org/sabermetrics) have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats. 
 
 Sabermetric analysts sift through this exhaustive amount of data to identify competitive advantages among increasingly similar, dominant players. The arms race between pitchers and hitters has elevated the game, as pitchers are throwing harder and batters are hitting more home runs than at any point in MLB history. 
 
@@ -76,7 +76,7 @@ Using the code editor in the Google Earth Engine platform (https://code.eartheng
 
 <img src = "./gee_screen_capture.PNG" height = "500px" width = "400px" />
 
-Figure 1. The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.
+**Fig 1:** The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.
 
 The JavaScript code for downloading PRISM data is provided at (gee.html). A registered Google account is required to access the code editor. 
 
@@ -166,11 +166,11 @@ PITCHf/x is a system of cameras set up at every MLB baseball stadium that collec
 
 #### Helpful packages
 
-We gathered PITCHf/x data using the r package “pitchRx” (https://pitchrx.cpsievert.me/).  The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date.
+We gathered PITCHf/x data using the r package [“pitchRx”](https://pitchrx.cpsievert.me/).  The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date.
 
 Gathering a large amount of pitch data, however, may use up too much random-access memory. To solve this problem, we used the “dplyr” package to create an SQLite database, which aids in memory management. 
 
-The baseball data used for this project can be accessed by Google Drive here: (https://drive.google.com/drive/u/0/search?q=sqlite)
+The baseball data used for this project can be accessed by Google Drive [here.](https://drive.google.com/drive/u/0/search?q=sqlite)
 
 #### Gathering pitch data
 
@@ -225,16 +225,16 @@ pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>%
   left_join(weather_db) %>% 
   # Remove stadiums with a roof
   filter(!home %in% c("aas", "nas", "tor", "ari", "sea", "hou", "tba", "mia", "1", "2")) %>%  
-  separate(date, c("y", "m", "d"))
-  # Retain only XX of 81 variables, to make the size of the dataset easier to work with 
-  # select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type) 
+  separate(date, c("y", "m", "d")) %>% 
+  # Retain only some of 81 variables, to make the size of the dataset easier to work with 
+  select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type) 
 
   # Remove unneeded intermediary data sets to clean environment
-  rm(atbat, my_db, pitch, team_names, weather_db)
+  rm(atbat, my_db, pitch, team_names, weather_db, tdmean, tmax, tmin)
 
 ```
 
-Our final dataset that combines the pitch and weather data is named `pitch_tidy_db`. After retaining only certain variables of interest, the dataset incudes `r nrow(pitch_tidy_db)` observations of `r ncol(pitch_tidy_db)`. 
+Our final dataset that combines the pitch and weather data is named `pitch_tidy_db`. The initial dataset contained 2,186,391 observatins of 81 variables. After retaining only certain variables of interest, the dataset incudes `r nrow(pitch_tidy_db)` observations of `r ncol(pitch_tidy_db)` variables. We excluded Spring Training games, so that data includes only regular and postseason games. Also, games played at indoor stadiums were excluded, as these may not be affected by weather in the same way.
 
 We examine missing data in our dataset: 
 
@@ -278,9 +278,10 @@ propff_db %>%
   geom_point() +
   geom_smooth() +
   labs(
-    title = "Figure 2: Proportion of Thrown Pitches that are Fastballs and Max Temperature",
-    x = "Proportion of Pitches that are Fastballs",
-    y = "Max Temperature (C)"
+    title = "Fig 2: Percent of Four-seam Fastballs Thrown and Max Temp",
+    x = "Percent of Pitches that are Fastballs",
+    y = "Max Temperature (ºC)",
+    caption = "Includes all pitches in regular and postseason, 2016-2018"
   )
 
 ```
@@ -295,16 +296,17 @@ pitch_tidy_db %>%
   filter(pitch_type == "FF") %>% 
   ggplot(aes(x = tmax, y = start_speed)) +
   geom_point() +
-  facet_wrap(~event) +
+  facet_wrap(~event, ncol = 5) +
   labs(
-    title = "Figure 3: Fastball Pitch Speed and Max Temperature, by Pitch Outcome",
-    x = "Max Temperature (C)",
-    y = "Pitch Starting Speed (MPH)"
+    title = "Fig 3: Four-seam Fastball Pitch Speed and Max Temp",
+    x = "Max Temperature (ºC)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Results faceted by pitch outcome"
   )
 
 ```
 
-Interestingly, we can see from the increase in points on the right side of facets such as "Double," "Flyout," "Lineout," "Home Run," and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches that are slightly slower are more likely to result in hits.
+Interestingly, we can see from the increase in points on the right side of facets such as "Double," "Flyout," "Lineout," "Home Run," and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches are slightly slower and thus are more likely to result in hits.
 
 In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. This possibility was explored next.
 
@@ -316,9 +318,10 @@ pitch_tidy_db %>%
   geom_point() +
   facet_wrap(~team_name) +
   labs(
-    title = "Figure 4: Fastball Pitch Speed and Max Temperature, by Home Team",
-    x = "Max Temperature (C)",
-    y = "Pitch Starting Speed (MPH)"
+    title = "Fig 4: Four-seam Fastball Pitch Speed and Max Temp",
+    x = "Max Temperature (ºC)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Faceted by home team"
   )
 
 ```
@@ -338,9 +341,10 @@ tr9 = pitch_tidy_db %>%
   geom_smooth() +
   facet_wrap(~inning_side) +
   labs(
-    title = "Fastball Pitch Speed and Max Temperature", subtitle = "Texas Rangers",
-    x = "Max Temperature (C)",
-    y = "Pitch Starting Speed (MPH)"
+    title = "Fig 5: Fastball Pitch Speed and Max Temperature", subtitle = "@Texas Rangers",
+    x = "Max Temperature (ºC)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Away Team Pitches in Bottom of Inning"
   ) +
   theme(legend.position = "none")
 
@@ -354,8 +358,8 @@ brs9 = pitch_tidy_db %>%
   geom_smooth() +
   facet_wrap(~inning_side) +
   labs(
-    title = "", subtitle = "Boston Red Sox",
-    x = "Max Temperature (C)",
+    title = "", subtitle = "@Boston Red Sox",
+    x = "Max Temperature (ºC)",
     y = "Pitch Starting Speed (MPH)",
     caption = "Pitchers = Colors, Month = September"
   ) +
@@ -412,7 +416,7 @@ pitch_tidy_db =
 
 ```
 
-When examining the association between relative humidity and pitch start speed (all pitches and by pitch type), across all US regions, we found no associations. Heat index incorporates temperature and relative humidity, so we next looked at whether that would be more informative. 
+When examining the association between relative humidity and pitch start speed (all pitches and by pitch type, not shown), across all US regions, we found no associations. Heat index incorporates temperature and relative humidity, so we next looked at whether that would be more informative. 
 
 ### Heat Index 
 
@@ -424,49 +428,12 @@ In the exploratory analysis of heat index, we first examined missing data.
 
 ```{r Examine heat index missing data}
 
-
 # Examining heat index missing data
 pitch_tidy_db %>% 
   group_by(team_name) %>% 
   filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
   count() %>% 
-  ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
-
-# # distribution by stadium
-# pitch_tidy_db %>% 
-#   ggplot(aes(x = heat_index, fill = team_name)) + 
-#   geom_density(alpha = .4, adjust = .5)
-# # we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
-
-# # numerical summary
-# skim(pitch_tidy_db$heat_index)
-# 
-# heat_index_df =
-#   pitch_tidy_db %>%
-#   group_by(team_name, m) %>%
-#   summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
-#             median_heat_index = median(heat_index),
-#             sd_heat_index = sd(heat_index))
-
-# # plot the above table/info 
-# heat_index_df %>% 
-#   ggplot(aes(x = m, y = mean_heat_index, color = team_name)) +
-#   geom_point() + geom_line()
-
-
-# the teams with the greatest range/variability in heat index are the Minnesota Twins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
-
-# the teams with the lowest range/variability in heat index (excluding values of 0.00) are the Los Angeles Angels of Anaheim, Detroit Tigers, Chicago White Sox, St. Louis Cardinals
-
-# maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
-
-# pitch_tidy_db %>% 
-#   filter(team_name == "Washington Nationals") %>% 
-#   ggplot(aes(x = m, y = start_speed)) +
-#   geom_boxplot()
-# tried adding geom_jitter but there are too many points 
-# more outliers at the warmer months with hotter heat index, but overall start speed looks the same 
-
+  ungroup()
 
 ```
 
@@ -479,38 +446,40 @@ We next explored the distribution of the heat index across US regions the stadiu
 # heat index distribution by US region 
 pitch_tidy_db %>% 
   ggplot(aes(x = heat_index, fill = US_region)) + 
-  geom_density(alpha = .4, adjust = .5)
-
-pitch_tidy_db %>% 
-  ggplot(aes(x = heat_index)) + 
   geom_density(alpha = .4, adjust = .5) +
   facet_wrap(~US_region) +
     labs(
-    title = "Distribution of Heat Index by US Region",
+    title = "Fig 6: Distribution of Heat Index by US Region",
     x = "Heat Index (ºC)",
-    y = "Density"
-  )
+    y = "Density") +
+  theme(legend.position = "none")
 
 ```
 
-The Southwest, followed by the the Southeast, had the highest heat index. The west had a fairly normal distribution, and appeared to be the most stable and pleasant. The Southeast and Southwest had  skewed distributions.  
+The Southwest, followed by the the Southeast, had the highest heat index. The west had a fairly normal distribution, and appeared to be the most stable and pleasant. The Southeast and Southwest had skewed distributions.  
 
-Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC), particularly for four-seam fastballs in the Southwest and West. 
+Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly increase at extreme heat indexes (e.g. over 35 ºC). However, there are also increased outliers, i.e. slower pitches, at higher heat indexes. 
 
 ```{r pitch speed (all types) vs. heat index, warning=FALSE}
 
 # pitch speed (all types) vs. heat index, colored by US region 
 pitch_tidy_db %>% 
-  ggplot(aes(x = heat_index, y = start_speed, color = US_region)) +
+  filter(pitch_type != "AB") %>% 
+  filter(pitch_type != "UN") %>% 
+  filter(pitch_type != "NA") %>% 
+  mutate(Region = US_region) %>% 
+  ggplot(aes(x = heat_index, y = start_speed, color = Region)) +
   geom_point(alpha = .3) +
-  facet_wrap(~pitch_type) +
+  facet_wrap(~pitch_type, ncol = 3) +
     labs(
-    title = "Pitch Start Speed vs. Heat Index", subtitle = "Colored by US Region",
+    title = "Fig 7: Pitch Start Speed vs. Heat Index", subtitle = "Colored by US Region",
     x = "Heat Index (ºC)",
-    y = "Pitch Starting Speed (MPH)"
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Faceted by Pitch Type (link to key below)"
   )
 
 ```
+[Pitch Type Key](https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/)  
 
 However, when examining this further by categorizing heat index (e.g. above and below 35) and looking at the relationship between pitch speed and heat index, there was no obvious association. 
 
@@ -518,8 +487,7 @@ However, when examining this further by categorizing heat index (e.g. above and 
 
 The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers's stadium in Arlington, Texas was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.  
 
-Access the Shiny plot [here]
-(https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/).
+Access the Shiny plot [here](https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/).
 
 ## Statistical Analysis: Linear Models
 
@@ -542,17 +510,17 @@ pitch_tidy_ff %>%
   broom::tidy() %>% 
   knitr::kable(digits = 3)
 ```
-  
+   
 A one degree increase in heat index increased the start speed of four-seam fastballs by 0.036 mph (p < 0.001). This is a statistically significant difference, but it is not meaningful.  
 
 ### Pitch speed and maximum daily temperature  
-```{r}
+```{r pitch speed and max temp model}
 pitch_tidy_ff %>% 
   lm(start_speed ~ tmax, data = .) %>%  
   broom::tidy() %>% 
   knitr::kable(digits = 3)
 ```
-  
+   
 A one degree increase in maximum daily temperature increased the start speed of four-seam fastballs by 0.037 mph (p < 0.0001). This result is nearly identical to the heat index model.  
 
 ### Pitch speed by inning  
@@ -563,7 +531,7 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-  
+   
 A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p < 0.001). This may be due to closers coming into the game and throwing more heat. Two-tenths of a mph most likely does not make a difference on a per at-bat basis. 
 
 ### Pitch speed by inning, controlled for pitcher (top 200 fastball throwers)  
@@ -583,11 +551,11 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3) 
   
 ```
-  
+   
 After adjusting for pitcher, the effect of inning is only an increase of 0.002 mph per inning (p = 0.03). The effect of inning will not be carried forward to further weather analysis.  
 
 ### Pitch speed and heat index, controlled for pitcher (top 200 fastball throwers)  
-```{r}
+```{r fastball throwers}
 
 pitch_tidy_ff %>% 
   filter(pitcher_name != "NA") %>% 
@@ -603,11 +571,11 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-  
+   
 After adjusting for pitcher, a one degree Celsius increase in heat index is associated with a 0.027 mph increase in fastball speed (p < 0.001). This is less of an effect than the model unadjusted for pitcher.  
 
 ### Pitch speed and heat index, controlled for home team 
-```{r}
+```{r pitch speed and heat index}
 
 pitch_tidy_ff %>% 
   lm(start_speed ~ heat_index + home, data = .) %>%  
@@ -615,7 +583,7 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-  
+   
 After adjusting for game location, a one degree Celsius increase in heat index is associated with a 0.04 mph increase in fastball speed (p < 0.001). This is still a small effect, but is larger than the other models considered. A 10 degree increase in heat index is associated with a 0.4 mph increase in speed, which could make a difference at the professional level.  
 
 ### Future statistical analysis  
