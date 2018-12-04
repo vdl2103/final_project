@@ -181,9 +181,11 @@ PITCHf/x is a system of cameras set up at every MLB baseball stadium that collec
 
 #### Helpful packages
 
-We gathered PITCHf/x data from using the r package “pitchRx” (https://pitchrx.cpsievert.me/).  The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date. The pitchRx also includes 
+We gathered PITCHf/x data using the r package “pitchRx” (https://pitchrx.cpsievert.me/).  The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date.
 
 Gathering a large amount of pitch data, however, may use up too much random-access memory. To solve this problem, we used the “dplyr” package to create an SQLite database, which aids in memory management. 
+
+The baseball data used for this project can be accessed by Google Drive here: (https://drive.google.com/drive/u/0/search?q=sqlite)
 
 #### Gathering pitch data
 
