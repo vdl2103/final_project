@@ -227,7 +227,7 @@ pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>%
   filter(!home %in% c("aas", "nas", "tor", "ari", "sea", "hou", "tba", "mia", "1", "2")) %>%  
   separate(date, c("y", "m", "d")) %>% 
   # Retain only some of 81 variables, to make the size of the dataset easier to work with 
-  select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type) 
+  select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type, home, away) 
 
   # Remove unneeded intermediary data sets to clean environment
   rm(atbat, my_db, pitch, team_names, weather_db, tdmean, tmax, tmin)

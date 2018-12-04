@@ -230,7 +230,7 @@ $(document).ready(function () {
 <p>By: Brennan Baker, Nicole Comfort, Victoria Lynch, Stephen Lewandowski, Jenni Shearston</p>
 <div id="motivation-and-related-work" class="section level2">
 <h2>Motivation and Related Work</h2>
-<p>Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball, where teams that prioritize [sabermetrics] (<a href="https://sabr.org/sabermetrics" class="uri">https://sabr.org/sabermetrics</a>) have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats.</p>
+<p>Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball, where teams that prioritize <a href="https://sabr.org/sabermetrics">sabermetrics</a> have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats.</p>
 <p>Sabermetric analysts sift through this exhaustive amount of data to identify competitive advantages among increasingly similar, dominant players. The arms race between pitchers and hitters has elevated the game, as pitchers are throwing harder and batters are hitting more home runs than at any point in MLB history.</p>
 <p>In addition to assessing player matchups, analysts aim to identify external factors that could influence players’ performances, particularly weather. Over the course of a six-month MLB season, teams expect to play in a range of weather extremes, from 100-degree days in Los Angeles to snowy conditions in Milwaukee in the early spring. A growing body of sabermetric research has found that game-day weather affects <a href="https://journals.ametsoc.org/doi/abs/10.1175/WCAS-D-13-00002.1">the number of home runs</a>, <a href="https://www.betlabssports.com/blog/mlb-runs-scored-influenced-temperature/">total runs scored</a>, and <a href="https://www.fangraphs.com/blogs/what-pitchers-and-numbers-say-about-pitching-in-the-cold/">pitcher ball control</a>.</p>
 <p>Our goal was to build on this body of work by examining the association between weather variables – temperature, humidity, and relative humidity – and the speed of pitches. We hypothesized that on extremely hot days (&gt;35 ºC): 1) pitch speed would decrease and 2) the proportion of non-fastball to fastball pitches would increase. We used the PITCHf/x database from MLB Advanced Media to collect data for every pitch thrown between 2016 and 2018 and extracted daily temperature and humidity measures for each ballpark location from the PRISM database. We conducted exploratory data analysis to identify overall trends between weather variables and pitch speed or pitch type. We also used simple linear regression models to determine the effect of daily heat index and daily maximum temperature on the speed of four-seam fastballs. Finally, we focused on games played at Globe Life Park in Arlington, Texas, home of the Rangers, and examined the pitch speed of visiting pitchers, who presumably have not adapted to the extreme Texas heat, across heat extremes.</p>
@@ -265,7 +265,7 @@ $(document).ready(function () {
 <h4>Google Earth Engine</h4>
 <p>Using the code editor in the Google Earth Engine platform (<a href="https://code.earthengine.google.com" class="uri">https://code.earthengine.google.com</a>), we extracted maximum daily temperature (<code>tmax</code>), minimum daily temperature (<code>tmin</code>), and mean daily dew point temperature (<code>tdmean</code>) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (<a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a>), which we imported to Earth Engine. We used JavaScript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.</p>
 <p><img src = "gee_screen_capture.PNG" height = "500px" width = "400px" /></p>
-<p>Figure 1. The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.</p>
+<p><strong>Fig 1:</strong> The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.</p>
 <p>The JavaScript code for downloading PRISM data is provided at (gee.html). A registered Google account is required to access the code editor.</p>
 </div>
 <div id="tidy-weather-data" class="section level4">
@@ -359,9 +359,9 @@ write_csv(weather, path = &quot;./data/weather.csv&quot;) </code></pre>
 </div>
 <div id="helpful-packages" class="section level4">
 <h4>Helpful packages</h4>
-<p>We gathered PITCHf/x data using the r package “pitchRx” (<a href="https://pitchrx.cpsievert.me/" class="uri">https://pitchrx.cpsievert.me/</a>). The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date.</p>
+<p>We gathered PITCHf/x data using the r package <a href="https://pitchrx.cpsievert.me/">“pitchRx”</a>. The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date.</p>
 <p>Gathering a large amount of pitch data, however, may use up too much random-access memory. To solve this problem, we used the “dplyr” package to create an SQLite database, which aids in memory management.</p>
-<p>The baseball data used for this project can be accessed by Google Drive here: (<a href="https://drive.google.com/drive/u/0/search?q=sqlite" class="uri">https://drive.google.com/drive/u/0/search?q=sqlite</a>)</p>
+<p>The baseball data used for this project can be accessed by Google Drive <a href="https://drive.google.com/drive/u/0/search?q=sqlite">here.</a></p>
 </div>
 <div id="gathering-pitch-data" class="section level4">
 <h4>Gathering pitch data</h4>
@@ -409,13 +409,13 @@ pitch_tidy_db = collect(inner_join(pitch, atbat, by = c(&quot;num&quot;, &quot;u
   left_join(weather_db) %&gt;% 
   # Remove stadiums with a roof
   filter(!home %in% c(&quot;aas&quot;, &quot;nas&quot;, &quot;tor&quot;, &quot;ari&quot;, &quot;sea&quot;, &quot;hou&quot;, &quot;tba&quot;, &quot;mia&quot;, &quot;1&quot;, &quot;2&quot;)) %&gt;%  
-  separate(date, c(&quot;y&quot;, &quot;m&quot;, &quot;d&quot;))
-  # Retain only XX of 81 variables, to make the size of the dataset easier to work with 
-  # select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type) 
+  separate(date, c(&quot;y&quot;, &quot;m&quot;, &quot;d&quot;)) %&gt;% 
+  # Retain only some of 81 variables, to make the size of the dataset easier to work with 
+  select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type, home, away) 
 
   # Remove unneeded intermediary data sets to clean environment
-  rm(atbat, my_db, pitch, team_names, weather_db)</code></pre>
-<p>Our final dataset that combines the pitch and weather data is named <code>pitch_tidy_db</code>. After retaining only certain variables of interest, the dataset incudes 2186391 observations of 81.</p>
+  rm(atbat, my_db, pitch, team_names, weather_db, tdmean, tmax, tmin)</code></pre>
+<p>Our final dataset that combines the pitch and weather data is named <code>pitch_tidy_db</code>. The initial dataset contained 2,186,391 observatins of 81 variables. After retaining only certain variables of interest, the dataset incudes 2186391 observations of 19 variables. We excluded Spring Training games, so that data includes only regular and postseason games. Also, games played at indoor stadiums were excluded, as these may not be affected by weather in the same way.</p>
 <p>We examine missing data in our dataset:</p>
 <pre class="r"><code># Examining pitch speed missing data
 missing_data = pitch_tidy_db %&gt;% 
@@ -449,26 +449,28 @@ propff_db %&gt;%
   geom_point() +
   geom_smooth() +
   labs(
-    title = &quot;Figure 2: Proportion of Thrown Pitches that are Fastballs and Max Temperature&quot;,
-    x = &quot;Proportion of Pitches that are Fastballs&quot;,
-    y = &quot;Max Temperature (C)&quot;
+    title = &quot;Fig 2: Percent of Four-seam Fastballs Thrown and Max Temp&quot;,
+    x = &quot;Percent of Pitches that are Fastballs&quot;,
+    y = &quot;Max Temperature (ºC)&quot;,
+    caption = &quot;Includes all pitches in regular and postseason, 2016-2018&quot;
   )</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="report_draft_two_files/figure-html/prop.%20ff%20and%20tmax-1.png" width="90%" /></p>
+<p><img src="report_draft_two_files/figure-html/prop.%20ff%20and%20tmax-1.png" width="100%" /></p>
 <p>However, the graph indicated that absolutely no association existed between these variables.</p>
 <p>Next, several graphs were created to explore the associations between the speed of fastballs and maximum temperature (AD3). Graphs that depicted fastball speed and temperature overall did not suggest specific associations (not shown), so the data was instead faceted by various variables to explore the potential for variation by items such as pitch outcome, team, and pitch type. As one example below, fastball pitch speed against max temperature was plotted, and then faceted by pitch outcome (such as Strikeout, Walk, Single, etc).</p>
 <pre class="r"><code>pitch_tidy_db %&gt;% 
   filter(pitch_type == &quot;FF&quot;) %&gt;% 
   ggplot(aes(x = tmax, y = start_speed)) +
   geom_point() +
-  facet_wrap(~event) +
+  facet_wrap(~event, ncol = 5) +
   labs(
-    title = &quot;Figure 3: Fastball Pitch Speed and Max Temperature, by Pitch Outcome&quot;,
-    x = &quot;Max Temperature (C)&quot;,
-    y = &quot;Pitch Starting Speed (MPH)&quot;
+    title = &quot;Fig 3: Four-seam Fastball Pitch Speed and Max Temp&quot;,
+    x = &quot;Max Temperature (ºC)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;,
+    caption = &quot;Results faceted by pitch outcome&quot;
   )</code></pre>
-<p><img src="report_draft_two_files/figure-html/ff%20speed%20and%20temp,%20by%20outcome-1.png" width="90%" /></p>
-<p>Interestingly, we can see from the increase in points on the right side of facets such as “Double,” “Flyout,” “Lineout,” “Home Run,” and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches that are slightly slower are more likely to result in hits.</p>
+<p><img src="report_draft_two_files/figure-html/ff%20speed%20and%20temp,%20by%20outcome-1.png" width="100%" /></p>
+<p>Interestingly, we can see from the increase in points on the right side of facets such as “Double,” “Flyout,” “Lineout,” “Home Run,” and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches are slightly slower and thus are more likely to result in hits.</p>
 <p>In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. This possibility was explored next.</p>
 <pre class="r"><code>pitch_tidy_db %&gt;% 
   filter(pitch_type == &quot;FF&quot;) %&gt;% 
@@ -476,11 +478,12 @@ propff_db %&gt;%
   geom_point() +
   facet_wrap(~team_name) +
   labs(
-    title = &quot;Figure 4: Fastball Pitch Speed and Max Temperature, by Home Team&quot;,
-    x = &quot;Max Temperature (C)&quot;,
-    y = &quot;Pitch Starting Speed (MPH)&quot;
+    title = &quot;Fig 4: Four-seam Fastball Pitch Speed and Max Temp&quot;,
+    x = &quot;Max Temperature (ºC)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;,
+    caption = &quot;Faceted by home team&quot;
   )</code></pre>
-<p><img src="report_draft_two_files/figure-html/ff%20speed%20and%20temp,%20by%20home%20team%20name-1.png" width="90%" /></p>
+<p><img src="report_draft_two_files/figure-html/ff%20speed%20and%20temp,%20by%20home%20team%20name-1.png" width="100%" /></p>
 <p>Further analysis restricted pitch type to the four-seam fastball, and facetted by top and bottom of the inning, to see if Rangers’ pitchers were less effected by heat than visiting pitchers. Additionally, a team from a colder climate, the Boston Red Sox, was selected for the same analysis. Month was restricted to September for two reasons: (1) during this month temperatures are in greater flux across the United States, and it may be reasonable to assume Texas is much hotter than other parts of the US and Boston is much colder, and (2) it has been suggested anecdotally that baseball pitchers may be affected most by changes in temperature, rather than by absolute heat or cold, particularly if they are not acclimatized to that temperature.</p>
 <p>The resulting plot is shown below.</p>
 <pre class="r"><code># Texas Rangers Stadium in September
@@ -493,9 +496,10 @@ tr9 = pitch_tidy_db %&gt;%
   geom_smooth() +
   facet_wrap(~inning_side) +
   labs(
-    title = &quot;Fastball Pitch Speed and Max Temperature&quot;, subtitle = &quot;Texas Rangers&quot;,
-    x = &quot;Max Temperature (C)&quot;,
-    y = &quot;Pitch Starting Speed (MPH)&quot;
+    title = &quot;Fig 5: Fastball Pitch Speed and Max Temperature&quot;, subtitle = &quot;@Texas Rangers&quot;,
+    x = &quot;Max Temperature (ºC)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;,
+    caption = &quot;Away Team Pitches in Bottom of Inning&quot;
   ) +
   theme(legend.position = &quot;none&quot;)
 
@@ -509,8 +513,8 @@ brs9 = pitch_tidy_db %&gt;%
   geom_smooth() +
   facet_wrap(~inning_side) +
   labs(
-    title = &quot;&quot;, subtitle = &quot;Boston Red Sox&quot;,
-    x = &quot;Max Temperature (C)&quot;,
+    title = &quot;&quot;, subtitle = &quot;@Boston Red Sox&quot;,
+    x = &quot;Max Temperature (ºC)&quot;,
     y = &quot;Pitch Starting Speed (MPH)&quot;,
     caption = &quot;Pitchers = Colors, Month = September&quot;
   ) +
@@ -522,7 +526,7 @@ library(patchwork)
 tr9 + brs9</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;
 ## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="report_draft_two_files/figure-html/ff%20speed%20and%20tmax%20in%20sept,%20rangers%20and%20red%20sox%20stadiums-1.png" width="90%" /></p>
+<p><img src="report_draft_two_files/figure-html/ff%20speed%20and%20tmax%20in%20sept,%20rangers%20and%20red%20sox%20stadiums-1.png" width="100%" /></p>
 <p>In the plot, we can see that in Arlington, Texas, at the Texas Rangers’s Stadium, the Rangers appear to be less effected by variations in temperature, whereas visiting pitchers (the bottom of the inning) have a decrease in fastball speed at high temperatures. However, it should be noted that this trend may be driven by one visiting pitcher with particularly slow pitches in hotter weather. In Boston, it appears that visiting pitchers have decreases in fastball speed at colder temperatures, whereas Red Sox pitchers are more consistent regardless of temperature.</p>
 </div>
 <div id="relative-humidity" class="section level3">
@@ -560,7 +564,7 @@ pitch_tidy_db =
                            team_name == &quot;San Francisco Giants&quot; |
                            team_name == &quot;Colorado Rockies&quot;, &quot;west&quot;,
                   ifelse(team_name == &quot;Atlanta Braves&quot;, &quot;southeast&quot;, &quot;&quot;))))))</code></pre>
-<p>When examining the association between relative humidity and pitch start speed (all pitches and by pitch type), across all US regions, we found no associations. Heat index incorporates temperature and relative humidity, so we next looked at whether that would be more informative.</p>
+<p>When examining the association between relative humidity and pitch start speed (all pitches and by pitch type, not shown), across all US regions, we found no associations. Heat index incorporates temperature and relative humidity, so we next looked at whether that would be more informative.</p>
 </div>
 <div id="heat-index" class="section level3">
 <h3>Heat Index</h3>
@@ -572,7 +576,7 @@ pitch_tidy_db %&gt;%
   group_by(team_name) %&gt;% 
   filter(is.na(heat_index)) %&gt;% # we are missing pitch speed for 62,971 pitches 
   count() %&gt;% 
-  ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even </code></pre>
+  ungroup()</code></pre>
 <pre><code>## # A tibble: 4 x 2
 ##   team_name              n
 ##   &lt;chr&gt;              &lt;int&gt;
@@ -580,77 +584,44 @@ pitch_tidy_db %&gt;%
 ## 2 Cincinnati Reds      275
 ## 3 New York Mets        260
 ## 4 Pittsburgh Pirates   320</code></pre>
-<pre class="r"><code># # distribution by stadium
-# pitch_tidy_db %&gt;% 
-#   ggplot(aes(x = heat_index, fill = team_name)) + 
-#   geom_density(alpha = .4, adjust = .5)
-# # we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
-
-# # numerical summary
-# skim(pitch_tidy_db$heat_index)
-# 
-# heat_index_df =
-#   pitch_tidy_db %&gt;%
-#   group_by(team_name, m) %&gt;%
-#   summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
-#             median_heat_index = median(heat_index),
-#             sd_heat_index = sd(heat_index))
-
-# # plot the above table/info 
-# heat_index_df %&gt;% 
-#   ggplot(aes(x = m, y = mean_heat_index, color = team_name)) +
-#   geom_point() + geom_line()
-
-
-# the teams with the greatest range/variability in heat index are the Minnesota Twins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
-
-# the teams with the lowest range/variability in heat index (excluding values of 0.00) are the Los Angeles Angels of Anaheim, Detroit Tigers, Chicago White Sox, St. Louis Cardinals
-
-# maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
-
-# pitch_tidy_db %&gt;% 
-#   filter(team_name == &quot;Washington Nationals&quot;) %&gt;% 
-#   ggplot(aes(x = m, y = start_speed)) +
-#   geom_boxplot()
-# tried adding geom_jitter but there are too many points 
-# more outliers at the warmer months with hotter heat index, but overall start speed looks the same </code></pre>
 <p>While the Cubs were missing the most heat index data, the distribution of missing heat index data was fairly evenly distributed across all teams. The distribution of the heat index overall is normally distributed (not shown).</p>
 <p>We next explored the distribution of the heat index across US regions the stadiums fall in:</p>
 <pre class="r"><code># heat index distribution by US region 
 pitch_tidy_db %&gt;% 
   ggplot(aes(x = heat_index, fill = US_region)) + 
-  geom_density(alpha = .4, adjust = .5)</code></pre>
-<p><img src="report_draft_two_files/figure-html/heat%20index%20distributions-1.png" width="90%" /></p>
-<pre class="r"><code>pitch_tidy_db %&gt;% 
-  ggplot(aes(x = heat_index)) + 
   geom_density(alpha = .4, adjust = .5) +
   facet_wrap(~US_region) +
     labs(
-    title = &quot;Distribution of Heat Index by US Region&quot;,
+    title = &quot;Fig 6: Distribution of Heat Index by US Region&quot;,
     x = &quot;Heat Index (ºC)&quot;,
-    y = &quot;Density&quot;
-  )</code></pre>
-<p><img src="report_draft_two_files/figure-html/heat%20index%20distributions-2.png" width="90%" /></p>
+    y = &quot;Density&quot;) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="report_draft_two_files/figure-html/heat%20index%20distributions-1.png" width="100%" /></p>
 <p>The Southwest, followed by the the Southeast, had the highest heat index. The west had a fairly normal distribution, and appeared to be the most stable and pleasant. The Southeast and Southwest had skewed distributions.</p>
-<p>Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC), particularly for four-seam fastballs in the Southwest and West.</p>
+<p>Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly increase at extreme heat indexes (e.g. over 35 ºC). However, there are also increased outliers, i.e. slower pitches, at higher heat indexes.</p>
 <pre class="r"><code># pitch speed (all types) vs. heat index, colored by US region 
 pitch_tidy_db %&gt;% 
-  ggplot(aes(x = heat_index, y = start_speed, color = US_region)) +
+  filter(pitch_type != &quot;AB&quot;) %&gt;% 
+  filter(pitch_type != &quot;UN&quot;) %&gt;% 
+  filter(pitch_type != &quot;NA&quot;) %&gt;% 
+  mutate(Region = US_region) %&gt;% 
+  ggplot(aes(x = heat_index, y = start_speed, color = Region)) +
   geom_point(alpha = .3) +
-  facet_wrap(~pitch_type) +
+  facet_wrap(~pitch_type, ncol = 3) +
     labs(
-    title = &quot;Pitch Start Speed vs. Heat Index&quot;, subtitle = &quot;Colored by US Region&quot;,
+    title = &quot;Fig 7: Pitch Start Speed vs. Heat Index&quot;, subtitle = &quot;Colored by US Region&quot;,
     x = &quot;Heat Index (ºC)&quot;,
-    y = &quot;Pitch Starting Speed (MPH)&quot;
+    y = &quot;Pitch Starting Speed (MPH)&quot;,
+    caption = &quot;Faceted by Pitch Type (link to key below)&quot;
   )</code></pre>
-<p><img src="report_draft_two_files/figure-html/pitch%20speed%20(all%20types)%20vs.%20heat%20index-1.png" width="90%" /></p>
+<p><img src="report_draft_two_files/figure-html/pitch%20speed%20(all%20types)%20vs.%20heat%20index-1.png" width="100%" /> <a href="https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/">Pitch Type Key</a></p>
 <p>However, when examining this further by categorizing heat index (e.g. above and below 35) and looking at the relationship between pitch speed and heat index, there was no obvious association.</p>
 </div>
 </div>
 <div id="additional-anlaysis-plots" class="section level2">
 <h2>Additional Anlaysis: Plots</h2>
 <p>The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers’s stadium in Arlington, Texas was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.</p>
-<p>Access the Shiny plot [here] (<a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/" class="uri">https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/</a>).</p>
+<p>Access the Shiny plot <a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/">here</a>.</p>
 </div>
 <div id="statistical-analysis-linear-models" class="section level2">
 <h2>Statistical Analysis: Linear Models</h2>
