@@ -170,7 +170,9 @@ pitch_tidy_ff %>%
   left_join(., pitch_tidy_ff, by = "pitcher_name") %>% 
   lm(start_speed ~ inning + pitcher_name, data = .) %>%  
   broom::tidy() %>% 
-  knitr::kable(digits = 3)
+  slice(1:5) %>% 
+  knitr::kable(digits = 3) 
+  
 ```
 
 After adjusting for pitcher, the effect of inning is only an increase of 0.002 mph per inning (p = 0.03). The effect of inning will not be carried forward to further weather analysis.
@@ -188,6 +190,7 @@ pitch_tidy_ff %>%
   left_join(., pitch_tidy_ff, by = "pitcher_name") %>% 
   lm(start_speed ~ heat_index + pitcher_name, data = .) %>%  
   broom::tidy() %>% 
+  slice(1:5) %>% 
   knitr::kable(digits = 3)
 
 ```
