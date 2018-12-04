@@ -34,9 +34,9 @@ The baseball data used for this project can be accessed here: https://drive.goog
 If you intend to knit the R Markdown document to replicate this project, be sure the following packages are installed:  
 
 `install.packages("tidyverse")`  
-`install.packages("lubridate")`
-`install.packages("pitchRx")`  
-`install.packages("knitr")`
-`install.packages("kableExtra")` 
-`install.packages("weathermetrics")` 
+`install.packages("lubridate")`  
+`install.packages("pitchRx")`    
+`install.packages("knitr")`  
+`install.packages("kableExtra")`   
+`install.packages("weathermetrics")`   
 `install.packages("patchwork")`
