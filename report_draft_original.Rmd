@@ -32,10 +32,6 @@ Advanced statistical analytics are central to evaluating players, developing tea
 
 Sabermetric analysts sift through this exhaustive amount of data to identify competitive advantages among increasingly similar, dominant players. The arms race between pitchers and hitters has elevated the game, as pitchers are throwing harder and batters are hitting more home runs than at any point in MLB history. 
 
-```{r}
-# TABLE FOR PITCH SPEED OVER TIME 
-```
-
 In addition to assessing player matchups, analysts aim to identify external factors that could influence players’ performances, especially weather.  Over the course of a six-month MLB season, teams expect to play in a range of weather extremes, from 100-degree days in Arlington, Texas to snowy conditions in Milwaukee, Wisconsin in the early spring. A growing body of sabermetric research has found that game-day weather affects umpiring decisions, pitcher ball control, and distance of hits (and thereby number of homeruns).  
 
 ## Initial Project Questions
@@ -46,11 +42,9 @@ Initially, our project aimed to answer the following overarching question:
 
 To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
 
-As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:
+As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?  
 
-* Revised question here.
-
-As part of addressing this question, we proposed the following analytic deliverables (AD) in our submitted project proposal: 
+We proposed the following analytic deliverables (AD) in our submitted project proposal: 
 
 * Linear model for the effect of temperature on pitch speed (fastball), adjusted for pitcher and other covariates to be determined. (AD1)
 
@@ -511,10 +505,6 @@ pitch_tidy_db %>%
   )
 # west has pretty normal distribution, southeast and southwest skewed 
 
-=======
-```{r}
-#Brennan - add shiny plot in here
->>>>>>> 376b2d6b714edd4f03e49db1f82b4564e9f81571
 ```
 
 Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC). 
