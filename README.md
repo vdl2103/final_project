@@ -40,7 +40,6 @@ To knit the report Rmarkdown and recreate this project, ensure the following fil
 * team_abbrv.csv
 * tmax_ballpark_PRISM.csv
 * tmin_ballpark_PRISM.csv
-* weather.csv
 
 ### Needed Packages
 
