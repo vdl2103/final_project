@@ -1,14 +1,14 @@
 # Hot Humid Baseball
 
-Welcome to our Hot Humid Baseball project github!
+Welcome to our Hot Humid Baseball project github, by Brennan Baker, Nicole Comfort, Stephen Lewandowski, Victoria Lynch, and Jenni Shearston. 
 
 ### Project Overview
 
 In order to review our project, please use the following documents:
 
-Website: 
+**Website:** 
 
-Report: report_draft_original.md
+**Report:** report_draft_original.md
 
 ### Data
 
@@ -28,6 +28,19 @@ The joined and cleaned weather dataframe, `weather.csv`, is available at:
 "weather.csv" : https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W
 
 The baseball data used for this project can be accessed here: https://drive.google.com/drive/u/0/search?q=sqlite
+
+The baseball team abbreviation file can be accessed here: https://drive.google.com/file/d/1IUVXPXsG_vuuIRoMJxzHgMLBWV4D4Kx7/view?usp=sharing
+
+
+To knit the report Rmarkdown and recreate this project, ensure the following files are downloaded and placed into a "data" folder:
+
+* GAmedayDB.sqlite3
+* stadium_index.csv
+* tdmean_ballpark_PRISM.csv
+* team_abbrv.csv
+* tmax_ballpark_PRISM.csv
+* tmin_ballpark_PRISM.csv
+* weather.csv
 
 ### Needed Packages
 
