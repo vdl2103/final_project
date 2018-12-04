@@ -158,9 +158,10 @@ A one inning increase is associated with a 0.197 mph increase in the start speed
 ### Controlled for pitcher (top 200 fastball throwers)
 ```{r}
 
-pitch_tidy_ff %>% 
-  lm(start_speed ~ inning, data = .) %>%  
-  broom::tidy() %>% 
-  knitr::kable(digits = 3)
+#pitch_tidy_ff %>% 
+ # lm(start_speed ~ inning, data = .) %>%  
+#  broom::tidy() %>% 
+#  knitr::kable(digits = 3)
 ```
 
+test change
