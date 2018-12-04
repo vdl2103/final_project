@@ -8,7 +8,7 @@ In order to review our project, please use the following documents:
 
 **Website:** 
 
-**Report:** report_draft_original.md
+**Report:** report_draft_two.html
 
 ### Data
 
@@ -32,7 +32,7 @@ The baseball data used for this project can be accessed here: https://drive.goog
 The baseball team abbreviation file can be accessed here: https://drive.google.com/file/d/1IUVXPXsG_vuuIRoMJxzHgMLBWV4D4Kx7/view?usp=sharing
 
 
-To knit the report Rmarkdown and recreate this project, ensure the following files are downloaded and placed into a "data" folder:
+To knit the report Rmarkdown, ensure the following files are downloaded and placed into a "data" folder:
 
 * GamedayDB.sqlite3
 * stadium_index.csv
@@ -41,11 +41,11 @@ To knit the report Rmarkdown and recreate this project, ensure the following fil
 * tmax_ballpark_PRISM.csv
 * tmin_ballpark_PRISM.csv
   
-*Please note that it will take approximately 15 minutes to knit this project.* 
+*Please note that it will take approximately 15 minutes to knit this report.* 
   
 ### Needed Packages
 
-If you intend to knit the R Markdown document to replicate this project, be sure the following packages are installed:  
+If you intend to knit the R Markdown document to replicate this report, be sure the following packages are installed:  
 
 `install.packages("tidyverse")`  
 `install.packages("lubridate")`  
