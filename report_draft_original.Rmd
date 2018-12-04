@@ -534,6 +534,8 @@ However, when examining this further by categorizing heat index (e.g. above and 
 
 The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers's stadium was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.
 
+(https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/)
+
 ## Additional Analysis: Models
 ```{r}
 #Stephen
