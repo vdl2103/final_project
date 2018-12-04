@@ -1,5 +1,5 @@
 ---
-title: "Report - first draft"
+title: "Report - Hot Humid Basball"
 output: 
   github_document:
     toc: true
@@ -24,7 +24,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ```
 
-# REPORT- FIRST DRAFT 
+By: Brennan Baker, Nicole Comfort, Victoria Lynch, Stephen Lewandowski, Jenni Shearston
 
 ## Motivation and Related Work
 
@@ -34,15 +34,15 @@ Sabermetric analysts sift through this exhaustive amount of data to identify com
 
 In addition to assessing player matchups, analysts aim to identify external factors that could influence players’ performances, especially weather.  Over the course of a six-month MLB season, teams expect to play in a range of weather extremes, from 100-degree days in Arlington, Texas to snowy conditions in Milwaukee, Wisconsin in the early spring. A growing body of sabermetric research has found that game-day weather affects umpiring decisions, pitcher ball control, and distance of hits (and thereby number of homeruns).  
 
-## Initial Project Questions
+## Project Questions
 
 Initially, our project aimed to answer the following overarching question:
 
 * What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.  
 
-To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
+To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on four-seam fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
 
-As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?  
+As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?  
 
 We proposed the following analytic deliverables (AD) in our submitted project proposal: 
 
@@ -58,7 +58,7 @@ We proposed the following analytic deliverables (AD) in our submitted project pr
 
 ## Collecting and Tidying Data
 
-**Stephen or Brennan to add intro sentences for data section as a general overview of the process that's detailed below?** 
+Data were collected in two major chunks: weather data from the PRISM Climate Group and baseball data from Pitchf/x. The process for scraping and pulling data is described below in detail, and data is housed on a series of Google Drive documents, linked below. 
 
 ### Weather data - Overview
 
@@ -95,7 +95,7 @@ The joined and cleaned weather dataframe, `weather.csv`, is available at:
 
 "weather.csv" : https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W
 
-### Weather data - Complete pipeline
+#### Weather data - Complete pipeline
 
 See the code chunks below for the steps that were discussed above.
 **Or Stephen, intermingle these code chunks with the text above as appropriate so that we're not repeating oursevles too much??** 
