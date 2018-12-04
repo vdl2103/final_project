@@ -1,0 +1,129 @@
+---
+title: "PRISM"
+---
+```{r prism_code, include = FALSE}
+# This page provides example code to access PRISM model data in Google Earth Engine
+```
+
+## Google Earth Engine code editor
+
+The code below may be used to download PRISM data tables for a desired weather parameter at specified locations and over a specified time period (account required).
+
+This example provides a table for daily `tdmean` at MLB ballparks in the United States.
+Other bands such as `tmax` or `tmin` may be substituted for `tdmean`following "Create a collection of triplets".
+
+The Google Earth Engine API "Tables and Vectors" tutorial video and companion slides provide additional information on these steps.  
+
+Video link: https://developers.google.com/earth-engine/tutorials#tables-and-vectors  
+Slides link: https://docs.google.com/presentation/d/1D7rezUHPElCfYWHMRNBChHjbEv6nXDD8xnh7_YgyK6A/edit#slide=id.g21c09d71c4_0_0  
+
+
+### JavaScript code to download PRISM data
+
+// First, import ImageCollection ID: "OREGONSTATE/PRISM/AN81d", PRISM Daily Spatial Climate Dataset AN81d  
+
+
+// Load a Fusion Table from the ID using the FeatureCollection constructor.  
+
+var ballpark = ee.FeatureCollection("ft:1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN"); 
+ 
+var usa = ee.FeatureCollection("ft:1ksBc_-cWnek37HFTMr0FXfBtOETBeYYbB1YeSg");  
+   
+// Load PRISM input imagery.  
+var tmax = ee.ImageCollection(PRISM)  
+.filterDate('2015-04-01', '2018-10-31')  
+.select('tmax');  
+
+
+var tmin = ee.ImageCollection(PRISM)  
+.filterDate('2015-04-01', '2018-10-31')  
+.select('tmin');  
+
+
+var tdmean = ee.ImageCollection(PRISM)  
+.filterDate('2015-04-01', '2018-10-31')  
+.select('tdmean');  
+
+
+/////////////////////////////////////////////////////////  
+
+//Create a collection of triplets, {imageID, ballpark, first}:  
+
+var triplets = tdmean.map(function(image) {  
+  return image.select('tdmean').reduceRegions({  
+    collection: ballpark.select(['Team Name']),  
+    reducer: ee.Reducer.first(),   
+    scale: 1000  
+  }).filter(ee.Filter.neq('first', null))  
+    .map(function(f) {   
+      return f.set('imageId', image.id());  
+    });  
+}).flatten();  
+
+print(triplets.first());  //properties: ballpark, imageId, first  
+
+//////////////////////////////////////////////////////////////////////////  
+
+// Format a table of triplets into a 2D table of rowId x colId.  
+var format = function(table, rowId, colId) {  
+  // Get a FeatureCollection with unique row IDs.  
+  var rows = table.distinct(rowId);  
+  // Join the table to the unique IDs to get a collection in which  
+  // each feature stores a list of all features having a common row ID.   
+  var joined = ee.Join.saveAll('matches').apply({  
+    primary: rows,     
+    secondary: table,   
+    condition: ee.Filter.equals({  
+      leftField: rowId,   
+      rightField: rowId  
+    })  
+  });  
+  
+  return joined.map(function(row) {  
+      // Get the list of all features with a unique row ID.  
+      var values = ee.List(row.get('matches'))  
+        // Map a function over the list of rows to return a list of  
+        // column ID and value.  
+        .map(function(feature) {  
+          feature = ee.Feature(feature);  
+          return [feature.get(colId), feature.get('first')];  
+        });  
+      // Return the row with its ID property and properties for  
+      // all matching columns IDs storing the output of the reducer.  
+      // The Dictionary constructor is using a list of key, value pairs.  
+      return row.select([rowId]).set(ee.Dictionary(values.flatten()));  
+    });  
+};  
+  
+
+var table1 = format(triplets, 'Team Name', 'imageId');  
+var desc2 = 'tdmean';  
+  
+Export.table.toDrive({  
+  collection: table1,  
+  description: desc2,   
+  fileNamePrefix: desc2,  
+  fileFormat: 'CSV'  
+});  
+
+  
+
+## Map Example of PRISM output  
+Earth Engine can also produce maps and charts.    
+
+
+Variable Selection: weather parameter of interest, date averaging period, visualization scale and colors.  
+  
+
+### Map code  
+  
+var prism = ee.ImageCollection('OREGONSTATE/PRISM/AN81d')  
+                  .filter(ee.Filter.date('2018-07-05', '2018-07-06'));  
+var tmaxMap = prism.select('tmax');  
+var tmaxVis = {  
+  min: 20.0,  
+  max: 45.0,  
+  palette: ['yellow', 'orange', 'red'],  
+};  
+Map.setCenter(-100.55, 40.71, 4);  
+Map.addLayer(tmaxMap, tmaxVis, 'tmax');  
