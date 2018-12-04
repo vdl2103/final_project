@@ -544,7 +544,7 @@ A one degree increase in heat index increased the start speed of four-seam fastb
 ### Pitch speed and maximum daily temperature  
 ```{r}
 pitch_tidy_ff %>% 
-  lm(start_speed ~ tmax, data = .) %>% summary()
+  lm(start_speed ~ tmax, data = .) %>%  
   broom::tidy() %>% 
   knitr::kable(digits = 3)
 ```
