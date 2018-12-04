@@ -227,7 +227,7 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>pitch_tidy_db &lt;- read.csv(&quot;./data/pitch_tidy_db.csv&quot;) %&gt;%
-  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tmax, tmin, tmean, tdmean, heat_index, rh) %&gt;% 
+  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tfs_zulu, tmax, tmin, tmean, tdmean, heat_index, rh) %&gt;% 
   mutate(home = factor(home),
          away = factor(away),
          pitcher_name = factor(pitcher_name),
@@ -1401,7 +1401,15 @@ inning
 </tr>
 </tbody>
 </table>
-<p>A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p &lt; 0.001).</p>
+<p>A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p &lt; 0.001). This may be due to closers coming into the game and throwing more heat.</p>
+</div>
+<div id="controlled-for-pitcher-top-200-fastball-throwers" class="section level3">
+<h3>Controlled for pitcher (top 200 fastball throwers)</h3>
+<pre class="r"><code>#pitch_tidy_ff %&gt;% 
+ # lm(start_speed ~ inning, data = .) %&gt;%  
+#  broom::tidy() %&gt;% 
+#  knitr::kable(digits = 3)</code></pre>
+<p>test change</p>
 </div>
 </div>
 
