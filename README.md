@@ -40,7 +40,9 @@ To knit the report Rmarkdown and recreate this project, ensure the following fil
 * team_abbrv.csv
 * tmax_ballpark_PRISM.csv
 * tmin_ballpark_PRISM.csv
-
+  
+*Please note that it will take approximately 15 minutes to knit this project.* 
+  
 ### Needed Packages
 
 If you intend to knit the R Markdown document to replicate this project, be sure the following packages are installed:  
