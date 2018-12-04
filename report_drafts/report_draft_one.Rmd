@@ -44,7 +44,7 @@ Initially, our project aimed to answer the following overarching question:
 
 * What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.  
 
-To operationalize this, we focused on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
+To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
 
 As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:
 
@@ -243,7 +243,7 @@ pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>%
 
 ```
 
-Our final dataset that combines the pitch and weather data is named `pitch_tidy_db`.
+Our final dataset that combines the pitch and weather data is named `pitch_tidy_db`. After retaining only certain variables of interest, the dataset incudes `r nrow(pitch_tidy_db)` observations of `r ncol(pitch_tidy_db)`. 
 
 We examine missing data in our dataset: 
 
