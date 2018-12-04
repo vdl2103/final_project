@@ -34,7 +34,7 @@ The baseball team abbreviation file can be accessed here: https://drive.google.c
 
 To knit the report Rmarkdown and recreate this project, ensure the following files are downloaded and placed into a "data" folder:
 
-* GAmedayDB.sqlite3
+* GamedayDB.sqlite3
 * stadium_index.csv
 * tdmean_ballpark_PRISM.csv
 * team_abbrv.csv
