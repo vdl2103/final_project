@@ -27,16 +27,16 @@ The joined and cleaned weather dataframe, `weather.csv`, is available at:
 
 "weather.csv" : https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W
 
-The baseball data used for this project can be accessed here: (https://drive.google.com/drive/u/0/search?q=sqlite)
+The baseball data used for this project can be accessed here: https://drive.google.com/drive/u/0/search?q=sqlite
 
 ### Needed Packages
 
 If you intend to knit the R Markdown document to replicate this project, be sure the following packages are installed:  
 
-`install.packages("tidyverse")  
-install.packages("lubridate")  
-install.packages("pitchRx")  
-install.packages("knitr")  
-install.packages("kableExtra")  
-install.packages("weathermetrics")  
-install.packages("patchwork")`
+`install.packages("tidyverse")`  
+`install.packages("lubridate")`
+`install.packages("pitchRx")`  
+`install.packages("knitr")`
+`install.packages("kableExtra")` 
+`install.packages("weathermetrics")` 
+`install.packages("patchwork")`
