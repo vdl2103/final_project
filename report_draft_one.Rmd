@@ -11,7 +11,16 @@ knitr::opts_chunk$set(
   out.width = "90%"
 )
 
-theme_set(theme_bw() + theme(legend.position = "bottom"))
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(lubridate)
+library(pitchRx)
+library(RMySQL)
+library(weathermetrics)
+
+
+#theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
 
 ### REPORT- FIRST DRAFT 
