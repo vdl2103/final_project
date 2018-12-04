@@ -42,11 +42,11 @@ Our goal was to build on this body of work by examining the association between 
 
 Initially, our project aimed to answer the following overarching question:
 
-* What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.  
+* What is the association between weather and the speed and type of baseball pitches? 
 
-To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on four-seam fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
+To operationalize this, we obtained MLB data and daily weather data for 2016-2018, using  **maximum (max) temperature (ºC), relative humidity, and heat index (ºC)** as weather variables. We then focused on four-seam fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index, as pitchers try to throw them as fast as possible to gain a competitive edge.  
 
-As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?  
+As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team location, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?  
 
 We proposed the following analytic deliverables (AD) in our submitted project proposal: 
 
@@ -103,7 +103,7 @@ The joined and cleaned weather dataframe, `weather.csv`, is available at:
 
 See the code below for the above-described steps.
 
-```{r weather_pipeline}
+```{r weather_pipeline, warning = FALSE, message = FALSE}
 # Import stadium index
 stadium_index = read_csv("./data/stadium_index.csv")
 
@@ -176,7 +176,7 @@ The baseball data used for this project can be accessed by Google Drive here: (h
 
 The data was scraped into an SQlite3 database that was stored on a personal computer so that the user did not have to scrape it at a later time. We brought this data into an R session by creating SQlite3 database representations (called "pitch" and "atbat" below). Finally, we loaded in the weather data, an index of the team names, and their corresponding abbreviations.
 
-```{r import all data}
+```{r import all data, warning=FALSE, message=FALSE}
 
 # The first argument is the path to the SQlite database. 
 # If create is set to TRUE, the code will create a new SQlite3 database at the specified path if it does not exist. If the path does exist, it will connect to the existing database.
@@ -201,11 +201,11 @@ weather_db = read_csv("./data/weather.csv")
 
 ```
 
-## Combining Datasets
+### Combining Datasets
 
 Below, we bring the pitch data into R from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data:
 
-```{r tidy pitch data, message = FALSE}
+```{r tidy pitch data, message = FALSE, warning=FALSE}
 
 # First line collects data into an r dataframe from the pitch and atbat representations established above
 pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>% 
@@ -306,7 +306,7 @@ pitch_tidy_db %>%
 
 Interestingly, we can see from the increase in points on the right side of facets such as "Double," "Flyout," "Lineout," "Home Run," and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches that are slightly slower are more likely to result in hits.
 
-In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. We decided to perform further analysis on this hypothesis; plots are shown in the "Additional Analysis: Plots" section of this report. 
+In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. This possibility was explored next.
 
 ```{r ff speed and temp, by home team name}
 
@@ -338,7 +338,7 @@ tr9 = pitch_tidy_db %>%
   geom_smooth() +
   facet_wrap(~inning_side) +
   labs(
-    title = "Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium", subtitle = "Pitchers = Colors, Month = September",
+    title = "Fastball Pitch Speed and Max Temperature", subtitle = "Texas Rangers",
     x = "Max Temperature (C)",
     y = "Pitch Starting Speed (MPH)"
   ) +
@@ -354,9 +354,10 @@ brs9 = pitch_tidy_db %>%
   geom_smooth() +
   facet_wrap(~inning_side) +
   labs(
-    title = "Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium", subtitle = "Pitchers = Colors, Month = September",
+    title = "", subtitle = "Boston Red Sox",
     x = "Max Temperature (C)",
-    y = "Pitch Starting Speed (MPH)"
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Pitchers = Colors, Month = September"
   ) +
   theme(legend.position = "none")
 
@@ -369,9 +370,9 @@ tr9 + brs9
 
 In the plot, we can see that in Arlington, Texas, at the Texas Rangers's Stadium, the Rangers appear to be less effected by variations in temperature, whereas visiting pitchers (the bottom of the inning) have a decrease in fastball speed at high temperatures. However, it should be noted that this trend may be driven by one visiting pitcher with particularly slow pitches in hotter weather. In Boston, it appears that visiting pitchers have decreases in fastball speed at colder temperatures, whereas Red Sox pitchers are more consistent regardless of temperature.
 
-## Relative Humidity 
+### Relative Humidity 
 
-We also explored the relationship between pitching speeds and **relative humidity.** Relative humidity is a measure of the amount of moisture in the air (expressed as a percentage). Sweat does not evaporate as quickly when the air is moist as it does in a dry climate. Since evaporation of sweat from the skin is one of the ways the human body cools itself on a hot day, high humidity reduces our natural cooling potential and we feel hotter. Low humidity can also be a problem for outdoor workers in hot, desert-like climates. Sweat evaporates very rapidly in low humidity, which can lead to severe dehydration if a person does not drink enough water throughout the day.
+We also explored the relationship between pitching speeds and **relative humidity** (AD4). Relative humidity is a measure of the amount of moisture in the air (expressed as a percentage). Sweat does not evaporate as quickly when the air is moist as it does in a dry climate. Since evaporation of sweat from the skin is one of the ways the human body cools itself on a hot day, high humidity reduces our natural cooling potential and we feel hotter. Low humidity can also be a problem for outdoor workers in hot, desert-like climates. Sweat evaporates very rapidly in low humidity, which can lead to severe dehydration if a person does not drink enough water throughout the day.
 
 Upon examining the distribution of relative humidity across stadiums, we found that it would be more informative to examine the distribution grouped by the US region the stadium falls in, so we created a new variable, `US_region`. 
 
@@ -413,9 +414,9 @@ pitch_tidy_db =
 
 When examining the association between relative humidity and pitch start speed (all pitches and by pitch type), across all US regions, we found no associations. Heat index incorporates temperature and relative humidity, so we next looked at whether that would be more informative. 
 
-## Heat Index 
+### Heat Index 
 
-We first conducted exploratory analyses looking at the **heat index (ºC).**
+We first conducted exploratory analyses looking at the **heat index (ºC)** (AD5).
 
 For people working outdoors in hot weather, both air temperature and humidity affect how hot they feel. The "heat index" is a single value that takes both temperature and humidity into account. The higher the heat index, the hotter the weather feels, since sweat does not readily evaporate and cool the skin. The heat index is a better measure than air temperature alone for estimating the risk to workers from environmental heat sources. Thus, we also assumed that high heat index would negatively affect pitchers' performance. 
 
@@ -473,13 +474,12 @@ While the Cubs were missing the most heat index data, the distribution of missin
 
 We next explored the distribution of the heat index across US regions the stadiums fall in:
 
-```{r heat index distributions}
+```{r heat index distributions, warning=FALSE}
 
 # heat index distribution by US region 
 pitch_tidy_db %>% 
   ggplot(aes(x = heat_index, fill = US_region)) + 
   geom_density(alpha = .4, adjust = .5)
-# southwest followed by southeast has highest heat index, west is most stable/pleasant
 
 pitch_tidy_db %>% 
   ggplot(aes(x = heat_index)) + 
@@ -490,13 +490,14 @@ pitch_tidy_db %>%
     x = "Heat Index (ºC)",
     y = "Density"
   )
-# west has pretty normal distribution, southeast and southwest skewed 
 
 ```
 
-Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC). 
+The Southwest, followed by the the Southeast, had the highest heat index. The west had a fairly normal distribution, and appeared to be the most stable and pleasant. The Southeast and Southwest had  skewed distributions.  
 
-```{r pitch speed (all types) vs. heat index}
+Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC), particularly for four-seam fastballs in the Southwest and West. 
+
+```{r pitch speed (all types) vs. heat index, warning=FALSE}
 
 # pitch speed (all types) vs. heat index, colored by US region 
 pitch_tidy_db %>% 
@@ -508,8 +509,6 @@ pitch_tidy_db %>%
     x = "Heat Index (ºC)",
     y = "Pitch Starting Speed (MPH)"
   )
-# fastball affected by higher heat index??
-# looks like fastball speed decreases with higher heat index (at least in the southwest and west)
 
 ```
 
@@ -517,13 +516,14 @@ However, when examining this further by categorizing heat index (e.g. above and 
 
 ## Additional Anlaysis: Plots
 
-The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers's stadium was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.
+The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers's stadium in Arlington, Texas was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.  
 
-(https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/)
+Access the Shiny plot [here]
+(https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/).
 
 ## Statistical Analysis: Linear Models
 
-We used simple linear regression to examine the effects of daily heat index and daily maximum temperature on the start speed of four-seam fastballs while also considering the effects of the individual pitcher, inning, and ballpark location (home team).
+We used simple linear regression to examine the effects of daily heat index and daily maximum temperature on the start speed of four-seam fastballs while also considering the effects of the individual pitcher, inning, and ballpark location (home team)(AD1).
 
 ```{r filter_ff, include = FALSE}
 
@@ -534,14 +534,15 @@ pitch_tidy_ff <-
 
 ```
 
-### Pitch speed and heat index  
+### Pitch speed and heat index 
+
 ```{r lm_heat}
 pitch_tidy_ff %>% 
-  lm(start_speed ~ heat_index, data = .) 
+  lm(start_speed ~ heat_index, data = .) %>%
   broom::tidy() %>% 
   knitr::kable(digits = 3)
 ```
-
+  
 A one degree increase in heat index increased the start speed of four-seam fastballs by 0.036 mph (p < 0.001). This is a statistically significant difference, but it is not meaningful.  
 
 ### Pitch speed and maximum daily temperature  
@@ -551,9 +552,8 @@ pitch_tidy_ff %>%
   broom::tidy() %>% 
   knitr::kable(digits = 3)
 ```
-
+  
 A one degree increase in maximum daily temperature increased the start speed of four-seam fastballs by 0.037 mph (p < 0.0001). This result is nearly identical to the heat index model.  
-
 
 ### Pitch speed by inning  
 ```{r lm_inning}
@@ -563,9 +563,8 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
+  
 A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p < 0.001). This may be due to closers coming into the game and throwing more heat. Two-tenths of a mph most likely does not make a difference on a per at-bat basis. 
-
-
 
 ### Pitch speed by inning, controlled for pitcher (top 200 fastball throwers)  
 ```{r lm_inning_pitcher}
@@ -584,7 +583,7 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3) 
   
 ```
-
+  
 After adjusting for pitcher, the effect of inning is only an increase of 0.002 mph per inning (p = 0.03). The effect of inning will not be carried forward to further weather analysis.  
 
 ### Pitch speed and heat index, controlled for pitcher (top 200 fastball throwers)  
@@ -604,9 +603,8 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-
+  
 After adjusting for pitcher, a one degree Celsius increase in heat index is associated with a 0.027 mph increase in fastball speed (p < 0.001). This is less of an effect than the model unadjusted for pitcher.  
-
 
 ### Pitch speed and heat index, controlled for home team 
 ```{r}
@@ -617,15 +615,14 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-
+  
 After adjusting for game location, a one degree Celsius increase in heat index is associated with a 0.04 mph increase in fastball speed (p < 0.001). This is still a small effect, but is larger than the other models considered. A 10 degree increase in heat index is associated with a 0.4 mph increase in speed, which could make a difference at the professional level.  
-
 
 ### Future statistical analysis  
 
 Additional analysis could examine non-linear effects of weather on pitch speed. Different approaches could include quantile regression or logistic regression to test weather parameter thresholds.     
 
-
+  
 ## Discussion
 
 The multitude of available MLB data provides a golden opportunity to use statistical analysis to determine how environmental factors, such as weather, impact sports performance at the very apex of human accomplishment. Using data from more than 2.5 million pitches, this project attempted to answer a small portion of this question, by focusing on the impact of temperature, heat index, and relative humidity on starting pitch speed of four-seam fastballs thrown by MLB pitchers in the 2016, 2017, and 2018 seasons.  
