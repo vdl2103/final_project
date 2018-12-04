@@ -1,5 +1,5 @@
 ---
-title: "Report - first draft"
+title: "Report - Hot Humid Basball"
 output: 
   github_document:
     toc: true
@@ -24,7 +24,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ```
 
-# REPORT- FIRST DRAFT 
+By: Brennan Baker, Nicole Comfort, Victoria Lynch, Stephen Lewandowski, Jenni Shearston
 
 ## Motivation and Related Work
 
@@ -32,25 +32,19 @@ Advanced statistical analytics are central to evaluating players, developing tea
 
 Sabermetric analysts sift through this exhaustive amount of data to identify competitive advantages among increasingly similar, dominant players. The arms race between pitchers and hitters has elevated the game, as pitchers are throwing harder and batters are hitting more home runs than at any point in MLB history. 
 
-```{r}
-# TABLE FOR PITCH SPEED OVER TIME 
-```
-
 In addition to assessing player matchups, analysts aim to identify external factors that could influence players’ performances, especially weather.  Over the course of a six-month MLB season, teams expect to play in a range of weather extremes, from 100-degree days in Arlington, Texas to snowy conditions in Milwaukee, Wisconsin in the early spring. A growing body of sabermetric research has found that game-day weather affects umpiring decisions, pitcher ball control, and distance of hits (and thereby number of homeruns).  
 
-## Initial Project Questions
+## Project Questions
 
 Initially, our project aimed to answer the following overarching question:
 
 * What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.  
 
-To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
+To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: **maximum (max) temperature (ºC), relative humidity, and heat index (ºC).** We then focused in on four-seam fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.  
 
-As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:
+As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?  
 
-* Revised question here.
-
-As part of addressing this question, we proposed the following analytic deliverables (AD) in our submitted project proposal: 
+We proposed the following analytic deliverables (AD) in our submitted project proposal: 
 
 * Linear model for the effect of temperature on pitch speed (fastball), adjusted for pitcher and other covariates to be determined. (AD1)
 
@@ -64,7 +58,7 @@ As part of addressing this question, we proposed the following analytic delivera
 
 ## Collecting and Tidying Data
 
-**Stephen or Brennan to add intro sentences for data section as a general overview of the process that's detailed below?** 
+Data were collected in two major chunks: weather data from the PRISM Climate Group and baseball data from Pitchf/x. The process for scraping and pulling data is described below in detail, and data is housed on a series of Google Drive documents, linked below. 
 
 ### Weather data - Overview
 
@@ -101,7 +95,7 @@ The joined and cleaned weather dataframe, `weather.csv`, is available at:
 
 "weather.csv" : https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W
 
-### Weather data - Complete pipeline
+#### Weather data - Complete pipeline
 
 See the code chunks below for the steps that were discussed above.
 **Or Stephen, intermingle these code chunks with the text above as appropriate so that we're not repeating oursevles too much??** 
@@ -187,9 +181,11 @@ PITCHf/x is a system of cameras set up at every MLB baseball stadium that collec
 
 #### Helpful packages
 
-We gathered PITCHf/x data from using the r package “pitchRx” (https://pitchrx.cpsievert.me/).  The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date. The pitchRx also includes 
+We gathered PITCHf/x data using the r package “pitchRx” (https://pitchrx.cpsievert.me/).  The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date.
 
 Gathering a large amount of pitch data, however, may use up too much random-access memory. To solve this problem, we used the “dplyr” package to create an SQLite database, which aids in memory management. 
+
+The baseball data used for this project can be accessed by Google Drive here: (https://drive.google.com/drive/u/0/search?q=sqlite)
 
 #### Gathering pitch data
 
@@ -220,7 +216,7 @@ weather_db = read_csv("./data/weather.csv")
 
 ```
 
-### Combining Datasets
+## Combining Datasets
 
 Below, we bring the pitch data into R from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data:
 
@@ -511,10 +507,6 @@ pitch_tidy_db %>%
   )
 # west has pretty normal distribution, southeast and southwest skewed 
 
-=======
-```{r}
-#Brennan - add shiny plot in here
->>>>>>> 376b2d6b714edd4f03e49db1f82b4564e9f81571
 ```
 
 Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC). 
