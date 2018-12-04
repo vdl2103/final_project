@@ -19,6 +19,9 @@ knitr::opts_chunk$set(
   out.width = "90%"
 )
 
+
+knitr::opts_knit$set(root.dir = '../')
+
 theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 
@@ -501,10 +504,10 @@ pitch_tidy_db %>%
   )
 # west has pretty normal distribution, southeast and southwest skewed 
 
-=======
-```{r}
+# =======
+
 #Brennan - add shiny plot in here
->>>>>>> 376b2d6b714edd4f03e49db1f82b4564e9f81571
+#>>>>>>> 376b2d6b714edd4f03e49db1f82b4564e9f81571
 ```
 
 Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC). 
