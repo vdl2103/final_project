@@ -1,7 +1,5 @@
 ---
-title: "linear_models"
-author: "Stephen Lewandowski"
-date: "November 29, 2018"
+title: "Tables and Models"
 output: github_document
 ---
 
@@ -148,9 +146,9 @@ A one degree increase in heat index increased the start speed of four-seam fastb
 
 ### Pitch speed and maximum daily temperature
 
-```{r}
+```{r lm_tmax}
 pitch_tidy_ff %>% 
-  lm(start_speed ~ tmax, data = .) %>% summary()
+  lm(start_speed ~ tmax, data = .) %>% 
   broom::tidy() %>% 
   knitr::kable(digits = 3)
 ```
@@ -201,7 +199,7 @@ After adjusting for pitcher, the effect of inning is only an increase of 0.002 m
 
 
 ### Pitch speed and heat index, controlled for home team 
-```{r}
+```{r lm_speed_heat_home}
 
 pitch_tidy_ff %>% 
   lm(start_speed ~ heat_index + home, data = .) %>%  
@@ -224,50 +222,48 @@ Additional analysis could examine non-linear effects of weather on pitch speed. 
 ###Scatterplots
 
 #### Speed and Heat index
-```{r}
+```{r speed_heat_plot, warning = FALSE}
 pitch_tidy_ff %>% 
   ggplot(., aes(x = heat_index, y = start_speed)) + 
-    geom_point() + 
-    geom_smooth(method = "lm")
+    geom_point(aes(alpha = 0.5)) + 
+    geom_smooth(method = "lm", color = "green") +
+    geom_smooth(color = "black") +
+    labs(
+      title = "Heat index and fastball speed",
+      x = "pitch speed (mph)",
+      y = "heat index (deg C)"
+    ) 
 
 
 ```
 
 
-#### Inning and Heat index 
-```{r}
+#### Speed and Inning
+```{r inning_heat_plot, warning = FALSE}
 pitch_tidy_ff %>% 
   ggplot(., aes(x = inning, y = start_speed)) + 
     geom_point() + 
     geom_smooth(method = "lm", color = "green") +
-    geom_smooth()
+    geom_smooth() +
+    labs(
+        title = "Inning and fastball speed",
+        x = "inning",
+        y = "pitch speed (mph)"
+      ) 
 ```
-
-#### Speed and Heat index, by pitcher
-```{r}
-pitch_tidy_ff %>% 
-  filter(pitcher_name != "NA") %>% 
-  group_by(pitcher_name) %>% 
-  summarise(n_ff = n()) %>% 
-  arrange(desc(n_ff)) %>% 
-  slice(1:100) %>%
-  ungroup() %>% 
-  left_join(., pitch_tidy_ff, by = "pitcher_name") %>% 
-  ggplot(., aes(x = heat_index, y = start_speed, color = "pitcher_name")) + 
-    geom_point(aes(alpha = 0.5)) + 
-    geom_smooth(method = "lm", color = "green") +
-    geom_smooth(color = "black") +
-    theme(legend.position = "none")
-```
-
 
 
 #### Speed and Heat index, by home stadium
-```{r}
+```{r speed_heat_home_plot, warning = FALSE}
 pitch_tidy_ff %>% 
   ggplot(., aes(x = heat_index, y = start_speed, color = home)) + 
     geom_point() + 
-    geom_smooth(method = "lm")
+    geom_smooth(method = "lm") +
+    labs(
+          title = "Heat index and fastball speed, by home stadium",
+          x = "heat index (deg C)",
+          y = "pitch speed (mph)"
+        ) 
 
 
 ```
