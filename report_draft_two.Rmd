@@ -14,14 +14,7 @@ library(knitr)
 library(kableExtra)
 library(weathermetrics)
 
-knitr::opts_chunk$set(
-  fig.width = 6,
-  fig.asp = .6,
-  out.width = "100%"
-)
-
 theme_set(theme_bw() + theme(legend.position = "bottom"))
-
 
 ```
 
@@ -258,10 +251,9 @@ In order to become familiar with the data, a series of graphs were created to ex
 
 Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fastballs and maximum temperature was created (AD2, below). 
 
-```{r prop. ff and tmax}
+```{r prop. ff and tmax fig 2}
 
 # Create proportion of ff to all pitch dataset
-
 propff_db = pitch_tidy_db %>% 
   mutate(ff = str_detect(pitch_type, "FF")) %>% 
   group_by(y, m, d, tmax) %>% 
@@ -269,6 +261,12 @@ propff_db = pitch_tidy_db %>%
             ff_sum = sum(ff, na.rm = TRUE),
             prop_ff = (ff_sum/n)*100) %>% 
   mutate(prop_ff = round(prop_ff, digits = 1))
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.height = 6,
+  out.width = "90%"
+)
 
 # tmax and proportion of ff  
 
@@ -290,7 +288,13 @@ However, the graph indicated that absolutely no association existed between thes
 
 Next, several graphs were created to explore the associations between the speed of fastballs and maximum temperature (AD3). Graphs that depicted fastball speed and temperature overall did not suggest specific associations (not shown), so the data was instead faceted by various variables to explore the potential for variation by items such as pitch outcome, team, and pitch type. As one example below, fastball pitch speed against max temperature was plotted, and then faceted by pitch outcome (such as Strikeout, Walk, Single, etc).
 
-```{r ff speed and temp, by outcome}
+```{r ff speed and temp, by outcome fig 3}
+
+knitr::opts_chunk$set(
+  fig.width = 11,
+  fig.height = 10,
+  out.width = "100%"
+)
 
 pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
@@ -310,7 +314,13 @@ Interestingly, we can see from the increase in points on the right side of facet
 
 In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. This possibility was explored next.
 
-```{r ff speed and temp, by home team name}
+```{r ff speed and temp, by home team name fig 4}
+
+knitr::opts_chunk$set(
+  fig.width = 10,
+  fig.height = 10,
+  out.width = "95%"
+)
 
 pitch_tidy_db %>% 
   filter(pitch_type == "FF") %>% 
@@ -330,9 +340,15 @@ Further analysis restricted pitch type to the four-seam fastball, and facetted b
 
 The resulting plot is shown below. 
 
-```{r ff speed and tmax in sept, rangers and red sox stadiums}
-# Texas Rangers Stadium in September
+```{r ff speed and tmax in sept, rangers and red sox stadiums fig 5}
 
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.height = 5,
+  out.width = "90%"
+)
+
+# Texas Rangers Stadium in September
 tr9 = pitch_tidy_db %>% 
   filter(pitch_type == "FF" & team_name == "Texas Rangers" & m == "09") %>% 
   ggplot(aes(x = tmax, y = start_speed)) +
@@ -441,7 +457,13 @@ While the Cubs were missing the most heat index data, the distribution of missin
 
 We next explored the distribution of the heat index across US regions the stadiums fall in:
 
-```{r heat index distributions, warning=FALSE}
+```{r heat index distributions fig 6, warning=FALSE}
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.height = 6,
+  out.width = "90%"
+)
 
 # heat index distribution by US region 
 pitch_tidy_db %>% 
@@ -460,7 +482,13 @@ The Southwest, followed by the the Southeast, had the highest heat index. The we
 
 Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly increase at extreme heat indexes (e.g. over 35 ºC). However, there are also increased outliers, i.e. slower pitches, at higher heat indexes. 
 
-```{r pitch speed (all types) vs. heat index, warning=FALSE}
+```{r pitch speed (all types) vs. heat index fig 7, warning=FALSE}
+
+knitr::opts_chunk$set(
+  fig.width = 11,
+  fig.height = 11,
+  out.width = "100%"
+)
 
 # pitch speed (all types) vs. heat index, colored by US region 
 pitch_tidy_db %>% 
@@ -479,6 +507,8 @@ pitch_tidy_db %>%
   )
 
 ```
+
+  
 [Pitch Type Key](https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/)  
 
 However, when examining this further by categorizing heat index (e.g. above and below 35) and looking at the relationship between pitch speed and heat index, there was no obvious association. 
@@ -505,37 +535,48 @@ pitch_tidy_ff <-
 ### Pitch speed and heat index 
 
 ```{r lm_heat}
+
 pitch_tidy_ff %>% 
   lm(start_speed ~ heat_index, data = .) %>%
   broom::tidy() %>% 
   knitr::kable(digits = 3)
+
 ```
-   
+.   
 A one degree increase in heat index increased the start speed of four-seam fastballs by 0.036 mph (p < 0.001). This is a statistically significant difference, but it is not meaningful.  
 
 ### Pitch speed and maximum daily temperature  
 ```{r pitch speed and max temp model}
+
 pitch_tidy_ff %>% 
   lm(start_speed ~ tmax, data = .) %>%  
   broom::tidy() %>% 
   knitr::kable(digits = 3)
+
 ```
-   
+.   
 A one degree increase in maximum daily temperature increased the start speed of four-seam fastballs by 0.037 mph (p < 0.0001). This result is nearly identical to the heat index model.  
 
 ### Pitch speed by inning  
 ```{r lm_inning}
+
 pitch_tidy_ff %>% 
   lm(start_speed ~ inning, data = .) %>%  
   broom::tidy() %>% 
   knitr::kable(digits = 3)
 
 ```
-   
+.   
 A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p < 0.001). This may be due to closers coming into the game and throwing more heat. Two-tenths of a mph most likely does not make a difference on a per at-bat basis. 
 
 ### Pitch speed by inning, controlled for pitcher (top 200 fastball throwers)  
 ```{r lm_inning_pitcher}
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.height = 6,
+  out.width = "90%"
+)
 
 pitch_tidy_ff %>% 
   filter(pitcher_name != "NA") %>% 
@@ -551,7 +592,7 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3) 
   
 ```
-   
+.   
 After adjusting for pitcher, the effect of inning is only an increase of 0.002 mph per inning (p = 0.03). The effect of inning will not be carried forward to further weather analysis.  
 
 ### Pitch speed and heat index, controlled for pitcher (top 200 fastball throwers)  
@@ -571,7 +612,7 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-   
+.   
 After adjusting for pitcher, a one degree Celsius increase in heat index is associated with a 0.027 mph increase in fastball speed (p < 0.001). This is less of an effect than the model unadjusted for pitcher.  
 
 ### Pitch speed and heat index, controlled for home team 
@@ -583,7 +624,7 @@ pitch_tidy_ff %>%
   knitr::kable(digits = 3)
 
 ```
-   
+.   
 After adjusting for game location, a one degree Celsius increase in heat index is associated with a 0.04 mph increase in fastball speed (p < 0.001). This is still a small effect, but is larger than the other models considered. A 10 degree increase in heat index is associated with a 0.4 mph increase in speed, which could make a difference at the professional level.  
 
 ### Future statistical analysis  
