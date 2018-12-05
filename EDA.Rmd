@@ -1,19 +1,15 @@
 ---
-title: "EDA"
+title: "Exploratory Data Analysis"
 ---
 
-#### Methods
-
-- Data from NLDAS and pitchRx
-- 2016 - 2018
-- Removed games played indoors
-
-#### Outliers
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
+knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
-library(skimr)
+library(lubridate)
+library(pitchRx)
+library(knitr)
+library(kableExtra)
+library(weathermetrics)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -25,57 +21,42 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ```
 
-```{r}
-# From Nicole's comfort_graphs.Rmd
 
-# Examining missing data
-eda_1 = complete_db %>% 
-  group_by(team_name) %>% 
-  filter(is.na(heat_index)) %>% # we are missing pitch speed for 62,971 pitches 
-  count() %>% 
-  ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even 
-eda_1
-# examine distribution of heat index
-eda_2 = complete_db %>% 
-  ggplot(aes(x = heat_index)) +
-  geom_histogram()
-# pretty much normally distributed overall
-eda_2
-# distribution by stadium
-eda_3 = complete_db %>% 
-  ggplot(aes(x = heat_index, fill = team_name)) + 
-  geom_density(alpha = .4, adjust = .5)
-# we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
-eda_3
+```{r proportion db, include = FALSE}
+
 
 ```
 
-```{r}
+## Data
 
-# From Jenni's shearston_graphs.Rmd
+As outlined in our 11/07/2018 project proposal, based on previous reports and anecdotal evidence, our group hypothesized that weather would impact Major League Baseball players' pitch speeds. Specifically, we hypothesized that higher temperatures, humidity, and heat index would be negatively associated with pitch speeds. Therefore, our weather variables of interest were: **maximum temperature (ºC), relative humidity (expressed as a percentage), and heat index (ºC).** 
 
-# Create proportion of ff to all pitch dataset
+In order to become familiar with the data, a series of graphs were created to explore potential associations between pitch speed (miles per hour) with our weather variables of interest.
 
-propff_db = pitch_tidy_db %>% 
-  mutate(ff = str_detect(pitch_type, "FF")) %>% 
-  group_by(y, m, d, tmax) %>% 
-  summarise(n = n(),
-            ff_sum = sum(ff, na.rm = TRUE),
-            prop_ff = (ff_sum/n)*100) %>% 
-  mutate(prop_ff = round(prop_ff, digits = 1))
+### Maximum Temperature 
 
-# tmax and proportion of ff  
+Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fastballs and maximum temperature was created (AD2, below). 
 
-propff_db %>%
-  filter(prop_ff != 0) %>% 
-  ggplot(aes(x = prop_ff, y = tmax)) +
-  geom_point() +
-  geom_smooth() +
-  labs(
-    title = "Proportion of Thrown Pitches that are Fastballs and Max Temperature",
-    x = "Proportion of Pitches that are Fastballs",
-    y = "Max Temperature (C)"
-  )
+```{r prop. ff and tmax fig 2, message=FALSE}
+
+
 
 ```
 
+However, the graph indicated that absolutely no association existed between these variables.
+
+Next, several graphs were created to explore the associations between the speed of fastballs and maximum temperature (AD3). Graphs that depicted fastball speed and temperature overall did not suggest specific associations (not shown), so the data was instead faceted by various variables to explore the potential for variation by items such as pitch outcome, team, and pitch type. As one example below, fastball pitch speed against max temperature was plotted, and then faceted by pitch outcome (such as Strikeout, Walk, Single, etc).
+
+```{r ff speed and temp, by outcome fig 3}
+
+```
+
+Interestingly, we can see from the increase in points on the right side of facets such as "Double," "Flyout," "Lineout," "Home Run," and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches are slightly slower and thus are more likely to result in hits.
+
+In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. This possibility was explored next.
+
+```{r ff speed and temp, by home team name fig 4}
+
+
+
+```
