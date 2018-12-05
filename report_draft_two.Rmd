@@ -924,7 +924,7 @@ After adjusting for game location, a one degree Celsius increase in heat index i
 >>>>>>> e7cdbcf03fefee8da0d5a86b54d3dd67713fa682
 ### Future statistical analysis  
 
-Additional analysis could examine non-linear effects of weather on pitch speed. Different approaches could include quantile regression or logistic regression to test weather parameter thresholds.     
+Additional analysis could examine non-linear effects of weather on pitch speed. Different approaches could include segmented regression or generalized additive models to test weather parameter thresholds.     
 
 <<<<<<< HEAD
 
