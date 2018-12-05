@@ -8,11 +8,7 @@ In order to review our project, please use the following documents:
 
 **Website:** 
 
-<<<<<<< HEAD
-**Report:** report_draft_original.md
-=======
 **Report:** report_draft_two.html
->>>>>>> e7cdbcf03fefee8da0d5a86b54d3dd67713fa682
 
 ### Data
 
@@ -35,35 +31,20 @@ The baseball data used for this project can be accessed here: https://drive.goog
 
 The baseball team abbreviation file can be accessed here: https://drive.google.com/file/d/1IUVXPXsG_vuuIRoMJxzHgMLBWV4D4Kx7/view?usp=sharing
 
-
-<<<<<<< HEAD
 To knit the report Rmarkdown and recreate this project, ensure the following files are downloaded and placed into a "data" folder:
 
-* GAmedayDB.sqlite3
-=======
-To knit the report Rmarkdown, ensure the following files are downloaded and placed into a "data" folder:
-
 * GamedayDB.sqlite3
->>>>>>> e7cdbcf03fefee8da0d5a86b54d3dd67713fa682
 * stadium_index.csv
 * tdmean_ballpark_PRISM.csv
 * team_abbrv.csv
 * tmax_ballpark_PRISM.csv
 * tmin_ballpark_PRISM.csv
-<<<<<<< HEAD
-* weather.csv
 
 ### Needed Packages
 
 If you intend to knit the R Markdown document to replicate this project, be sure the following packages are installed:  
-=======
   
 *Please note that it will take approximately 15 minutes to knit this report.* 
-  
-### Needed Packages
-
-If you intend to knit the R Markdown document to replicate this report, be sure the following packages are installed:  
->>>>>>> e7cdbcf03fefee8da0d5a86b54d3dd67713fa682
 
 `install.packages("tidyverse")`  
 `install.packages("lubridate")`  
@@ -72,7 +53,4 @@ If you intend to knit the R Markdown document to replicate this report, be sure 
 `install.packages("kableExtra")`   
 `install.packages("weathermetrics")`   
 `install.packages("patchwork")`
-<<<<<<< HEAD
-=======
 
->>>>>>> e7cdbcf03fefee8da0d5a86b54d3dd67713fa682
