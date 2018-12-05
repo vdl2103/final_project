@@ -45,7 +45,7 @@ To operationalize this, we obtained MLB data and daily weather data for the year
 
 As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team *typically* played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Milwaukee Brewers, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? This led to a revised question:
 
-* Revised question here.
+* Revised question here.  
 
 As part of addressing this question, we proposed the following analytic deliverables (AD) in our submitted project proposal: 
 

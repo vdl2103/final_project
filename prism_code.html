@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>PRISM</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="EDA.html">EDA</a>
+</li>
+<li>
+  <a href="Flex_Dashboard.html">Flex Dashboard</a>
+</li>
+<li>
+  <a href="models.html">Models</a>
+</li>
+<li>
+  <a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/">Texas Heat</a>
+</li>
+<li>
+  <a href="prism_code.html">PRISM code</a>
+</li>
+<li>
+  <a href="mailto:&lt;tory.lynch@gmail.com&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/vdl2103">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">PRISM</h1>
+
+</div>
+
+
+<div id="google-earth-engine-code-editor" class="section level2">
+<h2>Google Earth Engine code editor</h2>
+<p>The code below may be used to download PRISM data tables for a desired weather parameter at specified locations and over a specified time period (account required).</p>
+<p>This example provides a table for daily <code>tdmean</code> at MLB ballparks in the United States. Other bands such as <code>tmax</code> or <code>tmin</code> may be substituted for <code>tdmean</code>following “Create a collection of triplets”.</p>
+<p>The Google Earth Engine API “Tables and Vectors” tutorial video and companion slides provide additional information on these steps.</p>
+<p>Video link: <a href="https://developers.google.com/earth-engine/tutorials#tables-and-vectors" class="uri">https://developers.google.com/earth-engine/tutorials#tables-and-vectors</a><br />
+Slides link: <a href="https://docs.google.com/presentation/d/1D7rezUHPElCfYWHMRNBChHjbEv6nXDD8xnh7_YgyK6A/edit#slide=id.g21c09d71c4_0_0" class="uri">https://docs.google.com/presentation/d/1D7rezUHPElCfYWHMRNBChHjbEv6nXDD8xnh7_YgyK6A/edit#slide=id.g21c09d71c4_0_0</a></p>
+<div id="javascript-code-to-download-prism-data" class="section level3">
+<h3>JavaScript code to download PRISM data</h3>
+<p>// First, import ImageCollection ID: “OREGONSTATE/PRISM/AN81d”, PRISM Daily Spatial Climate Dataset AN81d</p>
+<p>// Load a Fusion Table from the ID using the FeatureCollection constructor.</p>
+<p>var ballpark = ee.FeatureCollection(“ft:1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN”);</p>
+<p>var usa = ee.FeatureCollection(“ft:1ksBc_-cWnek37HFTMr0FXfBtOETBeYYbB1YeSg”);</p>
+<p>// Load PRISM input imagery.<br />
+var tmax = ee.ImageCollection(PRISM)<br />
+.filterDate(‘2015-04-01’, ‘2018-10-31’)<br />
+.select(‘tmax’);</p>
+<p>var tmin = ee.ImageCollection(PRISM)<br />
+.filterDate(‘2015-04-01’, ‘2018-10-31’)<br />
+.select(‘tmin’);</p>
+<p>var tdmean = ee.ImageCollection(PRISM)<br />
+.filterDate(‘2015-04-01’, ‘2018-10-31’)<br />
+.select(‘tdmean’);</p>
+<p>/////////////////////////////////////////////////////////</p>
+<p>//Create a collection of triplets, {imageID, ballpark, first}:</p>
+<p>var triplets = tdmean.map(function(image) {<br />
+return image.select(‘tdmean’).reduceRegions({<br />
+collection: ballpark.select([‘Team Name’]),<br />
+reducer: ee.Reducer.first(),<br />
+scale: 1000<br />
+}).filter(ee.Filter.neq(‘first’, null))<br />
+.map(function(f) {<br />
+return f.set(‘imageId’, image.id());<br />
+});<br />
+}).flatten();</p>
+<p>print(triplets.first()); //properties: ballpark, imageId, first</p>
+<p>//////////////////////////////////////////////////////////////////////////</p>
+<p>// Format a table of triplets into a 2D table of rowId x colId.<br />
+var format = function(table, rowId, colId) {<br />
+// Get a FeatureCollection with unique row IDs.<br />
+var rows = table.distinct(rowId);<br />
+// Join the table to the unique IDs to get a collection in which<br />
+// each feature stores a list of all features having a common row ID.<br />
+var joined = ee.Join.saveAll(‘matches’).apply({<br />
+primary: rows,<br />
+secondary: table,<br />
+condition: ee.Filter.equals({<br />
+leftField: rowId,<br />
+rightField: rowId<br />
+})<br />
+});</p>
+<p>return joined.map(function(row) {<br />
+// Get the list of all features with a unique row ID.<br />
+var values = ee.List(row.get(‘matches’))<br />
+// Map a function over the list of rows to return a list of<br />
+// column ID and value.<br />
+.map(function(feature) {<br />
+feature = ee.Feature(feature);<br />
+return [feature.get(colId), feature.get(‘first’)];<br />
+});<br />
+// Return the row with its ID property and properties for<br />
+// all matching columns IDs storing the output of the reducer.<br />
+// The Dictionary constructor is using a list of key, value pairs.<br />
+return row.select([rowId]).set(ee.Dictionary(values.flatten()));<br />
+});<br />
+};</p>
+<p>var table1 = format(triplets, ‘Team Name’, ‘imageId’);<br />
+var desc2 = ‘tdmean’;</p>
+<p>Export.table.toDrive({<br />
+collection: table1,<br />
+description: desc2,<br />
+fileNamePrefix: desc2,<br />
+fileFormat: ‘CSV’<br />
+});</p>
+</div>
+</div>
+<div id="map-example-of-prism-output" class="section level2">
+<h2>Map Example of PRISM output</h2>
+<p>Earth Engine can also produce maps and charts.</p>
+<p>Variable Selection: weather parameter of interest, date averaging period, visualization scale and colors.</p>
+<div id="map-code" class="section level3">
+<h3>Map code</h3>
+<p>var prism = ee.ImageCollection(‘OREGONSTATE/PRISM/AN81d’)<br />
+.filter(ee.Filter.date(‘2018-07-05’, ‘2018-07-06’));<br />
+var tmaxMap = prism.select(‘tmax’);<br />
+var tmaxVis = {<br />
+min: 20.0,<br />
+max: 45.0,<br />
+palette: [‘yellow’, ‘orange’, ‘red’],<br />
+};<br />
+Map.setCenter(-100.55, 40.71, 4);<br />
+Map.addLayer(tmaxMap, tmaxVis, ‘tmax’);</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

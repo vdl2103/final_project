@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Report - Hot Humid Basball</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="EDA.html">EDA</a>
+</li>
+<li>
+  <a href="Flex_Dashboard.html">Flex Dashboard</a>
+</li>
+<li>
+  <a href="models.html">Models</a>
+</li>
+<li>
+  <a href="mailto:&lt;tory.lynch@gmail.com&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/vdl2103">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Report - Hot Humid Basball</h1>
+
+</div>
+
+
+<p>By: Brennan Baker, Nicole Comfort, Victoria Lynch, Stephen Lewandowski, Jenni Shearston</p>
+<div id="motivation-and-related-work" class="section level2">
+<h2>Motivation and Related Work</h2>
+<p>Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball (MLB), where teams that prioritize sabermetrics have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats.</p>
+<p>Sabermetric analysts sift through this exhaustive amount of data to identify competitive advantages among increasingly similar, dominant players. The arms race between pitchers and hitters has elevated the game, as pitchers are throwing harder and batters are hitting more home runs than at any point in MLB history.</p>
+<p>In addition to assessing player matchups, analysts aim to identify external factors that could influence players’ performances, especially weather. Over the course of a six-month MLB season, teams expect to play in a range of weather extremes, from 100-degree days in Arlington, Texas to snowy conditions in Milwaukee, Wisconsin in the early spring. A growing body of sabermetric research has found that game-day weather affects umpiring decisions, pitcher ball control, and distance of hits (and thereby number of homeruns).</p>
+</div>
+<div id="project-questions" class="section level2">
+<h2>Project Questions</h2>
+<p>Initially, our project aimed to answer the following overarching question:</p>
+<ul>
+<li>What is the association between weather and the speed and type of baseball pitches? We hypothesized that the speed and type of Major League Baseball (MLB) pitches may be negatively impacted by extreme weather.</li>
+</ul>
+<p>To operationalize this, we obtained MLB data and daily weather data for the years 2016, 2017, and 2018, focusing on the following weather data: <strong>maximum (max) temperature (ºC), relative humidity, and heat index (ºC).</strong> We then focused in on four-seam fastball pitches in particular, hypothesizing that these pitches may be most affected by temperature, humidity, and heat index.</p>
+<p>As our research progressed and it became clear that overall trends relating max temperature and pitch speed were not apparent, we began to investigate whether the relationships between pitch speed and weather variables could be modified by team, specifically whether a team <em>typically</em> played in an extreme weather condition. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?</p>
+<p>We proposed the following analytic deliverables (AD) in our submitted project proposal:</p>
+<ul>
+<li><p>Linear model for the effect of temperature on pitch speed (fastball), adjusted for pitcher and other covariates to be determined. (AD1)</p></li>
+<li><p>Graph of variation in proportion of fastball vs off-speed pitches and temperature (AD2)</p></li>
+<li><p>Graph of speed of fastballs and maximum temperature (AD3)</p></li>
+<li><p>Graph of pitch speed (all pitch types) and relative humidity (AD4)</p></li>
+<li><p>Graph of pitch speed (all pitch types) and heat index (AD5)</p></li>
+</ul>
+</div>
+<div id="collecting-and-tidying-data" class="section level2">
+<h2>Collecting and Tidying Data</h2>
+<p>Data were collected in two major chunks: weather data from the PRISM Climate Group and baseball data from Pitchf/x. The process for scraping and pulling data is described below in detail, and data is housed on a series of Google Drive documents, linked below.</p>
+<div id="weather-data---overview" class="section level3">
+<h3>Weather data - Overview</h3>
+<div id="prism-climate-model" class="section level4">
+<h4>PRISM climate model</h4>
+<p>We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model (PRISM) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks around the United States and applies interpolation routines to simulate variations with elevation, coastal effects, temperature inversions, and terrain barriers. The model includes 7 bands of output parameters at a 2.5 arc minute grid resolution (<a href="https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d" class="uri">https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d</a>).</p>
+</div>
+<div id="google-earth-engine" class="section level4">
+<h4>Google Earth Engine</h4>
+<p>Using the code editor in the Google Earth Engine platform (<a href="https://code.earthengine.google.com" class="uri">https://code.earthengine.google.com</a>), we extracted maximum daily temperature (<code>tmax</code>), minimum daily temperature (<code>tmin</code>), and mean daily dew point temperature (<code>tdmean</code>) from April 2015 through October 2018 at each MLB stadium location. We obtained the latitude and longitude coordinates for each ballpark from a Google Fusion Table (<a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a>), which we imported to Earth Engine. We used JavaScript code to create arrays that collect each weather parameter mapped over each ballpark location for each day, reduced to the first observation reflecting the grid at the point of interest, which are then flattened to two dimensional tables.</p>
+<p><img src = "gee_screen_capture.PNG" height = "500px" width = "400px" /></p>
+<p>Figure 1. The image above is a screenshot of the Earth Engine code editor. The map displays maximum daily temperatures across the United States on July 05, 2018 from the PRISM model.</p>
+<p>The JavaScript code for downloading PRISM data is provided at (gee.html). A registered Google account is required to access the code editor.</p>
+</div>
+<div id="tidy-weather-data" class="section level4">
+<h4>Tidy weather data</h4>
+<p>Next, we imported the PRISM files for <code>tmax</code>, <code>tmin</code>, and <code>tdmean</code> into R, tidied the data from “wide” format to “long” format, and joined each parameter to a single dataframe by team and date. We created daily heat index values (<code>heat_index</code>) from mean daily air temperature and mean daily dew point temperature using the <code>heat.index</code> function of the <code>weathermetrics</code> package, which applies a heat index equation derived from the US National Weather Service’s online heat index calculator. We also used the <code>dewpoint.to.humidity</code> function to obtain relative humidity (<code>rh</code>).</p>
+</div>
+<div id="reproducibility" class="section level4">
+<h4>Reproducibility</h4>
+<p>The raw data files from Earth Engine and the stadium index from Fusion Table are available at the links below:</p>
+<p>“tdmean_ballpark.PRISM.csv”: <a href="https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK" class="uri">https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK</a><br />
+“tmin_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa" class="uri">https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa</a><br />
+“tmax_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq" class="uri">https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq</a><br />
+“stadium_index.csv” : <a href="https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo" class="uri">https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo</a></p>
+<p>The geocoded stadium index source is: <a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a></p>
+<p>The joined and cleaned weather dataframe, <code>weather.csv</code>, is available at:</p>
+<p>“weather.csv” : <a href="https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W" class="uri">https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W</a></p>
+</div>
+<div id="weather-data---complete-pipeline" class="section level4">
+<h4>Weather data - Complete pipeline</h4>
+<p>See the code below for the above-described steps.</p>
+<pre class="r"><code># Import stadium index
+stadium_index = read_csv(&quot;./data/stadium_index.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   index = col_integer(),
+##   city = col_character(),
+##   stadium_name = col_character(),
+##   team_name = col_character()
+## )</code></pre>
+<pre class="r"><code># Import PRISM variables
+# Import max and min daily temperatures and mean daily dew points for all MLB stadium locations from April 2015 to October 2018.
+
+tmax =
+  read_csv(&quot;./data/tmax_ballpark_PRISM.csv&quot;) %&gt;% 
+    janitor::clean_names() %&gt;% 
+    select(-c(&quot;system_index&quot;, &quot;geo&quot;)) %&gt;% 
+    select(team_name, everything()) %&gt;% 
+    gather(key = date, value = tmax, &quot;x20150401&quot;:&quot;x20181030&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   `system:index` = col_character(),
+##   `Team Name` = col_character(),
+##   .geo = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>tmin =
+  read_csv(&quot;./data/tmin_ballpark_PRISM.csv&quot;) %&gt;% 
+    janitor::clean_names() %&gt;% 
+    select(-c(&quot;system_index&quot;, &quot;geo&quot;)) %&gt;% 
+    select(team_name, everything()) %&gt;% 
+    gather(key = date, value = tmin, &quot;x20150401&quot;:&quot;x20181030&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   `system:index` = col_character(),
+##   `Team Name` = col_character(),
+##   .geo = col_character()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>tdmean =
+  read_csv(&quot;./data/tdmean_ballpark_PRISM.csv&quot;) %&gt;% 
+    janitor::clean_names() %&gt;% 
+    select(-c(&quot;system_index&quot;, &quot;geo&quot;)) %&gt;% 
+    select(team_name, everything()) %&gt;% 
+    gather(key = date, value = tdmean, &quot;x20150401&quot;:&quot;x20181030&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   `system:index` = col_character(),
+##   `Team Name` = col_character(),
+##   .geo = col_character()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code># Join PRISM data
+# Join `tmax`, `tmin` and `tdmean`
+
+weather &lt;- as.tibble(
+    full_join(tmax, tmin, by = c(&quot;team_name&quot;, &quot;date&quot;)) %&gt;% 
+    full_join(., tdmean, by = c(&quot;team_name&quot;, &quot;date&quot;)) %&gt;% 
+    mutate(date = str_replace(date, &quot;x&quot;, &quot;&quot;),
+           date = as.Date(date, format = &quot;%Y%m%d&quot;))
+  )
+
+# Heat Index and Relative Humidity (RH)
+# Calculates daily heat index values from mean daily air temperature and mean daily dew point temperature using `heat.index` function of the `weathermetrics` package is used.  The `dewpoint.to.humidity` function is used to obtain relative humidity.
+
+weather &lt;-
+  weather %&gt;% 
+    mutate(tmean = (tmax + tmin)/2,
+           heat_index = weathermetrics::heat.index(t = tmean, dp = tdmean, temperature.metric = &quot;celsius&quot;, output.metric = &quot;celsius&quot;, round = 2),
+           rh = weathermetrics::dewpoint.to.humidity(dp = tdmean, t = tmean, temperature.metric = &quot;celsius&quot;))</code></pre>
+<pre><code>## Warning in dewpoint.to.humidity(t = t, dp = dp, temperature.metric =
+## temperature.metric): For some observations, dew point temperature was
+## higher than temperature. Since dew point temperature cannot be higher than
+## air temperature, relative humidty for these observations was set to &#39;NA&#39;.</code></pre>
+<pre><code>## Warning in weathermetrics::dewpoint.to.humidity(dp = tdmean, t = tmean, :
+## For some observations, dew point temperature was higher than temperature.
+## Since dew point temperature cannot be higher than air temperature, relative
+## humidty for these observations was set to &#39;NA&#39;.</code></pre>
+<pre class="r"><code>weather</code></pre>
+<pre><code>## # A tibble: 37,961 x 8
+##    team_name         date        tmax   tmin tdmean tmean heat_index    rh
+##    &lt;chr&gt;             &lt;date&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1 Minnesota Twins   2015-04-01  17.9  0.160  -1.07  9.02       7.27  49.6
+##  2 Seattle Mariners  2015-04-01  12.3  6.41    4.47  9.34       8.2   71.9
+##  3 San Francisco Gi~ 2015-04-01  16.3 11.2     6.92 13.8       12.9   63.5
+##  4 Oakland Athletics 2015-04-01  19.3 10.7     6.31 15.0       14     56.4
+##  5 Los Angeles Dodg~ 2015-04-01  24.3 13.2    11.1  18.8       18.3   61.2
+##  6 San Diego Padres  2015-04-01  20.0 15.7    12.2  17.9       17.5   69.7
+##  7 Los Angeles Ange~ 2015-04-01  23.2 13.6    11.7  18.4       18     65.0
+##  8 Houston Astros    2015-04-01  28.3 17.6    18.0  23.0       23.2   73.6
+##  9 Texas Rangers     2015-04-01  28.3 17.8    16.3  23.1       23.1   65.9
+## 10 Arizona Diamondb~ 2015-04-01  34.1 18.8     1.54 26.4       25.7   19.8
+## # ... with 37,951 more rows</code></pre>
+<pre class="r"><code># Export tidy weather dataframe
+write_csv(weather, path = &quot;./data/weather.csv&quot;) </code></pre>
+</div>
+</div>
+<div id="baseball-data" class="section level3">
+<h3>Baseball data</h3>
+<div id="pitchfx-data" class="section level4">
+<h4>PITCHf/x data</h4>
+<p>PITCHf/x is a system of cameras set up at every MLB baseball stadium that collects pitch data including pitch speed, type, and trajectory. The data are stored in XML format and maintained by MLB Advanced Media.</p>
+</div>
+<div id="helpful-packages" class="section level4">
+<h4>Helpful packages</h4>
+<p>We gathered PITCHf/x data using the r package “pitchRx” (<a href="https://pitchrx.cpsievert.me/" class="uri">https://pitchrx.cpsievert.me/</a>). The “pitchRx” package relies on the “XML2R” package to easily convert XML tables into data tables in r. In particular, the “scrape” function in the “pitchRx” package allows you to gather all the pitch data between a specified start and end date.</p>
+<p>Gathering a large amount of pitch data, however, may use up too much random-access memory. To solve this problem, we used the “dplyr” package to create an SQLite database, which aids in memory management.</p>
+<p>The baseball data used for this project can be accessed by Google Drive here: (<a href="https://drive.google.com/drive/u/0/search?q=sqlite" class="uri">https://drive.google.com/drive/u/0/search?q=sqlite</a>)</p>
+</div>
+<div id="gathering-pitch-data" class="section level4">
+<h4>Gathering pitch data</h4>
+<p>The data was scraped into an SQlite3 database that was stored on a personal computer so that the user did not have to scrape it at a later time. We brought this data into an R session by creating SQlite3 database representations (called “pitch” and “atbat” below). Finally, we loaded in the weather data, an index of the team names, and their corresponding abbreviations.</p>
+<pre class="r"><code># The first argument is the path to the SQlite database. 
+# If create is set to TRUE, the code will create a new SQlite3 database at the specified path if it does not exist. If the path does exist, it will connect to the existing database.
+
+my_db &lt;- src_sqlite(&quot;./data/GamedayDB.sqlite3&quot;, create = TRUE)
+
+# Only run the code below if you have never scraped the data. This code collects and stores all PITCHf/x data from one date to the next, and saves it as GamedayDB.sqlite3.
+####### scrape(start = &quot;2016-04-03&quot;, end = Sys.Date() - 1,
+####### suffix = &quot;inning/inning_all.xml&quot;, connect = my_db$con)
+
+
+# Create pitch and atbat, which are representations of data in my_db. That is, pitch does not actually pull data from every pitch into memory, but is a portrayal of the relevant data sitting in my_db.
+pitch = tbl(my_db$con, &quot;pitch&quot;)
+atbat = tbl(my_db$con, &quot;atbat&quot;)
+
+
+# Import team names data
+team_names = read_csv(&quot;./data/team_abbrv.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   home = col_character(),
+##   team_name = col_character()
+## )</code></pre>
+<pre class="r"><code># Import weather data 
+weather_db = read_csv(&quot;./data/weather.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   team_name = col_character(),
+##   date = col_date(format = &quot;&quot;),
+##   tmax = col_double(),
+##   tmin = col_double(),
+##   tdmean = col_double(),
+##   tmean = col_double(),
+##   heat_index = col_double(),
+##   rh = col_double()
+## )</code></pre>
+</div>
+</div>
+</div>
+<div id="combining-datasets" class="section level2">
+<h2>Combining Datasets</h2>
+<p>Below, we bring the pitch data into R from the SQlite3 database using the representations created above. Then we tidy the pitch data and combine it with the weather data:</p>
+<pre class="r"><code># First line collects data into an r dataframe from the pitch and atbat representations established above
+pitch_tidy_db = collect(inner_join(pitch, atbat, by = c(&quot;num&quot;, &quot;url&quot;))) %&gt;% 
+  # Extract home and away team information from url link
+  separate(gameday_link.x, into = c(&quot;remove&quot;, &quot;away_home&quot;), sep = &quot;.............._&quot;) %&gt;%
+  separate(away_home, into = c(&quot;away&quot;, &quot;home&quot;), sep = &quot;mlb_&quot;) %&gt;% 
+  # Tidy date
+  mutate(date = ymd(date)) %&gt;% 
+  # Joining pitch with atbat created redundant columns coded .x or .y. Remove redundant cols ending with .y. Remove spanish columns ending with _es
+  select(-ends_with(&quot;.y&quot;), -ends_with(&quot;_es&quot;)) %&gt;% 
+  # Remove .x from the end of columns
+  rename_at(.vars = vars(ends_with(&quot;.x&quot;)),
+          .funs = funs(sub(&quot;[.]x$&quot;, &quot;&quot;, .))) %&gt;% 
+  # Add full team names
+  left_join(team_names) %&gt;% 
+  # Add weather data
+  left_join(weather_db) %&gt;% 
+  # Remove stadiums with a roof
+  filter(!home %in% c(&quot;aas&quot;, &quot;nas&quot;, &quot;tor&quot;, &quot;ari&quot;, &quot;sea&quot;, &quot;hou&quot;, &quot;tba&quot;, &quot;mia&quot;, &quot;1&quot;, &quot;2&quot;)) %&gt;%  
+  separate(date, c(&quot;y&quot;, &quot;m&quot;, &quot;d&quot;))</code></pre>
+<pre><code>## Warning: Expected 2 pieces. Additional pieces discarded in 2744247 rows [1,
+## 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
+<pre class="r"><code>  # Retain only XX of 81 variables, to make the size of the dataset easier to work with 
+  # select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type) 
+
+  # Remove unneeded intermediary data sets to clean environment
+  rm(atbat, my_db, pitch, team_names, weather_db)</code></pre>
+<p>Our final dataset that combines the pitch and weather data is named <code>pitch_tidy_db</code>. After retaining only certain variables of interest, the dataset incudes 2186391 observations of 81.</p>
+<p>We examine missing data in our dataset:</p>
+<pre class="r"><code># Examining pitch speed missing data
+missing_data = pitch_tidy_db %&gt;% 
+  filter(is.na(start_speed)) %&gt;% # we are missing pitch speed for 62,971 pitches 
+  group_by(team_name) %&gt;% 
+  count() # see if the missing data are (roughly) evenly distributed among the teams </code></pre>
+</div>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory Analysis</h2>
+<p>As outlined in our 11/07/2018 project proposal, based on previous reports and anecdotal evidence, our group hypothesized that weather would impact Major League Baseball players’ pitch speeds. Specifically, we hypothesized that higher temperatures, humidity, and heat index would be negatively associated with pitch speeds. Therefore, our weather variables of interest were: <strong>maximum temperature (ºC), relative humidity (expressed as a percentage), and heat index (ºC).</strong></p>
+<p>In order to become familiar with the data, a series of graphs were created to explore potential associations between pitch speed (miles per hour) with our weather variables of interest.</p>
+<div id="maximum-temperature" class="section level3">
+<h3>Maximum Temperature</h3>
+<p>Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fastballs and maximum temperature was created (AD2, below).</p>
+<pre class="r"><code># Create proportion of ff to all pitch dataset
+
+propff_db = pitch_tidy_db %&gt;% 
+  mutate(ff = str_detect(pitch_type, &quot;FF&quot;)) %&gt;% 
+  group_by(y, m, d, tmax) %&gt;% 
+  summarise(n = n(),
+            ff_sum = sum(ff, na.rm = TRUE),
+            prop_ff = (ff_sum/n)*100) %&gt;% 
+  mutate(prop_ff = round(prop_ff, digits = 1))
+
+# tmax and proportion of ff  
+
+propff_db %&gt;%
+  filter(prop_ff != 0) %&gt;% 
+  ggplot(aes(x = prop_ff, y = tmax)) +
+  geom_point() +
+  geom_smooth() +
+  labs(
+    title = &quot;Figure 2: Proportion of Thrown Pitches that are Fastballs and Max Temperature&quot;,
+    x = &quot;Proportion of Pitches that are Fastballs&quot;,
+    y = &quot;Max Temperature (C)&quot;
+  )</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="report_draft_original_files/figure-html/prop.%20ff%20and%20tmax-1.png" width="90%" /></p>
+<p>However, the graph indicated that absolutely no association existed between these variables.</p>
+<p>Next, several graphs were created to explore the associations between the speed of fastballs and maximum temperature (AD3). Graphs that depicted fastball speed and temperature overall did not suggest specific associations (not shown), so the data was instead faceted by various variables to explore the potential for variation by items such as pitch outcome, team, and pitch type. As one example below, fastball pitch speed against max temperature was plotted, and then faceted by pitch outcome (such as Strikeout, Walk, Single, etc).</p>
+<pre class="r"><code>pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot;) %&gt;% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point() +
+  facet_wrap(~event) +
+  labs(
+    title = &quot;Figure 3: Fastball Pitch Speed and Max Temperature, by Pitch Outcome&quot;,
+    x = &quot;Max Temperature (C)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;
+  )</code></pre>
+<p><img src="report_draft_original_files/figure-html/ff%20speed%20and%20temp,%20by%20outcome-1.png" width="90%" /></p>
+<p>Interestingly, we can see from the increase in points on the right side of facets such as “Double,” “Flyout,” “Lineout,” “Home Run,” and other outcomes that pitch outcome may be affected by temperature. It may be possible that when temperatures are higher, pitches that are slightly slower are more likely to result in hits.</p>
+<p>In further exploratory analysis, fastball speed and tempearture was also faceted by home team name (shown below), inning, and fowl/ball/strike status, and a graph of max temperature and pitch speed for all pitches, faceted by pitch type, was created (all not shown). There were some variations by inning and home team, and after discussion, we decided this might in fact be representative of changes in pitcher, and differences in whether or not a pitcher from a specific team typically played in warmer or colder weather. We decided to perform further analysis on this hypothesis; plots are shown in the “Additional Analysis: Plots” section of this report.</p>
+<pre class="r"><code>pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot;) %&gt;% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point() +
+  facet_wrap(~team_name) +
+  labs(
+    title = &quot;Figure 4: Fastball Pitch Speed and Max Temperature, by Home Team&quot;,
+    x = &quot;Max Temperature (C)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;
+  )</code></pre>
+<p><img src="report_draft_original_files/figure-html/ff%20speed%20and%20temp,%20by%20home%20team%20name-1.png" width="90%" /></p>
+<p>Further analysis restricted pitch type to the four-seam fastball, and facetted by top and bottom of the inning, to see if Rangers’ pitchers were less effected by heat than visiting pitchers. Additionally, a team from a colder climate, the Boston Red Sox, was selected for the same analysis. Month was restricted to September for two reasons: (1) during this month temperatures are in greater flux across the United States, and it may be reasonable to assume Texas is much hotter than other parts of the US and Boston is much colder, and (2) it has been suggested anecdotally that baseball pitchers may be affected most by changes in temperature, rather than by absolute heat or cold, particularly if they are not acclimatized to that temperature.</p>
+<p>The resulting plot is shown below.</p>
+<pre class="r"><code># Texas Rangers Stadium in September
+
+tr9 = pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot; &amp; team_name == &quot;Texas Rangers&quot; &amp; m == &quot;09&quot;) %&gt;% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = &#39;lm&#39;, color = &quot;black&quot;) +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = &quot;Fastball Pitch Speed and Max Temperature at Texas Rangers Stadium&quot;, subtitle = &quot;Pitchers = Colors, Month = September&quot;,
+    x = &quot;Max Temperature (C)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;
+  ) +
+  theme(legend.position = &quot;none&quot;)
+
+# Boston Red Sox Stadium in September
+
+brs9 = pitch_tidy_db %&gt;% 
+  filter(pitch_type == &quot;FF&quot; &amp; team_name == &quot;Boston Red Sox&quot; &amp; m == &quot;09&quot;) %&gt;% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = &#39;lm&#39;, color = &quot;black&quot;) +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = &quot;Fastball Pitch Speed and Max Temperature at Boston Red Sox Stadium&quot;, subtitle = &quot;Pitchers = Colors, Month = September&quot;,
+    x = &quot;Max Temperature (C)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;
+  ) +
+  theme(legend.position = &quot;none&quot;)
+
+#Join Graphs
+
+library(patchwork)
+tr9 + brs9</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;
+## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="report_draft_original_files/figure-html/ff%20speed%20and%20tmax%20in%20sept,%20rangers%20and%20red%20sox%20stadiums-1.png" width="90%" /></p>
+<p>In the plot, we can see that in Arlington, Texas, at the Texas Rangers’s Stadium, the Rangers appear to be less effected by variations in temperature, whereas visiting pitchers (the bottom of the inning) have a decrease in fastball speed at high temperatures. However, it should be noted that this trend may be driven by one visiting pitcher with particularly slow pitches in hotter weather. In Boston, it appears that visiting pitchers have decreases in fastball speed at colder temperatures, whereas Red Sox pitchers are more consistent regardless of temperature.</p>
+</div>
+</div>
+<div id="relative-humidity" class="section level2">
+<h2>Relative Humidity</h2>
+<p>We also explored the relationship between pitching speeds and <strong>relative humidity.</strong> Relative humidity is a measure of the amount of moisture in the air (expressed as a percentage). Sweat does not evaporate as quickly when the air is moist as it does in a dry climate. Since evaporation of sweat from the skin is one of the ways the human body cools itself on a hot day, high humidity reduces our natural cooling potential and we feel hotter. Low humidity can also be a problem for outdoor workers in hot, desert-like climates. Sweat evaporates very rapidly in low humidity, which can lead to severe dehydration if a person does not drink enough water throughout the day.</p>
+<p>Upon examining the distribution of relative humidity across stadiums, we found that it would be more informative to examine the distribution grouped by the US region the stadium falls in, so we created a new variable, <code>US_region</code>.</p>
+<pre class="r"><code># create new variable for US region
+pitch_tidy_db = 
+   dplyr::mutate(pitch_tidy_db,
+                  US_region =
+                  ifelse(team_name == &quot;Baltimore Orioles&quot; |
+                           team_name == &quot;Boston Red Sox&quot; |
+                           team_name == &quot;New York Yankees&quot; |
+                           team_name == &quot;New York Mets&quot; |
+                           team_name == &quot;Tampa Bay Rays&quot; |
+                           team_name == &quot;Philadelphia Phillies&quot; |
+                           team_name == &quot;Pittsburgh Pirates&quot; |
+                           team_name == &quot;Washington Nationals&quot;, &quot;northeast&quot;,
+                  ifelse(team_name == &quot;Chicago Cubs&quot; |
+                           team_name == &quot;Chicago White Sox&quot; |
+                           team_name == &quot;Cleveland Indians&quot; |
+                           team_name == &quot;Detroit Tigers&quot; |
+                           team_name == &quot;Kansas City Royals&quot; |
+                           team_name == &quot;Minnesota Twins&quot; |
+                           team_name == &quot;Cincinnati Reds&quot; |
+                           team_name == &quot;Milwaukee Brewers&quot; |
+                           team_name == &quot;St. Louis Cardinals&quot;, &quot;midwest&quot;,
+                  ifelse(team_name == &quot;Texas Rangers&quot; |
+                           team_name == &quot;Houston Astros&quot;, &quot;southwest&quot;,
+                  ifelse(team_name == &quot;Los Angeles Angels of Anaheim&quot; |
+                           team_name == &quot;Los Angeles Dodgers&quot; |
+                           team_name == &quot;Oakland Athletics&quot; |
+                           team_name == &quot;Seattle Mariners&quot; |
+                           team_name == &quot;San Diego Padres&quot; |
+                           team_name == &quot;San Francisco Giants&quot; |
+                           team_name == &quot;Colorado Rockies&quot;, &quot;west&quot;,
+                  ifelse(team_name == &quot;Atlanta Braves&quot;, &quot;southeast&quot;, &quot;&quot;))))))</code></pre>
+<p>When examining the association between relative humidity and pitch start speed (all pitches and by pitch type), across all US regions, we found no associations. Heat index incorporates temperature and relative humidity, so we next looked at whether that would be more informative.</p>
+</div>
+<div id="heat-index" class="section level2">
+<h2>Heat Index</h2>
+<p>We first conducted exploratory analyses looking at the <strong>heat index (ºC).</strong></p>
+<p>For people working outdoors in hot weather, both air temperature and humidity affect how hot they feel. The “heat index” is a single value that takes both temperature and humidity into account. The higher the heat index, the hotter the weather feels, since sweat does not readily evaporate and cool the skin. The heat index is a better measure than air temperature alone for estimating the risk to workers from environmental heat sources. Thus, we also assumed that high heat index would negatively affect pitchers’ performance.</p>
+<p>In the exploratory analysis of heat index, we first examined missing data.</p>
+<pre class="r"><code># Examining heat index missing data
+pitch_tidy_db %&gt;% 
+  group_by(team_name) %&gt;% 
+  filter(is.na(heat_index)) %&gt;% # we are missing pitch speed for 62,971 pitches 
+  count() %&gt;% 
+  ungroup()# see if the missing data are (roughly) evenly distributed among the teams, Cubs are missing the most but it still seems pretty even </code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   team_name              n
+##   &lt;chr&gt;              &lt;int&gt;
+## 1 Chicago Cubs         340
+## 2 Cincinnati Reds      275
+## 3 New York Mets        260
+## 4 Pittsburgh Pirates   320</code></pre>
+<pre class="r"><code># # distribution by stadium
+# pitch_tidy_db %&gt;% 
+#   ggplot(aes(x = heat_index, fill = team_name)) + 
+#   geom_density(alpha = .4, adjust = .5)
+# # we can see that there are some teams that have a broader distribution; places like San Diego the heat index is pretty stable; we can break up by regions in other analyses 
+
+# # numerical summary
+# skim(pitch_tidy_db$heat_index)
+# 
+# heat_index_df =
+#   pitch_tidy_db %&gt;%
+#   group_by(team_name, m) %&gt;%
+#   summarize(mean_heat_index = mean(heat_index, na.rm = TRUE),
+#             median_heat_index = median(heat_index),
+#             sd_heat_index = sd(heat_index))
+
+# # plot the above table/info 
+# heat_index_df %&gt;% 
+#   ggplot(aes(x = m, y = mean_heat_index, color = team_name)) +
+#   geom_point() + geom_line()
+
+
+# the teams with the greatest range/variability in heat index are the Minnesota Twins, Washington Nationals, Cincinatti Reds, New York Yankees, and Kansas City Royals
+
+# the teams with the lowest range/variability in heat index (excluding values of 0.00) are the Los Angeles Angels of Anaheim, Detroit Tigers, Chicago White Sox, St. Louis Cardinals
+
+# maybe we can do comparisons within certain teams, for example how does someone on the Washington Nationals perform in high vs. low heat index 
+
+# pitch_tidy_db %&gt;% 
+#   filter(team_name == &quot;Washington Nationals&quot;) %&gt;% 
+#   ggplot(aes(x = m, y = start_speed)) +
+#   geom_boxplot()
+# tried adding geom_jitter but there are too many points 
+# more outliers at the warmer months with hotter heat index, but overall start speed looks the same </code></pre>
+<p>While the Cubs were missing the most heat index data, the distribution of missing heat index data was fairly evenly distributed across all teams. The distribution of the heat index overall is normally distributed (not shown).</p>
+<p>We next explored the distribution of the heat index across US regions the stadiums fall in:</p>
+<pre class="r"><code># heat index distribution by US region 
+pitch_tidy_db %&gt;% 
+  ggplot(aes(x = heat_index, fill = US_region)) + 
+  geom_density(alpha = .4, adjust = .5)</code></pre>
+<pre><code>## Warning: Removed 1195 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="report_draft_original_files/figure-html/heat%20index%20distributions-1.png" width="90%" /></p>
+<pre class="r"><code># southwest followed by southeast has highest heat index, west is most stable/pleasant
+
+pitch_tidy_db %&gt;% 
+  ggplot(aes(x = heat_index)) + 
+  geom_density(alpha = .4, adjust = .5) +
+  facet_wrap(~US_region) +
+    labs(
+    title = &quot;Distribution of Heat Index by US Region&quot;,
+    x = &quot;Heat Index (ºC)&quot;,
+    y = &quot;Density&quot;
+  )</code></pre>
+<pre><code>## Warning: Removed 1195 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="report_draft_original_files/figure-html/heat%20index%20distributions-2.png" width="90%" /></p>
+<pre class="r"><code># west has pretty normal distribution, southeast and southwest skewed </code></pre>
+<p>Exploratory analyses examining pitch speed (of all pitches) vs. heat index indicated that pitch start speed may slightly decrease at extreme heat indexes (e.g. over 35 ºC).</p>
+<pre class="r"><code># pitch speed (all types) vs. heat index, colored by US region 
+pitch_tidy_db %&gt;% 
+  ggplot(aes(x = heat_index, y = start_speed, color = US_region)) +
+  geom_point(alpha = .3) +
+  facet_wrap(~pitch_type) +
+    labs(
+    title = &quot;Pitch Start Speed vs. Heat Index&quot;, subtitle = &quot;Colored by US Region&quot;,
+    x = &quot;Heat Index (ºC)&quot;,
+    y = &quot;Pitch Starting Speed (MPH)&quot;
+  )</code></pre>
+<pre><code>## Warning: Removed 64156 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_draft_original_files/figure-html/pitch%20speed%20(all%20types)%20vs.%20heat%20index-1.png" width="90%" /></p>
+<pre class="r"><code># fastball affected by higher heat index??
+# looks like fastball speed decreases with higher heat index (at least in the southwest and west)</code></pre>
+<p>However, when examining this further by categorizing heat index (e.g. above and below 35) and looking at the relationship between pitch speed and heat index, there was no obvious association.</p>
+</div>
+<div id="additional-anlaysis-plots" class="section level2">
+<h2>Additional Anlaysis: Plots</h2>
+<p>The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums. Texas Rangers stadium was selected as an example becuase it had a number of pitches with decreased speed at higher temperatures, and a Shiny plot showing associations between pitch speed and temperature at the Texas Rangers’s stadium was created. A user can select the visiting team to see how its pitch speed is affected by temperature when playing @ the Texas Rangers.</p>
+<p>(<a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/" class="uri">https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/</a>)</p>
+</div>
+<div id="statistical-analysis-linear-models" class="section level2">
+<h2>Statistical Analysis: Linear Models</h2>
+<p>We used simple linear regression to examine the effects of daily heat index and daily maximum temperature on the start speed of four-seam fastballs while also considering the effects of the individual pitcher, inning, and ballpark location (home team).</p>
+<div id="pitch-speed-and-heat-index" class="section level3">
+<h3>Pitch speed and heat index</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ heat_index, data = .) </code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = start_speed ~ heat_index, data = .)
+## 
+## Coefficients:
+## (Intercept)   heat_index  
+##    92.17442      0.03565</code></pre>
+<pre class="r"><code>  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<p>A one degree increase in heat index increased the start speed of four-seam fastballs by 0.036 mph (p &lt; 0.001). This is a statistically significant difference, but it is not meaningful.</p>
+</div>
+<div id="pitch-speed-and-maximum-daily-temperature" class="section level3">
+<h3>Pitch speed and maximum daily temperature</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ tmax, data = .) %&gt;% summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = start_speed ~ tmax, data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -36.743  -1.721   0.035   1.852  11.839 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 9.197e+01  1.144e-02 8041.28   &lt;2e-16 ***
+## tmax        3.687e-02  4.591e-04   80.32   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.77 on 756131 degrees of freedom
+## Multiple R-squared:  0.008459,   Adjusted R-squared:  0.008458 
+## F-statistic:  6451 on 1 and 756131 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<p>A one degree increase in maximum daily temperature increased the start speed of four-seam fastballs by 0.037 mph (p &lt; 0.0001). This result is nearly identical to the heat index model.</p>
+</div>
+<div id="pitch-speed-by-inning" class="section level3">
+<h3>Pitch speed by inning</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ inning, data = .) %&gt;%  
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std.error
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+91.856
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+13936.055
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inning
+</td>
+<td style="text-align:right;">
+0.197
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+171.011
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p &lt; 0.001). This may be due to closers coming into the game and throwing more heat. Two-tenths of a mph most likely does not make a difference on a per at-bat basis.</p>
+</div>
+<div id="pitch-speed-by-inning-controlled-for-pitcher-top-200-fastball-throwers" class="section level3">
+<h3>Pitch speed by inning, controlled for pitcher (top 200 fastball throwers)</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  filter(pitcher_name != &quot;NA&quot;) %&gt;% 
+  group_by(pitcher_name) %&gt;% 
+  summarise(n_ff = n()) %&gt;% 
+  arrange(desc(n_ff)) %&gt;% 
+  slice(1:200) %&gt;%
+  ungroup() %&gt;% 
+  left_join(., pitch_tidy_ff, by = &quot;pitcher_name&quot;) %&gt;% 
+  lm(start_speed ~ inning + pitcher_name, data = .) %&gt;%  
+  broom::tidy() %&gt;% 
+  slice(1:5) %&gt;% 
+  knitr::kable(digits = 3) </code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std.error
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+87.545
+</td>
+<td style="text-align:right;">
+0.032
+</td>
+<td style="text-align:right;">
+2698.412
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inning
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+2.122
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher_nameAaron Nola
+</td>
+<td style="text-align:right;">
+4.588
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+103.516
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher_nameAdam Conley
+</td>
+<td style="text-align:right;">
+3.977
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+87.556
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher_nameAdam Morgan
+</td>
+<td style="text-align:right;">
+3.892
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+81.153
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+</tbody>
+</table>
+<p>After adjusting for pitcher, the effect of inning is only an increase of 0.002 mph per inning (p = 0.03). The effect of inning will not be carried forward to further weather analysis.</p>
+</div>
+<div id="pitch-speed-and-heat-index-controlled-for-pitcher-top-200-fastball-throwers" class="section level3">
+<h3>Pitch speed and heat index, controlled for pitcher (top 200 fastball throwers)</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  filter(pitcher_name != &quot;NA&quot;) %&gt;% 
+  group_by(pitcher_name) %&gt;% 
+  summarise(n_ff = n()) %&gt;% 
+  arrange(desc(n_ff)) %&gt;% 
+  slice(1:200) %&gt;%
+  ungroup() %&gt;% 
+  left_join(., pitch_tidy_ff, by = &quot;pitcher_name&quot;) %&gt;% 
+  lm(start_speed ~ heat_index + pitcher_name, data = .) %&gt;%  
+  broom::tidy() %&gt;% 
+  slice(1:5) %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std.error
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+86.933
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+2657.296
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+heat_index
+</td>
+<td style="text-align:right;">
+0.027
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+88.223
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher_nameAaron Nola
+</td>
+<td style="text-align:right;">
+4.670
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+106.260
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher_nameAdam Conley
+</td>
+<td style="text-align:right;">
+4.181
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+92.743
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher_nameAdam Morgan
+</td>
+<td style="text-align:right;">
+3.956
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+83.187
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>After adjusting for pitcher, a one degree Celsius increase in heat index is associated with a 0.027 mph increase in fastball speed (p &lt; 0.001). This is less of an effect than the model unadjusted for pitcher.</p>
+</div>
+<div id="pitch-speed-and-heat-index-controlled-for-home-team" class="section level3">
+<h3>Pitch speed and heat index, controlled for home team</h3>
+<pre class="r"><code>pitch_tidy_ff %&gt;% 
+  lm(start_speed ~ heat_index + home, data = .) %&gt;%  
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std.error
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+91.585
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+4783.009
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+heat_index
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+88.275
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homeatl
+</td>
+<td style="text-align:right;">
+0.358
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+15.801
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homebal
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+1.666
+</td>
+<td style="text-align:right;">
+0.096
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homebos
+</td>
+<td style="text-align:right;">
+0.879
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+39.201
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homecha
+</td>
+<td style="text-align:right;">
+0.567
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+23.957
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homechn
+</td>
+<td style="text-align:right;">
+0.478
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+21.219
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homecin
+</td>
+<td style="text-align:right;">
+0.541
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+24.255
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homecle
+</td>
+<td style="text-align:right;">
+0.344
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+15.254
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homecol
+</td>
+<td style="text-align:right;">
+0.814
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+37.615
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homedet
+</td>
+<td style="text-align:right;">
+0.328
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+14.416
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homekca
+</td>
+<td style="text-align:right;">
+0.362
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+15.333
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homelan
+</td>
+<td style="text-align:right;">
+0.427
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+19.230
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homemil
+</td>
+<td style="text-align:right;">
+0.423
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+18.696
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homemin
+</td>
+<td style="text-align:right;">
+0.305
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+13.469
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homenya
+</td>
+<td style="text-align:right;">
+1.315
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+59.066
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homenyn
+</td>
+<td style="text-align:right;">
+0.759
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+32.926
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homeoak
+</td>
+<td style="text-align:right;">
+0.211
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+9.089
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homephi
+</td>
+<td style="text-align:right;">
+0.603
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+26.736
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homepit
+</td>
+<td style="text-align:right;">
+1.294
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+55.927
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homesdn
+</td>
+<td style="text-align:right;">
+-0.033
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+-1.428
+</td>
+<td style="text-align:right;">
+0.153
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homesfn
+</td>
+<td style="text-align:right;">
+0.360
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+15.750
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homesln
+</td>
+<td style="text-align:right;">
+0.771
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+33.423
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hometex
+</td>
+<td style="text-align:right;">
+-0.387
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+-16.649
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+homewas
+</td>
+<td style="text-align:right;">
+0.576
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+25.521
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+</tbody>
+</table>
+<p>After adjusting for game location, a one degree Celsius increase in heat index is associated with a 0.04 mph increase in fastball speed (p &lt; 0.001). This is still a small effect, but is larger than the other models considered. A 10 degree increase in heat index is associated with a 0.4 mph increase in speed, which could make a difference at the professional level.</p>
+</div>
+<div id="future-statistical-analysis" class="section level3">
+<h3>Future statistical analysis</h3>
+<p>Additional analysis could examine non-linear effects of weather on pitch speed. Different approaches could include quantile regression or logistic regression to test weather parameter thresholds.</p>
+</div>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>The multitude of available MLB data provides a golden opportunity to use statistical analysis to determine how environmental factors, such as weather, impact sports performance at the very apex of human accomplishment. Using data from more than 2.5 million pitches, this project attempted to answer a small portion of this question, by focusing on the impact of temperature, heat index, and relative humidity on starting pitch speed of four-seam fastballs thrown by MLB pitchers in the 2016, 2017, and 2018 seasons.</p>
+<p>Results suggest that there may be a small but measurable effect of certain weather parameters, including temperature and heat index, on the start speed of four-seam fastball pitches, such that increases in heat index and temperature result in slight increases in pitch speed. This pitch type is the most commonly used in the MLB (currently), and represents the extreme in human athletic accomplishment (105 mph!!!). Anecdotally, pitchers have reported feeling looser and being able to throw faster in warmer weather, supporting the statistical analysis found in this report. Additionally, this analysis suggests that associations between temperature, heat index, and pitch speed may vary by region and location, but more advanced statistical analysis needs to be completed to determine what role (if any) this plays. One hypothesis is that pitchers may become acclimatized to weather, so that they are less impacted by extreme temperatures and heat index if they are used to playing in that type of weather. Thus, it would follow that region and more specifically, homefield location, impact the association between temperature, heat index, and pitch speed.</p>
+<p>Regardless of the weather, one thing is certain: MLB pitchers throw four-seam fastballs at remarkable speeds, and do so in a variety of sometimes extreme weather conditions over an extensive season. Analysis of how various weather events impact pitching performance will hopefully assist athletes to push the envelope even further, matching their own abilities with weather conditions to shatter new barriers. Here’s to the next few decades of sports performance, backed by advanced statistical analysis and a better understanding of how weather impacts pitch speed!</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
