@@ -485,7 +485,7 @@ Exploratory analyses examining pitch speed (of all pitches) vs. heat index indic
 ```{r pitch speed (all types) vs. heat index fig 7, warning=FALSE}
 
 knitr::opts_chunk$set(
-  fig.width = 11,
+  fig.width = 9,
   fig.height = 11,
   out.width = "100%"
 )
