@@ -39,11 +39,11 @@ Advanced statistical analytics are central to evaluating players, developing tea
 Our goal was to build on this body of work by examining the association between weather variables – temperature, humidity, and relative humidity – and the speed of pitches. We hypothesized that on extremely hot days (>35 ºC): 1) pitch speed would decrease and 2) the proportion of non-fastball to fastball pitches would increase. 
 
 ## Presentation 
-```{r echo=FALSE}
+```{r echo=FALSE, message = FALSE, warning = FALSE}
 library(vembedr)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, message = FALSE, warning=FALSE}
 embed_url("https://www.youtube.com/watch?v=tLB8QieR3DI&feature=youtu.be")
 ```
 
