@@ -5,6 +5,8 @@ navbar:
   right:
     - text: "EDA"
       href: EDA.html
+    - text: "Flex Dashboard"
+      href: brennan_flex_dash_plogly.html    
     - text: "Report"
       href: https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/report_draft_three.Rmd   
     - text: "Texas Heat"
