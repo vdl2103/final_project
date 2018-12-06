@@ -1,5 +1,5 @@
 ---
-title: "Fastball Pitch Speed and Max Temperature in September (Away Team Pitches in Bottom of Inning)"
+title: "Fastball Pitch Speed and Max Temperature in September"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -25,11 +25,12 @@ texas = read_csv(file = "./data/texas.csv")
 boston = read_csv(file = "./data/boston.csv")
 ```
 
+Pitchers for the Texas Rangers (Fig.5a, top) seem to have more consistent four-seam fastball speed as temperature increases compared to visiting pitchers (Fig.5a, bottom), who might be less accustomed to pitching in extreme heat. Boston can be colder than most stadiums in September, which might be associated with decreased pitch speed for vistiting pitchers at cooler temps (Fig.5b, bottom) compared to Red Sox pitchers (Fig.5b, top). 
 
 Column {data-width=500}
 -----------------------------------------------------------------------
 
-### Comparing Four-Seam Fastball Speed of Visting ("bottom") and Rangers ("top") Pitchers
+### Fig. 5a Comparing Four-Seam Fastball Speed of Visting ("bottom") and Rangers ("top") Pitchers
 
 ```{r fig.5, message=FALSE, warning=FALSE}
 # Texas Rangers Stadium in September
