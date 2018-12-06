@@ -6,7 +6,7 @@ Welcome to our Hot Humid Baseball project github, by Brennan Baker, Nicole Comfo
 
 In order to review our project, please use the following:
 
-**Website Link:** Vdl2103.github.io/hot_humid_baseball.github.io/
+**Website Link:** https://vdl2103.github.io/hot_humid_baseball.github.io/   
 
 **Report Name:** final_report_hhb.pdf  
 
