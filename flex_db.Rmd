@@ -1,0 +1,174 @@
+---
+title: "Pitching and Temperature"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+
+```{r satup, include=FALSE}
+
+library(flexdashboard)
+library(tidyverse)
+library(lubridate)
+library(pitchRx)
+library(knitr)
+library(kableExtra)
+library(weathermetrics)
+
+```
+
+Further analysis restricted pitch type to the four-seam fastball, and facetted by top and bottom of the inning, to see if Rangers' pitchers were less effected by heat than visiting pitchers. Additionally, a team from a colder climate, the Boston Red Sox, was selected for the same analysis. 
+```{r load data, message=FALSE, warning=FALSE, include = FALSE, echo = FALSE}
+stadium_index = read_csv("./data/stadium_index.csv")
+weather_db = read_csv("./data/weather.csv")
+my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
+pitch = tbl(my_db$con, "pitch")
+atbat = tbl(my_db$con, "atbat")
+# Import team names data
+team_names = read_csv("./data/team_abbrv.csv")
+pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>% 
+  separate(gameday_link.x, into = c("remove", "away_home"), sep = ".............._") %>%
+  separate(away_home, into = c("away", "home"), sep = "mlb_") %>% 
+  mutate(date = ymd(date)) %>% 
+  select(-ends_with(".y"), -ends_with("_es")) %>% 
+  rename_at(.vars = vars(ends_with(".x")),
+          .funs = funs(sub("[.]x$", "", .))) %>% 
+  # Add full team names
+  left_join(team_names) %>% 
+  # Add weather data
+  left_join(weather_db) %>% 
+  # Remove stadiums with a roof
+  filter(!home %in% c("aas", "nas", "tor", "ari", "sea", "hou", "tba", "mia", "1", "2")) %>%  
+  separate(date, c("y", "m", "d")) %>% 
+  select(start_speed, pitch_type, inning_side, inning, event, pitcher_name, y, m, d, team_name, tmax:rh, type, home,          away) 
+
+  # Remove unneeded intermediary data sets to clean environment
+  rm(atbat, my_db, pitch, team_names, weather_db)
+```
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r fig.5, message=FALSE, warning=FALSE}
+# Texas Rangers Stadium in September
+tr9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Texas Rangers" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "Fig 5: Fastball Pitch Speed and Max Temperature", subtitle = "@Texas Rangers",
+    x = "Max Temperature (ºC)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Away Team Pitches in Bottom of Inning"
+  ) +
+  theme(legend.position = "none")
+
+# Boston Red Sox Stadium in September
+
+brs9 = pitch_tidy_db %>% 
+  filter(pitch_type == "FF" & team_name == "Boston Red Sox" & m == "09") %>% 
+  ggplot(aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "", subtitle = "@Boston Red Sox",
+    x = "Max Temperature (ºC)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Pitchers = Colors, Month = September"
+  ) +
+  theme(legend.position = "none")
+
+#Join Graphs
+
+library(patchwork)
+fig_5 = tr9 + brs9
+fig_5
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r fig.6, message=FALSE, warning=FALSE}
+
+# create new variable for US region
+pitch_tidy_db = 
+   dplyr::mutate(pitch_tidy_db,
+                  US_region =
+                  ifelse(team_name == "Baltimore Orioles" |
+                           team_name == "Boston Red Sox" |
+                           team_name == "New York Yankees" |
+                           team_name == "New York Mets" |
+                           team_name == "Tampa Bay Rays" |
+                           team_name == "Philadelphia Phillies" |
+                           team_name == "Pittsburgh Pirates" |
+                           team_name == "Washington Nationals", "northeast",
+                  ifelse(team_name == "Chicago Cubs" |
+                           team_name == "Chicago White Sox" |
+                           team_name == "Cleveland Indians" |
+                           team_name == "Detroit Tigers" |
+                           team_name == "Kansas City Royals" |
+                           team_name == "Minnesota Twins" |
+                           team_name == "Cincinnati Reds" |
+                           team_name == "Milwaukee Brewers" |
+                           team_name == "St. Louis Cardinals", "midwest",
+                  ifelse(team_name == "Texas Rangers" |
+                           team_name == "Houston Astros", "southwest",
+                  ifelse(team_name == "Los Angeles Angels of Anaheim" |
+                           team_name == "Los Angeles Dodgers" |
+                           team_name == "Oakland Athletics" |
+                           team_name == "Seattle Mariners" |
+                           team_name == "San Diego Padres" |
+                           team_name == "San Francisco Giants" |
+                           team_name == "Colorado Rockies", "west",
+                  ifelse(team_name == "Atlanta Braves", "southeast", ""))))))
+
+# heat index distribution by US region 
+fig_6 = pitch_tidy_db %>% 
+  ggplot(aes(x = heat_index, fill = US_region)) +
+  geom_density(alpha = .4, adjust = .5) +
+  facet_wrap(~US_region) +
+    labs(
+    title = "Fig 6: Distribution of Heat Index by US Region",
+    x = "Heat Index (ºC)",
+    y = "Density") +
+  theme(legend.position = "none")
+
+fig_6
+
+```
+
+### Chart C
+
+```{r fig.7, warning=FALSE, message=FALSE}
+
+# pitch speed (all types) vs. heat index, colored by US region 
+fig_7 = pitch_tidy_db %>% 
+  filter(pitch_type != "AB") %>% 
+  filter(pitch_type != "UN") %>% 
+  filter(pitch_type != "NA") %>% 
+  mutate(Region = US_region) %>% 
+  ggplot(aes(x = heat_index, y = start_speed, color = Region)) +
+  geom_point(alpha = .3) +
+  facet_wrap(~pitch_type, ncol = 3) +
+    labs(
+    title = "Fig 7: Pitch Start Speed vs. Heat Index", subtitle = "Colored by US Region",
+    x = "Heat Index (ºC)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Faceted by Pitch Type (link to key below)"
+  )
+
+fig_7
+```
