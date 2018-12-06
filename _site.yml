@@ -5,8 +5,8 @@ navbar:
   right:
     - text: "EDA"
       href: EDA.html
-    - text: "Flex Dashboard"
-      href: flex_db.html
+    - text: "Report"
+      href: https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/report_draft_three.Rmd   
     - text: "Texas Heat"
       href: https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/
     - text: "PRISM code"
