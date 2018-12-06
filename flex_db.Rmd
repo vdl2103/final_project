@@ -7,7 +7,7 @@ output:
 ---
 
 
-```{r satup, include=FALSE}
+```{r satup, include=FALSE, cache = TRUE}
 
 library(flexdashboard)
 library(tidyverse)
@@ -15,12 +15,13 @@ library(lubridate)
 library(pitchRx)
 library(knitr)
 library(kableExtra)
-library(weathermetrics)
+library(plotly)
 
 ```
 
-Further analysis restricted pitch type to the four-seam fastball, and facetted by top and bottom of the inning, to see if Rangers' pitchers were less effected by heat than visiting pitchers. Additionally, a team from a colder climate, the Boston Red Sox, was selected for the same analysis. 
+
 ```{r load data, message=FALSE, warning=FALSE, include = FALSE, echo = FALSE}
+#In Arlington, Texas, in September, visiting pitchers (left plot, "bottom" of the inning) had slightly slower four-seam fastballs at higher temperatures compared to Rangers' pitchers (left plot, "top" of the inning). Visiting pitchers in Boston in September (right plot, "bottom") had more variable pitch speeds, with slower pitches at lower temperatures, while Red Sox pitchers (right plot, "top") had more consistent pitch speed. 
 stadium_index = read_csv("./data/stadium_index.csv")
 weather_db = read_csv("./data/weather.csv")
 my_db <- src_sqlite("./data/GamedayDB.sqlite3", create = TRUE)
@@ -52,7 +53,7 @@ pitch_tidy_db = collect(inner_join(pitch, atbat, by = c("num", "url"))) %>%
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Comparing Pitch Speed for Home vs. Visiting Pitchers in Texas and Massachusetts 
 
 ```{r fig.5, message=FALSE, warning=FALSE}
 # Texas Rangers Stadium in September
@@ -71,6 +72,7 @@ tr9 = pitch_tidy_db %>%
   ) +
   theme(legend.position = "none")
 
+tr9_plotly = ggplotly(tr9)
 # Boston Red Sox Stadium in September
 
 brs9 = pitch_tidy_db %>% 
@@ -88,18 +90,18 @@ brs9 = pitch_tidy_db %>%
   ) +
   theme(legend.position = "none")
 
+brs9_plotly = ggplotly(brs9)
 #Join Graphs
 
 library(patchwork)
-fig_5 = tr9 + brs9
-fig_5
-
+subplot(hide_legend(tr9_plotly), hide_legend(brs9_plotly))
+subplot(tr9_plotly, brs9_plotly)
 ```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Heat Index by US Region
 
 ```{r fig.6, message=FALSE, warning=FALSE}
 
@@ -150,30 +152,24 @@ fig_6
 
 ```
 
-### Chart C
+### Pitch Speed by Heat Index 
 
-```{r fig.7, warning=FALSE, message=FALSE}
+```{r fig.7, warning=FALSE, message=FALSE, eval = FALSE}
 
 # pitch speed (all types) vs. heat index, colored by US region 
-fig_7 = pitch_tidy_db %>% 
-  filter(pitch_type != "AB") %>% 
-  filter(pitch_type != "UN") %>% 
-  filter(pitch_type != "NA") %>% 
-  mutate(Region = US_region) %>% 
-  ggplot(aes(x = heat_index, y = start_speed, color = Region)) +
-  geom_point(alpha = .3) +
-  facet_wrap(~pitch_type, ncol = 3) +
-    labs(
-    title = "Fig 7: Pitch Start Speed vs. Heat Index", subtitle = "Colored by US Region",
-    x = "Heat Index (ºC)",
-    y = "Pitch Starting Speed (MPH)",
-    caption = "Faceted by Pitch Type (link to key below)"
-  )
+#fig_7 = pitch_tidy_db %>% 
+  #filter(!pitch_type %in% c("AB", "UN", "NA", "EP", "IN", "FO", "PO", "FS", "KN", "SI", "KC", "SC")) %>% 
+  #mutate(Region = US_region) %>% 
+  #ggplot(aes(x = heat_index, y = start_speed, color = Region)) +
+  #geom_point(alpha = .3) +
+  #facet_wrap(~pitch_type, ncol = 3) +
+    #labs(
+    #title = "Fig 7: Pitch Start Speed vs. Heat Index", subtitle = "Colored by US Region",
+   # x = "Heat Index (ºC)",
+    #y = "Pitch Starting Speed (MPH)",
+   # caption = "Faceted by Pitch Type (link to key below)"
+  #)
 
-fig_7
+#ggplotly(fig_7)
 ```
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 3f21f156a0100afcae0c91f25b4c3f343646238e
