@@ -9,11 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Stephen Lewandowski" />
 
-<meta name="date" content="2018-11-29" />
 
-<title>linear_models</title>
+<title>Tables and Models</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -225,9 +223,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">linear_models</h1>
-<h4 class="author"><em>Stephen Lewandowski</em></h4>
-<h4 class="date"><em>November 29, 2018</em></h4>
+<h1 class="title toc-ignore">Tables and Models</h1>
 
 </div>
 
@@ -1323,30 +1319,63 @@ pitch_tidy_ff &lt;-
 <div id="pitch-speed-and-maximum-daily-temperature" class="section level3">
 <h3>Pitch speed and maximum daily temperature</h3>
 <pre class="r"><code>pitch_tidy_ff %&gt;% 
-  lm(start_speed ~ tmax, data = .) %&gt;% summary()</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = start_speed ~ tmax, data = .)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -36.743  -1.721   0.035   1.852  11.839 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 9.197e+01  1.144e-02 8041.28   &lt;2e-16 ***
-## tmax        3.687e-02  4.591e-04   80.32   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 2.77 on 756131 degrees of freedom
-## Multiple R-squared:  0.008459,   Adjusted R-squared:  0.008458 
-## F-statistic:  6451 on 1 and 756131 DF,  p-value: &lt; 2.2e-16</code></pre>
-<pre class="r"><code>  broom::tidy() %&gt;% 
+  lm(start_speed ~ tmax, data = .) %&gt;% 
+  broom::tidy() %&gt;% 
   knitr::kable(digits = 3)</code></pre>
 <table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std.error
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+91.965
+</td>
+<td style="text-align:right;">
+0.011
+</td>
+<td style="text-align:right;">
+8041.278
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tmax
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+80.316
+</td>
+<td style="text-align:right;">
+0
+</td>
 </tr>
 </tbody>
 </table>
@@ -2008,52 +2037,44 @@ homewas
 <h4>Speed and Heat index</h4>
 <pre class="r"><code>pitch_tidy_ff %&gt;% 
   ggplot(., aes(x = heat_index, y = start_speed)) + 
-    geom_point() + 
-    geom_smooth(method = &quot;lm&quot;)</code></pre>
-<pre><code>## Warning: Removed 473 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 473 rows containing missing values (geom_point).</code></pre>
-<p><img src="linear_models_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+    geom_point(aes(alpha = 0.5)) + 
+    geom_smooth(method = &quot;lm&quot;, color = &quot;green&quot;) +
+    geom_smooth(color = &quot;black&quot;) +
+    labs(
+      title = &quot;Heat index and fastball speed&quot;,
+      x = &quot;pitch speed (mph)&quot;,
+      y = &quot;heat index (deg C)&quot;
+    ) </code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="linear_models_files/figure-html/speed_heat_plot-1.png" width="672" /></p>
 </div>
-<div id="inning-and-heat-index" class="section level4">
-<h4>Inning and Heat index</h4>
+<div id="speed-and-inning" class="section level4">
+<h4>Speed and Inning</h4>
 <pre class="r"><code>pitch_tidy_ff %&gt;% 
   ggplot(., aes(x = inning, y = start_speed)) + 
     geom_point() + 
     geom_smooth(method = &quot;lm&quot;, color = &quot;green&quot;) +
-    geom_smooth()</code></pre>
+    geom_smooth() +
+    labs(
+        title = &quot;Inning and fastball speed&quot;,
+        x = &quot;inning&quot;,
+        y = &quot;pitch speed (mph)&quot;
+      ) </code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="linear_models_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-</div>
-<div id="speed-and-heat-index-by-pitcher" class="section level4">
-<h4>Speed and Heat index, by pitcher</h4>
-<pre class="r"><code>pitch_tidy_ff %&gt;% 
-  filter(pitcher_name != &quot;NA&quot;) %&gt;% 
-  group_by(pitcher_name) %&gt;% 
-  summarise(n_ff = n()) %&gt;% 
-  arrange(desc(n_ff)) %&gt;% 
-  slice(1:100) %&gt;%
-  ungroup() %&gt;% 
-  left_join(., pitch_tidy_ff, by = &quot;pitcher_name&quot;) %&gt;% 
-  ggplot(., aes(x = heat_index, y = start_speed, color = &quot;pitcher_name&quot;)) + 
-    geom_point(aes(alpha = 0.5)) + 
-    geom_smooth(method = &quot;lm&quot;, color = &quot;green&quot;) +
-    geom_smooth(color = &quot;black&quot;) +
-    theme(legend.position = &quot;none&quot;)</code></pre>
-<pre><code>## Warning: Removed 189 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<pre><code>## Warning: Removed 189 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 189 rows containing missing values (geom_point).</code></pre>
-<p><img src="linear_models_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="linear_models_files/figure-html/inning_heat_plot-1.png" width="672" /></p>
 </div>
 <div id="speed-and-heat-index-by-home-stadium" class="section level4">
 <h4>Speed and Heat index, by home stadium</h4>
 <pre class="r"><code>pitch_tidy_ff %&gt;% 
   ggplot(., aes(x = heat_index, y = start_speed, color = home)) + 
     geom_point() + 
-    geom_smooth(method = &quot;lm&quot;)</code></pre>
-<pre><code>## Warning: Removed 473 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 473 rows containing missing values (geom_point).</code></pre>
-<p><img src="linear_models_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+    geom_smooth(method = &quot;lm&quot;) +
+    labs(
+          title = &quot;Heat index and fastball speed, by home stadium&quot;,
+          x = &quot;heat index (deg C)&quot;,
+          y = &quot;pitch speed (mph)&quot;
+        ) </code></pre>
+<p><img src="linear_models_files/figure-html/speed_heat_home_plot-1.png" width="672" /></p>
 </div>
 </div>
 </div>
