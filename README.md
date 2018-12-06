@@ -4,11 +4,16 @@ Welcome to our Hot Humid Baseball project github, by Brennan Baker, Nicole Comfo
 
 ### Project Overview
 
-In order to review our project, please use the following documents:
+In order to review our project, please use the following:
 
-**Website:** Vdl2103.github.io/hot_humid_baseball.github.io/
+**Website Link:** https://vdl2103.github.io/hot_humid_baseball.github.io/   
 
-**Report:** report_drafts/report_draft_three.html
+**Report Name:** final_report_hhb.pdf  
+
+Our report is hosted at: https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/final_report_hhb.pdf.
+
+The R Markdown code for our report is located at: 
+https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/report_drafts/report_draft_three.Rmd.
 
 ### Data
 
