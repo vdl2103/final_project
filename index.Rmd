@@ -65,9 +65,13 @@ Finally, we used simple linear regression models to quantify the effect of daily
 ## Results
 There was no strong association between maximum daily temperature and four-seam fastball speed (**Fig.2**), though there was some evidence that pitch outcome might be influenced by temperature. There seems to be a slight increase in the number of doubles, homeruns, flyouts, and lineouts at higher temperatures, which suggests that batters have more, or better, contact with these pitches (**Fig.3**). The association could be due to slower pitch speeds, at least for some pitchers. 
 
-The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums (**Fig.4**). We found that the Rangers’ pitchers were less affected by high temperatures compared to visiting pitchers, who experienced a slight decrease in fastball speed (**Fig.5a**). In Boston, it appears that visiting pitchers threw slower four-seam fastballs at colder temperatures, whereas Red Sox pitchers were more consistent regardless of temperature.
+The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums (**Fig.4**). We found that the Rangers’ pitchers were less affected by high temperatures compared to visiting pitchers, who experienced a slight decrease in fastball speed (**Fig.5a**). In Boston, it appears that visiting pitchers threw slower four-seam fastballs at colder temperatures, whereas Red Sox pitchers were more consistent regardless of temperature (**Fig.5b**)
 
-Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (**Fig.6**). There were no overall associations between pitch speed and heat index (**Fig.7**), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes. 
+Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (**Fig.6**). 
+![](./Fig.6.png)
+
+There were no overall associations between pitch speed and heat index (**Fig.7**), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes. 
+![](./Fig.7.png)
 
 The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed. 
 
