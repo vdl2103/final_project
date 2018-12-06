@@ -332,7 +332,7 @@ body{ /* Normal */
     color: Black;
 }
 td { /*Table */
-  font-size: 8px; 
+  font-size: 14px; 
 }
 h1.title {
 font-size: 38px;
@@ -373,7 +373,7 @@ Giant cow playing baseball
 </div>
 <div id="methods" class="section level2">
 <h2>Methods</h2>
-<p>We conducted <a href="">exploratory data analysis</a> to identify overall trends between our weather variables - <strong>maximum temperature(ºC), relative humidity (expressed as a percentage), and heat index (ºC)</strong> - and pitch speed or type. To become more familiar with the data, we created a series of graphs to explore potential associations between pitch speed and the weather variables.</p>
+<p>We conducted <a href="https://vdl2103.github.io/hot_humid_baseball.github.io/EDA.html">exploratory data analysis</a> to identify overall trends between our weather variables - <strong>maximum temperature(ºC), relative humidity (expressed as a percentage), and heat index (ºC)</strong> - and pitch speed or type. To become more familiar with the data, we created a series of graphs to explore potential associations between pitch speed and the weather variables.</p>
 <p>We also investigated whether the relationship between pitch speed and temperature was modified by a team’s home location. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? We compared home team vs. visiting team pitch speed in Arlington, Texas, home of the Rangers, and Boston, home of the Red Sox, to see if there was a difference in speed between teams acclimatized to extremes, and those that were not. Furthermore, we created a Shiny plot of <a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/">all pitches thrown by visiting pitchers</a> at the Rangers’ ballpark by maximum daily temperature to determine if pitch speed decreased with increasing temperature.</p>
 <p>The association between pitch speed/ type and humidity was uninformative, but we used the humidity and temperature data to calculate heat index, which is a better measure than air temperature for estimating the risk to workers from environmental heat sources. We faceted the heat index by geographic region in the United States and assessed its association with pitch speed and type.</p>
 <p>Finally, we used simple linear regression models to quantify the effect of daily heat index and maximum daily maximum temperature on the speed of four-seam fastballs.</p>
@@ -384,6 +384,51 @@ Giant cow playing baseball
 <p>The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums (<strong>Fig.4</strong>). We found that the Rangers’ pitchers were less affected by high temperatures compared to visiting pitchers, who experienced a slight decrease in fastball speed (<strong>Fig.5a</strong>). In Boston, it appears that visiting pitchers threw slower four-seam fastballs at colder temperatures, whereas Red Sox pitchers were more consistent regardless of temperature.</p>
 <p>Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (<strong>Fig.6</strong>). There were no overall associations between pitch speed and heat index (<strong>Fig.7</strong>), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes.</p>
 <p>The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed.</p>
+<p><strong>Table 1. Comparison of Linear Regression Models</strong> <table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 35%; margin-left: auto; margin-right: auto; ">
+<col><col><col><col><tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 2pt 0pt; padding: 4pt 10pt 4pt 10pt; font-weight: bold;">Model</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 2pt 0pt; padding: 4pt 10pt 4pt 10pt; font-weight: bold;">Variable</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 2pt 0pt; padding: 4pt 10pt 4pt 10pt; font-weight: bold;">Estimate</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 2pt 0pt; padding: 4pt 10pt 4pt 10pt; font-weight: bold;">P-value</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Heat Index</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Heat Index</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">0.036</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">&lt;0.010</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Max. Daily Temp.</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Max. Temp.</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">0.037</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">&lt;0.010</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Inning Number</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Inning</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">0.197</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">&lt;0.010</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Inning Number + Pitcher</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Inning</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">0.002</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">0.030</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Heat Index + Pitcher</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Heat Index</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">0.027</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">&lt;0.010</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Heat Index + Team</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">Heat Index</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">0.040</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">&lt;0.010</td>
+</tr>
+</table>
+</p>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>

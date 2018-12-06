@@ -9,7 +9,7 @@ body{ /* Normal */
     color: Black;
 }
 td { /*Table */
-  font-size: 8px; 
+  font-size: 14px; 
 }
 h1.title {
 font-size: 38px;
@@ -54,7 +54,7 @@ We used the [PITCHf/x database]( https://pitchrx.cpsievert.me/) from MLB Advance
 We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model ([PRISM]( https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d)) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks around the United States. We extracted daily temperature and humidity measures for each ballpark location. 
 
 ## Methods
-We conducted [exploratory data analysis]() to identify overall trends between our weather variables - **maximum temperature(ºC), relative humidity (expressed as a percentage), and heat index (ºC)** - and pitch speed or type. To become more familiar with the data, we created a series of graphs to explore potential associations between pitch speed and the weather variables. 
+We conducted [exploratory data analysis](https://vdl2103.github.io/hot_humid_baseball.github.io/EDA.html) to identify overall trends between our weather variables - **maximum temperature(ºC), relative humidity (expressed as a percentage), and heat index (ºC)** - and pitch speed or type. To become more familiar with the data, we created a series of graphs to explore potential associations between pitch speed and the weather variables. 
 
 We also investigated whether the relationship between pitch speed and temperature was modified by a team’s home location. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium?  We compared home team vs. visiting team pitch speed in Arlington, Texas, home of the Rangers, and Boston, home of the Red Sox, to see if there was a difference in speed between teams acclimatized to extremes, and those that were not. Furthermore, we created a Shiny plot of [all pitches thrown by visiting pitchers]( https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/) at the Rangers’ ballpark by maximum daily temperature to determine if pitch speed decreased with increasing temperature. 
 
@@ -70,6 +70,30 @@ The plot of fastball pitch speed by max temperature, faceted by home team, sugge
 Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (**Fig.6**). There were no overall associations between pitch speed and heat index (**Fig.7**), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes. 
 
 The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed. 
+
+**Table 1. Comparison of Linear Regression Models**
+```{r table 1, warning=FALSE, message=FALSE, echo=FALSE}
+library(huxtable)
+table_one = hux(
+  Model = c("Model", "Heat Index", "Max. Daily Temp.", "Inning Number", "Inning Number + Pitcher", 
+            "Heat Index + Pitcher", "Heat Index + Team"), 
+  Variable = c("Variable", "Heat Index", "Max. Temp.", "Inning", "Inning", "Heat Index", "Heat Index"), 
+  Estimate = c("Estimate", 0.036, 0.037, 0.197, 0.002, 0.027, 0.04), 
+  P_value = c("P-value", "<0.01", "<0.01","<0.01", "0.03", "<0.01","<0.01"),
+  add_colnames = FALSE
+)
+
+table_one %>% 
+  set_bold(1, everywhere, TRUE) %>% 
+  set_bottom_border(1, everywhere, 2) %>% 
+  set_align(everywhere, 2, 'right') %>% 
+  set_right_padding(10) %>% 
+  set_left_padding(10) %>% 
+  set_width(0.35) %>% 
+  set_number_format(3)
+
+```
+
 
 ## Discussion
 We found that there is a small, but measurable, positive effect of temperature and heat index on the start speed of four-seam fastballs (**Table 1**). This is consistent with [previous reserach](https://www.fangraphs.com/blogs/what-pitchers-and-numbers-say-about-pitching-in-the-cold/) that found an assocation etween cold temperatures and decreasing pitch speed. The overall trend might mask, however, a decrease in four-seam fastball pitch speed at extreme temperature and/or heat index values. Visiting pitchers playing in Arlington, Texas, for example, had slightly slower four-seam fastballs at higher maximum daily temperatures compared to Rangers' pitchers. This finding suggests that among players unaccustomed to playing in extreme temperatures (>35ºC), there may be a tipping point at which heat has a detrimental effect on performance. 
