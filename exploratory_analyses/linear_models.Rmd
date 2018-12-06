@@ -1,0 +1,273 @@
+---
+title: "Tables and Models"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+
+
+```{r import_reduce_data}
+pitch_tidy_db <- read.csv("./data/pitch_tidy_db.csv") %>%
+  select(des, id, type, start_speed, end_speed, pitch_type, inning_side, inning, count, away, home, pitcher, event, batter_name, pitcher_name, team_name, tfs_zulu, tmax, tmin, tmean, tdmean, heat_index, rh) %>% 
+  mutate(home = factor(home),
+         away = factor(away),
+         pitcher_name = factor(pitcher_name),
+         pitch_type = factor(pitch_type),
+         pitcher = factor(pitcher),
+         type = factor(type),
+         event = factor(event),
+         team_name = factor(team_name))
+
+# missing `date` from latest data_pipeline
+```
+
+## Data tables
+
+### Pitch type frequency
+```{r pitch_type table}
+
+pitch_tidy_db %>%
+  filter(pitch_type != "NA") %>% 
+  group_by(pitch_type) %>% 
+  summarise(n = n(),
+            mean_s_s = mean(start_speed, na.rm = TRUE),
+            sd_s_s = sd(start_speed, na.rm = TRUE),
+            mean_e_s = mean(end_speed, na.rm = TRUE),
+            sd_e_s = sd(end_speed, na.rm = TRUE),
+            mean_inning = mean(inning)) %>%
+  top_n(n = 10, wt = n) %>% 
+  arrange(desc(n)) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+   add_header_above(c(" " = 2, "Start Speed" = 2, "End Speed" = 2, " " = 1))
+```
+Pitch type abbreviations and descriptions are listed at https://www.fangraphs.com/library/pitch-type-abbreviations-classifications/. The top 5 by frequency are:
+
+FF = four-seam fastball  
+SL = slider   
+FT = two-seam fastball  
+CH = changeup  
+CU = curveball  
+  
+I will restrict analysis to four-seam fastballs, of which over 750,000 were thrown in outdoor ballparks during our selected time period.
+
+### Fastballs by pitcher
+
+Most fastballs thrown
+
+```{r number_FF_pitcher}
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF",
+         pitcher_name != "NA") %>% 
+  group_by(pitcher_name) %>% 
+  summarise(n_ff = n(),
+            mean_speed = mean(start_speed, na.rm = TRUE),
+            sd_speed = sd(start_speed, na.rm = TRUE)) %>% 
+  arrange(desc(n_ff)) %>% 
+  slice(1:10) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
+  
+```
+
+
+
+Fastest average speed
+```{r fastest_pitchers}
+
+pitch_tidy_db %>% 
+  filter(pitch_type == "FF",
+         pitcher_name != "NA") %>% 
+  group_by(pitcher_name) %>% 
+  summarise(mean_speed = mean(start_speed, na.rm = TRUE),
+            sd_speed = sd(start_speed, na.rm = TRUE),
+            n_ff = n()) %>% 
+  arrange(desc(mean_speed)) %>% 
+  slice(1:10) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
+
+```
+
+Top speed pitches in our database
+
+```{r table_pitch_speed}
+pitch_tidy_db %>% 
+  filter(pitcher_name != "NA") %>% 
+  arrange(desc(start_speed, end_speed)) %>% 
+  slice(1:10) %>%
+  select(start_speed, end_speed, pitch_type, pitcher_name, batter_name, inning, des, home, away, tmax, heat_index) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
+```
+
+
+
+
+## Statistical Analysis: Linear Models
+
+We used simple linear regression to examine the effects of daily heat index and daily maximum temperature on the start speed of four-seam fastballs while also considering the effects of the individual pitcher, inning, and ballpark location (home team)(AD1).
+
+
+
+```{r filter_ff}
+
+
+# Filter dataframe to only four-seam fastballs
+pitch_tidy_ff <-
+  pitch_tidy_db %>% 
+  filter(pitch_type == "FF")
+
+```
+
+
+
+### Pitch speed and heat index  
+
+```{r lm_heat}
+pitch_tidy_ff %>% 
+  lm(start_speed ~ heat_index, data = .) 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
+
+
+A one degree increase in heat index increased the start speed of four-seam fastballs by 0.036 mph (p < 0.001). This is a statistically significant difference, but it is not meaningful.  
+
+
+
+### Pitch speed and maximum daily temperature
+
+```{r lm_tmax}
+pitch_tidy_ff %>% 
+  lm(start_speed ~ tmax, data = .) %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
+
+A one degree increase in maximum daily temperature increased the start speed of four-seam fastballs by 0.037 mph (p < 0.0001). This result is nearly identical to the heat index model.  
+
+
+### Pitch speed by inning  
+
+
+```{r lm_inning}
+
+pitch_tidy_ff %>% 
+  lm(start_speed ~ heat_index, data = .) %>%
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+```
+
+.   
+
+A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p < 0.001). This may be due to closers coming into the game and throwing more heat. Two-tenths of a mph most likely does not make a difference on a per at-bat basis. 
+
+
+
+ 
+
+### Pitch speed by inning, controlled for pitcher (top 200 fastball throwers)
+```{r lm_inning_pitcher}
+
+pitch_tidy_ff %>% 
+  filter(pitcher_name != "NA") %>% 
+  group_by(pitcher_name) %>% 
+  summarise(n_ff = n()) %>% 
+  arrange(desc(n_ff)) %>% 
+  slice(1:200) %>%
+  ungroup() %>% 
+  left_join(., pitch_tidy_ff, by = "pitcher_name") %>% 
+  lm(start_speed ~ inning + pitcher_name, data = .) %>%  
+  broom::tidy() %>% 
+  slice(1:5) %>% 
+  knitr::kable(digits = 3) 
+  
+```
+
+After adjusting for pitcher, the effect of inning is only an increase of 0.002 mph per inning (p = 0.03). The effect of inning will not be carried forward to further weather analysis.
+
+
+
+### Pitch speed and heat index, controlled for home team 
+```{r lm_speed_heat_home}
+
+pitch_tidy_ff %>% 
+  lm(start_speed ~ heat_index + home, data = .) %>%  
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+```
+
+A one inning increase is associated with a 0.197 mph increase in the start speed of four-seam fastballs (p < 0.001). This may be due to closers coming into the game and throwing more heat. Two-tenths of a mph most likely does not make a difference on a per at-bat basis. 
+
+
+
+
+
+### Future statistical analysis  
+
+Additional analysis could examine non-linear effects of weather on pitch speed. Different approaches could include segmented regression or generalized additive models to test weather parameter thresholds.     
+
+
+###Scatterplots
+
+#### Speed and Heat index
+```{r speed_heat_plot, warning = FALSE}
+pitch_tidy_ff %>% 
+  ggplot(., aes(x = heat_index, y = start_speed)) + 
+    geom_point(aes(alpha = 0.5)) + 
+    geom_smooth(method = "lm", color = "green") +
+    geom_smooth(color = "black") +
+    labs(
+      title = "Heat index and fastball speed",
+      x = "pitch speed (mph)",
+      y = "heat index (deg C)"
+    ) 
+
+
+```
+
+
+#### Speed and Inning
+```{r inning_heat_plot, warning = FALSE}
+pitch_tidy_ff %>% 
+  ggplot(., aes(x = inning, y = start_speed)) + 
+    geom_point() + 
+    geom_smooth(method = "lm", color = "green") +
+    geom_smooth() +
+    labs(
+        title = "Inning and fastball speed",
+        x = "inning",
+        y = "pitch speed (mph)"
+      ) 
+```
+
+
+#### Speed and Heat index, by home stadium
+```{r speed_heat_home_plot, warning = FALSE}
+pitch_tidy_ff %>% 
+  ggplot(., aes(x = heat_index, y = start_speed, color = home)) + 
+    geom_point() + 
+    geom_smooth(method = "lm") +
+    labs(
+          title = "Heat index and fastball speed, by home stadium",
+          x = "heat index (deg C)",
+          y = "pitch speed (mph)"
+        ) 
+
+
+```
+
+
+
+
