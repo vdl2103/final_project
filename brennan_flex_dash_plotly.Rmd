@@ -1,0 +1,79 @@
+---
+title: "Fastball Pitch Speed and Max Temperature in September (Away Team Pitches in Bottom of Inning)"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+
+```{r satup, include=FALSE}
+
+library(flexdashboard)
+library(tidyverse)
+library(lubridate)
+library(pitchRx)
+library(knitr)
+library(kableExtra)
+library(weathermetrics)
+library(plotly)
+library(patchwork)
+```
+
+```{r data import}
+texas = read_csv(file = "./data/texas.csv")
+boston = read_csv(file = "./data/boston.csv")
+```
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r fig.5, message=FALSE, warning=FALSE}
+# Texas Rangers Stadium in September
+tr9 = ggplot(texas, aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "@ Texas Rangers",
+    x = "Max Temperature (Celcius)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Away Team Pitches in Bottom of Inning"
+  ) +
+  theme(legend.position = "none")
+
+#Join Graphs
+
+ggplotly(tr9)
+
+```
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+# Boston Red Sox Stadium in September
+
+brs9 = ggplot(boston, aes(x = tmax, y = start_speed)) +
+  geom_point(aes(color = pitcher_name)) +
+  geom_smooth(method = 'lm', color = "black") +
+  geom_smooth() +
+  facet_wrap(~inning_side) +
+  labs(
+    title = "@ Boston Redsox",
+    x = "Max Temperature (Celcius)",
+    y = "Pitch Starting Speed (MPH)",
+    caption = "Pitchers = Colors, Month = September"
+  ) +
+  theme(legend.position = "none")
+
+ggplotly(brs9)
+```
+
