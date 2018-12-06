@@ -8,7 +8,8 @@ In order to review our project, please use the following:
 
 **Website Link:** Vdl2103.github.io/hot_humid_baseball.github.io/
 
-**Report Name:** final_report_hhb.pdf
+**Report Name:** final_report_hhb.pdf  
+
 Our report is hosted at: https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/final_report_hhb.pdf.
 
 The R Markdown code for our report is located at: 
