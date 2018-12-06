@@ -21,8 +21,8 @@ library(patchwork)
 ```
 
 ```{r data import}
-texas = read_csv(file = "./data/texas.csv")
-boston = read_csv(file = "./data/boston.csv")
+texas = read_csv(file = "/Users/victorialynch/Desktop/Data Science/hot_humid_baseball.github.io/data/texas.csv")
+boston = read_csv(file = "/Users/victorialynch/Desktop/Data Science/hot_humid_baseball.github.io/data/boston.csv")
 ```
 
 
