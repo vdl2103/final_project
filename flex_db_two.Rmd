@@ -6,7 +6,7 @@ output:
     vertical_layout: fill
 ---
 
-```{r satup, include=FALSE, cache = TRUE}
+```{r satup, include=FALSE}
 
 library(flexdashboard)
 library(tidyverse)
