@@ -8,7 +8,7 @@ navbar:
     - text: "Flex Dashboard"
       href: brennan_flex_dash_plotly.html    
     - text: "Report"
-      href: https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/report_draft_three.Rmd   
+      href: https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/final_report_hhb.pdf
     - text: "Texas Heat"
       href: https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/
     - text: "PRISM code"

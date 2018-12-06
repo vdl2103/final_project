@@ -11,7 +11,7 @@
 
 
 
-<title>PRISM</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,9 +25,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -320,103 +317,53 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">PRISM</h1>
 
 </div>
 
 
-<div id="google-earth-engine-code-editor" class="section level2">
-<h2>Google Earth Engine code editor</h2>
-<p>The code below may be used to download PRISM data tables for a desired weather parameter at specified locations and over a specified time period (account required).</p>
-<p>This example provides a table for daily <code>tdmean</code> at MLB ballparks in the United States. Other bands such as <code>tmax</code> or <code>tmin</code> may be substituted for <code>tdmean</code>following “Create a collection of triplets”.</p>
-<p>The Google Earth Engine API “Tables and Vectors” tutorial video and companion slides provide additional information on these steps.</p>
-<p>Video link: <a href="https://developers.google.com/earth-engine/tutorials#tables-and-vectors" class="uri">https://developers.google.com/earth-engine/tutorials#tables-and-vectors</a><br />
-Slides link: <a href="https://docs.google.com/presentation/d/1D7rezUHPElCfYWHMRNBChHjbEv6nXDD8xnh7_YgyK6A/edit#slide=id.g21c09d71c4_0_0" class="uri">https://docs.google.com/presentation/d/1D7rezUHPElCfYWHMRNBChHjbEv6nXDD8xnh7_YgyK6A/edit#slide=id.g21c09d71c4_0_0</a></p>
-<div id="javascript-code-to-download-prism-data" class="section level3">
-<h3>JavaScript code to download PRISM data</h3>
-<p>// First, import ImageCollection ID: “OREGONSTATE/PRISM/AN81d”, PRISM Daily Spatial Climate Dataset AN81d</p>
-<p>// Load a Fusion Table from the ID using the FeatureCollection constructor.</p>
-<p>var ballpark = ee.FeatureCollection(“ft:1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN”);</p>
-<p>var usa = ee.FeatureCollection(“ft:1ksBc_-cWnek37HFTMr0FXfBtOETBeYYbB1YeSg”);</p>
-<p>// Load PRISM input imagery.<br />
-var tmax = ee.ImageCollection(PRISM)<br />
-.filterDate(‘2015-04-01’, ‘2018-10-31’)<br />
-.select(‘tmax’);</p>
-<p>var tmin = ee.ImageCollection(PRISM)<br />
-.filterDate(‘2015-04-01’, ‘2018-10-31’)<br />
-.select(‘tmin’);</p>
-<p>var tdmean = ee.ImageCollection(PRISM)<br />
-.filterDate(‘2015-04-01’, ‘2018-10-31’)<br />
-.select(‘tdmean’);</p>
-<p>/////////////////////////////////////////////////////////</p>
-<p>//Create a collection of triplets, {imageID, ballpark, first}:</p>
-<p>var triplets = tdmean.map(function(image) {<br />
-return image.select(‘tdmean’).reduceRegions({<br />
-collection: ballpark.select([‘Team Name’]),<br />
-reducer: ee.Reducer.first(),<br />
-scale: 1000<br />
-}).filter(ee.Filter.neq(‘first’, null))<br />
-.map(function(f) {<br />
-return f.set(‘imageId’, image.id());<br />
-});<br />
-}).flatten();</p>
-<p>print(triplets.first()); //properties: ballpark, imageId, first</p>
-<p>//////////////////////////////////////////////////////////////////////////</p>
-<p>// Format a table of triplets into a 2D table of rowId x colId.<br />
-var format = function(table, rowId, colId) {<br />
-// Get a FeatureCollection with unique row IDs.<br />
-var rows = table.distinct(rowId);<br />
-// Join the table to the unique IDs to get a collection in which<br />
-// each feature stores a list of all features having a common row ID.<br />
-var joined = ee.Join.saveAll(‘matches’).apply({<br />
-primary: rows,<br />
-secondary: table,<br />
-condition: ee.Filter.equals({<br />
-leftField: rowId,<br />
-rightField: rowId<br />
-})<br />
-});</p>
-<p>return joined.map(function(row) {<br />
-// Get the list of all features with a unique row ID.<br />
-var values = ee.List(row.get(‘matches’))<br />
-// Map a function over the list of rows to return a list of<br />
-// column ID and value.<br />
-.map(function(feature) {<br />
-feature = ee.Feature(feature);<br />
-return [feature.get(colId), feature.get(‘first’)];<br />
-});<br />
-// Return the row with its ID property and properties for<br />
-// all matching columns IDs storing the output of the reducer.<br />
-// The Dictionary constructor is using a list of key, value pairs.<br />
-return row.select([rowId]).set(ee.Dictionary(values.flatten()));<br />
-});<br />
-};</p>
-<p>var table1 = format(triplets, ‘Team Name’, ‘imageId’);<br />
-var desc2 = ‘tdmean’;</p>
-<p>Export.table.toDrive({<br />
-collection: table1,<br />
-description: desc2,<br />
-fileNamePrefix: desc2,<br />
-fileFormat: ‘CSV’<br />
-});</p>
+<div id="hot-humid-baseball" class="section level1">
+<h1>Hot Humid Baseball</h1>
+<p>Welcome to our Hot Humid Baseball project github, by Brennan Baker, Nicole Comfort, Stephen Lewandowski, Victoria Lynch, and Jenni Shearston.</p>
+<div id="project-overview" class="section level3">
+<h3>Project Overview</h3>
+<p>In order to review our project, please use the following documents:</p>
+<p><strong>Website:</strong> hot_humid_baseball.github.io</p>
+<p><strong>Report:</strong> report_draft_three.html</p>
 </div>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>Data is Stored in the following Google Drive locations:</p>
+<p>The raw data files from Earth Engine and the stadium index from Fusion Table are available at the links below:</p>
+<p>“tdmean_ballpark.PRISM.csv”: <a href="https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK" class="uri">https://drive.google.com/open?id=11Wptk3Eaul1rJEmXB2Xb9T7G_B82i3MK</a><br />
+“tmin_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa" class="uri">https://drive.google.com/open?id=1gtjdciCF4zJmrcyjXnUrj-JNDs437MCa</a><br />
+“tmax_ballpark.PRISM.csv” : <a href="https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq" class="uri">https://drive.google.com/open?id=1AYqLA1Qp3tOOG7hltIN9-aXuYUkF3SSq</a><br />
+“stadium_index.csv” : <a href="https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo" class="uri">https://drive.google.com/open?id=13mteZpqRSzkeUObmaL6VwYT9s3QNlDOo</a></p>
+<p>The geocoded stadium index source is: <a href="https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1" class="uri">https://fusiontables.google.com/DataSource?docid=1EXApOoxEgJUFlbMjUodfxBSWlRvgQNpABeddHqiN#rows:id=1</a></p>
+<p>The joined and cleaned weather dataframe, <code>weather.csv</code>, is available at:</p>
+<p>“weather.csv” : <a href="https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W" class="uri">https://drive.google.com/open?id=1jr1_sSAzSn8SVKralTHWGdQWH0BEX08W</a></p>
+<p>The baseball data used for this project can be accessed here: <a href="https://drive.google.com/drive/u/0/search?q=sqlite" class="uri">https://drive.google.com/drive/u/0/search?q=sqlite</a></p>
+<p>The baseball team abbreviation file can be accessed here: <a href="https://drive.google.com/file/d/1IUVXPXsG_vuuIRoMJxzHgMLBWV4D4Kx7/view?usp=sharing" class="uri">https://drive.google.com/file/d/1IUVXPXsG_vuuIRoMJxzHgMLBWV4D4Kx7/view?usp=sharing</a></p>
+<p>To knit the report Rmarkdown and recreate this project, ensure the following files are downloaded and placed into a “data” folder:</p>
+<ul>
+<li>GamedayDB.sqlite3</li>
+<li>stadium_index.csv</li>
+<li>tdmean_ballpark_PRISM.csv</li>
+<li>team_abbrv.csv</li>
+<li>tmax_ballpark_PRISM.csv</li>
+<li>tmin_ballpark_PRISM.csv</li>
+</ul>
 </div>
-<div id="map-example-of-prism-output" class="section level2">
-<h2>Map Example of PRISM output</h2>
-<p>Earth Engine can also produce maps and charts.</p>
-<p>Variable Selection: weather parameter of interest, date averaging period, visualization scale and colors.</p>
-<div id="map-code" class="section level3">
-<h3>Map code</h3>
-<p>var prism = ee.ImageCollection(‘OREGONSTATE/PRISM/AN81d’)<br />
-.filter(ee.Filter.date(‘2018-07-05’, ‘2018-07-06’));<br />
-var tmaxMap = prism.select(‘tmax’);<br />
-var tmaxVis = {<br />
-min: 20.0,<br />
-max: 45.0,<br />
-palette: [‘yellow’, ‘orange’, ‘red’],<br />
-};<br />
-Map.setCenter(-100.55, 40.71, 4);<br />
-Map.addLayer(tmaxMap, tmaxVis, ‘tmax’);</p>
+<div id="needed-packages" class="section level3">
+<h3>Needed Packages</h3>
+<p>If you intend to knit the R Markdown document to replicate this project, be sure the following packages are installed:</p>
+<p><em>Please note that it will take approximately 15 minutes to knit this report.</em></p>
+<p><code>install.packages(&quot;tidyverse&quot;)</code><br />
+<code>install.packages(&quot;lubridate&quot;)</code><br />
+<code>install.packages(&quot;pitchRx&quot;)</code><br />
+<code>install.packages(&quot;knitr&quot;)</code><br />
+<code>install.packages(&quot;kableExtra&quot;)</code><br />
+<code>install.packages(&quot;weathermetrics&quot;)</code><br />
+<code>install.packages(&quot;patchwork&quot;)</code></p>
 </div>
 </div>
 
