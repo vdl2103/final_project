@@ -172,5 +172,8 @@ fig_7 = pitch_tidy_db %>%
 
 fig_7
 ```
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3f21f156a0100afcae0c91f25b4c3f343646238e
