@@ -332,7 +332,7 @@ body{ /* Normal */
     color: Black;
 }
 td { /*Table */
-  font-size: 8px; 
+  font-size: 14px; 
 }
 h1.title {
 font-size: 38px;
@@ -384,40 +384,7 @@ Giant cow playing baseball
 <p>The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums (<strong>Fig.4</strong>). We found that the Rangers’ pitchers were less affected by high temperatures compared to visiting pitchers, who experienced a slight decrease in fastball speed (<strong>Fig.5a</strong>). In Boston, it appears that visiting pitchers threw slower four-seam fastballs at colder temperatures, whereas Red Sox pitchers were more consistent regardless of temperature.</p>
 <p>Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (<strong>Fig.6</strong>). There were no overall associations between pitch speed and heat index (<strong>Fig.7</strong>), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes.</p>
 <p>The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed.</p>
-<p><strong>Table 1. Comparison of Linear Regression Models</strong></p>
-<pre class="r"><code>library(huxtable)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;huxtable&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:kableExtra&#39;:
-## 
-##     add_footnote</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     add_rownames</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     every</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     theme_grey</code></pre>
-<pre class="r"><code>table_one = hux(
-  Model = c(&quot;Model&quot;, &quot;Heat Index&quot;, &quot;Max. Daily Temp.&quot;, &quot;Inning Number&quot;, &quot;Inning Number + Pitcher&quot;, 
-            &quot;Heat Index + Pitcher&quot;, &quot;Heat Index + Team&quot;), 
-  Variable = c(&quot;Variable&quot;, &quot;Heat Index&quot;, &quot;Max. Temp.&quot;, &quot;Inning&quot;, &quot;Inning&quot;, &quot;Heat Index&quot;, &quot;Heat Index&quot;), 
-  Estimate = c(&quot;Estimate&quot;, 0.036, 0.037, 0.197, 0.002, 0.027, 0.04), 
-  P_value = c(&quot;P-value&quot;, &quot;&lt;0.01&quot;, &quot;&lt;0.01&quot;,&quot;&lt;0.01&quot;, &quot;0.03&quot;, &quot;&lt;0.01&quot;,&quot;&lt;0.01&quot;),
-  add_colnames = FALSE
-)
-
-table_one %&gt;% 
-  set_bold(1, everywhere, TRUE) %&gt;% 
-  set_bottom_border(1, everywhere, 2) %&gt;% 
-  set_align(everywhere, 2, &#39;right&#39;) %&gt;% 
-  set_right_padding(10) %&gt;% 
-  set_left_padding(10) %&gt;% 
-  set_width(0.35) %&gt;% 
-  set_number_format(3)</code></pre>
-<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 35%; margin-left: auto; margin-right: auto; ">
+<p><strong>Table 1. Comparison of Linear Regression Models</strong> <table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 35%; margin-left: auto; margin-right: auto; ">
 <col><col><col><col><tr>
 <td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 2pt 0pt; padding: 4pt 10pt 4pt 10pt; font-weight: bold;">Model</td>
 <td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 2pt 0pt; padding: 4pt 10pt 4pt 10pt; font-weight: bold;">Variable</td>
@@ -461,7 +428,7 @@ table_one %&gt;%
 <td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 10pt 4pt 10pt;">&lt;0.010</td>
 </tr>
 </table>
-
+</p>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>

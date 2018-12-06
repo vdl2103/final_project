@@ -9,7 +9,7 @@ body{ /* Normal */
     color: Black;
 }
 td { /*Table */
-  font-size: 8px; 
+  font-size: 14px; 
 }
 h1.title {
 font-size: 38px;
@@ -72,7 +72,7 @@ Daily heat index was most variable in the Southwest and Southeast regions, and r
 The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed. 
 
 **Table 1. Comparison of Linear Regression Models**
-```{r}
+```{r table 1, warning=FALSE, message=FALSE, echo=FALSE}
 library(huxtable)
 table_one = hux(
   Model = c("Model", "Heat Index", "Max. Daily Temp.", "Inning Number", "Inning Number + Pitcher", 
