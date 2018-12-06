@@ -11,7 +11,7 @@
 
 
 
-<title>Hot and Humid Baseball: Examining the Association between Pitching and Heat in the MLB</title>
+<title>Hot and Humid Baseball:   Heat and Pitch Speed in the MLB</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -169,6 +172,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -190,10 +288,7 @@ $(document).ready(function () {
   <a href="EDA.html">EDA</a>
 </li>
 <li>
-  <a href="Flex_Dashboard.html">Flex Dashboard</a>
-</li>
-<li>
-  <a href="models.html">Models</a>
+  <a href="flex_db.html">Flex Dashboard</a>
 </li>
 <li>
   <a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/">Texas Heat</a>
@@ -208,7 +303,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="http://github.com/vdl2103">
+  <a href="https://github.com/vdl2103/hot_humid_baseball.github.io">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -222,11 +317,33 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Hot and Humid Baseball: Examining the Association between Pitching and Heat in the MLB</h1>
+<h1 class="title toc-ignore">Hot and Humid Baseball: <br> Heat and Pitch Speed in the MLB</h1>
 
 </div>
 
 
+<style type = "text/css">
+
+body{ /* Normal */
+    font-size: 14px;
+    color: Black;
+}
+td { /*Table */
+  font-size: 8px; 
+}
+h1.title {
+font-size: 38px;
+color: DarkRed;
+}
+h1{ /* Header 1 */
+  font-size: 28px;
+  color: DarkRed;
+}
+h2{ /* Header 2 */
+font-size: 22px;
+color: Black;
+}
+</style>
 <center>
 <figure>
 <img src="Woody-7.jpg" style="width:60%" align = "bottom">
@@ -235,25 +352,51 @@ Giant cow playing baseball
 </figcaption>
 </figure>
 </center>
-<div id="introduction" class="section level4">
-<h4>Introduction</h4>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
 <p>Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball, where teams that prioritize <a href="https://sabr.org/sabermetrics">sabermetrics</a> have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats.</p>
-<p>Our goal was to build on this body of work by examining the association between weather variables – temperature, humidity, and relative humidity – and the speed of pitches. We hypothesized that on extremely hot days (&gt;35 ºC): 1) pitch speed would decrease and 2) the proportion of non-fastball to fastball pitches would increase. We used the PITCHf/x database from MLB Advanced Media to collect data for every pitch thrown between 2016 and 2018 and extracted daily temperature and humidity measures for each ballpark location from the PRISM database.</p>
-<p>We conducted exploratory data analysis to identify overall trends between weather variables and pitch speed or pitch type. We also used simple linear regression models to determine the effect of daily heat index and daily maximum temperature on the speed of four-seam fastballs. Finally, we focused on games played at Globe Life Park in Arlington, Texas, home of the Rangers, and examined the pitch speed of visiting pitchers, who presumably have not adapted to the extreme Texas heat, across heat extremes.</p>
+<p>Our goal was to build on this body of work by examining the association between weather variables – temperature, humidity, and relative humidity – and the speed of pitches. We hypothesized that on extremely hot days (&gt;35 ºC): 1) pitch speed would decrease and 2) the proportion of non-fastball to fastball pitches would increase.</p>
 </div>
-<div id="presentation" class="section level4">
-<h4>Presentation</h4>
-<iframe src="https://www.youtube.com/embed/LPazONtQ080" width="420" height="315" frameborder="0" allowfullscreen=""></iframe>
+<div id="presentation" class="section level2">
+<h2>Presentation</h2>
+<iframe src="https://www.youtube.com/embed/tLB8QieR3DI" width="420" height="315" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<div id="brennan-baker-nicole-comfort-stephen-lewandowski-tory-lynch-jenni-shearston" class="section level4">
-<h4>Brennan Baker | Nicole Comfort | Stephen Lewandowski | Tory Lynch | Jenni Shearston</h4>
-<div id="bhb2128-nc2710-sal2222-vdl2103-js5431" class="section level5">
-<h5>bhb2128, nc2710, sal2222, vdl2103, js5431</h5>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<ul>
+<li>Baseball Data We used the <a href="https://pitchrx.cpsievert.me/">PITCHf/x database</a> from MLB Advanced Media to collect data for every pitch thrown between 2016 and 2018. PITCHf/x is a system of cameras set up at every MLB stadium that collects pitch data including speed, type, and trajectory.</li>
+<li>Weather Data We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model (<a href="https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d">PRISM</a>) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks around the United States. We extracted daily temperature and humidity measures for each ballpark location.</li>
+</ul>
+</div>
+<div id="methods" class="section level2">
+<h2>Methods</h2>
+<p>We conducted <a href="">exploratory data analysis</a> to identify overall trends between our weather variables - <strong>maximum temperature(ºC), relative humidity (expressed as a percentage), and heat index (ºC)</strong> - and pitch speed or type. To become more familiar with the data, we created a series of graphs to explore potential associations between pitch speed and the weather variables.</p>
+<p>We also investigated whether the relationship between pitch speed and temperature was modified by a team’s home location. In other words, were teams that played the majority of their games in cooler climates, i.e. the Boston Red Sox, more affected by heat when they played in hotter climates, for example at the Texas Rangers stadium? We compared home team vs. visiting team pitch speed in Arlington, Texas, home of the Rangers, and Boston, home of the Red Sox, to see if there was a difference in speed between teams acclimatized to extremes, and those that were not. Furthermore, we created a Shiny plot of <a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/">all pitches thrown by visiting pitchers</a> at the Rangers’ ballpark by maximum daily temperature to determine if pitch speed decreased with increasing temperature.</p>
+<p>The association between pitch speed/ type and humidity was uninformative, but we used the humidity and temperature data to calculate heat index, which is a better measure than air temperature for estimating the risk to workers from environmental heat sources. We faceted the heat index by geographic region in the United States and assessed its association with pitch speed and type.</p>
+<p>Finally, we used simple linear regression models to quantify the effect of daily heat index and maximum daily maximum temperature on the speed of four-seam fastballs.</p>
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<p>There was no strong association between maximum daily temperature and four-seam fastball speed (<strong>Fig.2</strong>), though there was some evidence that pitch outcome might be influenced by temperature. There seems to be a slight increase in the number of doubles, homeruns, flyouts, and lineouts at higher temperatures, which suggests that batters have more, or better, contact with these pitches (<strong>Fig.3</strong>). The association could be due to slower pitch speeds, at least for some pitchers.</p>
+<p>The plot of fastball pitch speed by max temperature, faceted by home team, suggested that temperature may affect pitches thrown at several stadiums (<strong>Fig.4</strong>). We found that the Rangers’ pitchers were less affected by high temperatures compared to visiting pitchers, who experienced a slight decrease in fastball speed (<strong>Fig.5a</strong>). In Boston, it appears that visiting pitchers threw slower four-seam fastballs at colder temperatures, whereas Red Sox pitchers were more consistent regardless of temperature.</p>
+<p>Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (<strong>Fig.6</strong>). There were no overall associations between pitch speed and heat index (<strong>Fig.7</strong>), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes.</p>
+<p>The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed.</p>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>We found that there is a small, but measurable, positive effect of temperature and heat index on the start speed of four-seam fastballs (<strong>Table 1</strong>). This is consistent with <a href="">previous reserach</a> that found an assocation etween cold temperatures and decreasing pitch speed. The overall trend might mask, however, a decrease in four-seam fastball pitch speed at extreme temperature and/or heat index values. Visiting pitchers playing in Arlington, Texas, for example, had slightly slower four-seam fastballs at higher maximum daily temperatures compared to Rangers’ pitchers. This finding suggests that among players unaccustomed to playing in extreme temperatures (&gt;35ºC), there may be a tipping point at which heat has a detrimental effect on performance.</p>
+<div id="brennan-baker-nicole-comfort-stephen-lewandowski-tory-lynch-jenni-shearston" class="section level3">
+<h3>Brennan Baker | Nicole Comfort | Stephen Lewandowski | Tory Lynch | Jenni Shearston</h3>
+<div id="bhb2128-nc2710-sal2222-vdl2103-js5431" class="section level4">
+<h4>bhb2128, nc2710, sal2222, vdl2103, js5431</h4>
+</div>
 </div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 

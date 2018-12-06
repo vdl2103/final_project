@@ -6,9 +6,7 @@ navbar:
     - text: "EDA"
       href: EDA.html
     - text: "Flex Dashboard"
-      href: Flex_Dashboard.html
-    - text: "Models"
-      href: models.html
+      href: flex_db.html
     - text: "Texas Heat"
       href: https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/
     - text: "PRISM code"
@@ -16,6 +14,12 @@ navbar:
     - icon: fa-envelope fa-lg
       href: mailto:<tory.lynch@gmail.com>
     - icon: fa-github fa-lg
-      href: http://github.com/vdl2103
+      href: https://github.com/vdl2103/hot_humid_baseball.github.io
 output:
-  html_document:
+    html_document:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      
+
+  
