@@ -57,7 +57,7 @@ ggplotly(tr9)
 Column {data-width=500}
 -----------------------------------------------------------------------
 
-### Comparing Four-Seam Fastball Speed of Visting ("bottom") and Red Sox ("top") Pitchers
+### Fig. 5b Comparing Four-Seam Fastball Speed of Visting ("bottom") and Red Sox ("top") Pitchers
 
 ```{r}
 # Boston Red Sox Stadium in September

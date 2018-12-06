@@ -36,7 +36,7 @@ color: Black;
 ## Introduction
 Advanced statistical analytics are central to evaluating players, developing teams, and informing in-game decisions throughout professional sports. The growing influence of sport analytics is arguably most evident in Major League Baseball, where teams that prioritize [sabermetrics](https://sabr.org/sabermetrics) have won the last three World Series. Baseball is uniquely suited to statistical analysis, as its components – pitching, hitting, and fielding – are discrete events that result in unambiguous decisions, as classified by the official game scorers, and can be attributed to specific players. Baseball also generates a substantial amount of data; the 30 MLB teams play a combined 2,430 games in the regular season, during which over 900,000 pitches are thrown across more than 165,000 at-bats. 
 
-Our goal was to build on this body of work by examining the association between weather variables – temperature, humidity, and relative humidity – and the speed of pitches. We hypothesized that on extremely hot days (>35 ºC): 1) pitch speed would decrease and 2) the proportion of non-fastball to fastball pitches would increase. 
+Our goal was to build on this body of work by examining the association between weather variables – temperature, heat index, and relative humidity – and the speed of pitches. We hypothesized that on extremely hot days (>35 ºC): 1) pitch speed would decrease and 2) the proportion of non-fastball to fastball pitches would increase. 
 
 ## Presentation 
 ```{r echo=FALSE, message = FALSE, warning = FALSE}
@@ -48,9 +48,9 @@ embed_url("https://www.youtube.com/watch?v=tLB8QieR3DI&feature=youtu.be")
 ```
 
 ## Data
-* Baseball Data
+* **Baseball Data**
 We used the [PITCHf/x database]( https://pitchrx.cpsievert.me/) from MLB Advanced Media to collect data for every pitch thrown between 2016 and 2018. PITCHf/x is a system of cameras set up at every MLB stadium that collects pitch data including speed, type, and trajectory. 
-* Weather Data
+* **Weather Data**
 We obtained our weather data from the Parameter-elevation Regressions on Independent Slopes Model ([PRISM]( https://developers.google.com/earth-engine/datasets/catalog/OREGONSTATE_PRISM_AN81d)) Daily Spatial Climate Dataset (AN81d) developed by the PRISM Climate Group based at Oregon State University. This is a gridded climate model that assimilates station data from networks around the United States. We extracted daily temperature and humidity measures for each ballpark location. 
 
 ## Methods
@@ -70,10 +70,10 @@ The plot of fastball pitch speed by max temperature, faceted by home team, sugge
 Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (**Fig.6**). 
 ![](./Fig.6.png)
 
-There were no overall associations between pitch speed and heat index (**Fig.7**), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes. 
+There were no strong associations between pitch speed and heat index (**Fig.7**) for most of the pitch types. There did seem to be more outliers, i.e. slower pitches, at high heat indexes and four-seam fastball pitch speed may increase slightly at higher heat indexes. 
 ![](./Fig.7.png)
 
-The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed. 
+The linear regression models showed that there was a statistically significant positive association between maximum daily temperature or heat index, and pitch speed. The effect sizes for these associations were very small, however, and may be negligible in practice (**Table 1**). The regression results also indicate that the effect of the association between pitch speed and heat index varies by home stadium.
 
 **Table 1. Comparison of Linear Regression Models**
 ```{r table 1, warning=FALSE, message=FALSE, echo=FALSE}
@@ -100,7 +100,7 @@ table_one %>%
 
 
 ## Discussion
-We found that there is a small, but measurable, positive effect of temperature and heat index on the start speed of four-seam fastballs (**Table 1**). This is consistent with [previous reserach](https://www.fangraphs.com/blogs/what-pitchers-and-numbers-say-about-pitching-in-the-cold/) that found an assocation etween cold temperatures and decreasing pitch speed. The overall trend might mask, however, a decrease in four-seam fastball pitch speed at extreme temperature and/or heat index values. Visiting pitchers playing in Arlington, Texas, for example, had slightly slower four-seam fastballs at higher maximum daily temperatures compared to Rangers' pitchers. This finding suggests that among players unaccustomed to playing in extreme temperatures (>35ºC), there may be a tipping point at which heat has a detrimental effect on performance. 
+We found that there is a small, but measurable, positive effect of temperature and heat index on the start speed of four-seam fastballs (**Table 1**). This is consistent with [previous reserach](https://www.fangraphs.com/blogs/what-pitchers-and-numbers-say-about-pitching-in-the-cold/) that found an assocation between cold temperatures and decreasing pitch speed. The overall trend might mask, however, a decrease in four-seam fastball pitch speed at extreme temperature and/or heat index values. Visiting pitchers playing in Arlington, Texas, for example, had slightly slower four-seam fastballs at higher maximum daily temperatures compared to Rangers' pitchers. This finding suggests that among players unaccustomed to playing in extreme temperatures (>35ºC), there may be a tipping point at which heat has a detrimental effect on performance. 
 
 A complete description of our data, methods, and results is in our [full report](https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/final_report_hhb.pdf). 
 

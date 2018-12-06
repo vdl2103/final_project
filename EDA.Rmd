@@ -42,7 +42,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
 
 
-Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fastballs and maximum temperature was created (AD2, below).However, the graph indicated that absolutely no association existed between these variables.
+Initially, our team hypothesized that the proportion of pitches that are fastballs on any given day may decrease during warmer temperatures, and so a graph of the proportion of fastballs and maximum temperature was created (AD2, below). However, the graph indicated that absolutely no association existed between these variables.
 
 ## Fig.2
 ![](./Fig.2.jpg)
