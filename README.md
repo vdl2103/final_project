@@ -6,9 +6,9 @@ Welcome to our Hot Humid Baseball project github, by Brennan Baker, Nicole Comfo
 
 In order to review our project, please use the following documents:
 
-**Website:** hot_humid_baseball.github.io
+**Website:** Vdl2103.github.io/hot_humid_baseball.github.io/
 
-**Report:** report_draft_three.html
+**Report:** report_drafts/report_draft_three.html
 
 ### Data
 
@@ -42,7 +42,7 @@ To knit the report Rmarkdown and recreate this project, ensure the following fil
 
 ### Needed Packages
 
-If you intend to knit the R Markdown document to replicate this project, be sure the following packages are installed:  
+If you intend to knit the report R Markdown document, be sure the following packages are installed:  
   
 *Please note that it will take approximately 15 minutes to knit this report.* 
 
