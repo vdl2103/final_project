@@ -291,7 +291,7 @@ div.tocify {
   <a href="brennan_flex_dash_plotly.html">Flex Dashboard</a>
 </li>
 <li>
-  <a href="https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/report_draft_three.Rmd">Report</a>
+  <a href="https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/final_report_hhb.pdf">Report</a>
 </li>
 <li>
   <a href="https://brennanhilton.shinyapps.io/Pitch_Speed_at_the_Texas_Rangers_Stadium/">Texas Heat</a>
@@ -385,8 +385,22 @@ Giant cow playing baseball
 <p>Daily heat index was most variable in the Southwest and Southeast regions, and relatively stable in the West (<strong>Fig.6</strong>). There were no overall associations between pitch speed and heat index (<strong>Fig.7</strong>), though there did seem to be more outliers, i.e. slower pitches, at high heat indexes.</p>
 <p>The linear regression models showed that there was a statistically significant, but likely meaningless, positive association between maximum daily temperature or heat index, and pitch speed.</p>
 <p><strong>Table 1. Comparison of Linear Regression Models</strong></p>
-<pre class="r"><code>library(huxtable)
-table_one = hux(
+<pre class="r"><code>library(huxtable)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;huxtable&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:kableExtra&#39;:
+## 
+##     add_footnote</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     add_rownames</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     every</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     theme_grey</code></pre>
+<pre class="r"><code>table_one = hux(
   Model = c(&quot;Model&quot;, &quot;Heat Index&quot;, &quot;Max. Daily Temp.&quot;, &quot;Inning Number&quot;, &quot;Inning Number + Pitcher&quot;, 
             &quot;Heat Index + Pitcher&quot;, &quot;Heat Index + Team&quot;), 
   Variable = c(&quot;Variable&quot;, &quot;Heat Index&quot;, &quot;Max. Temp.&quot;, &quot;Inning&quot;, &quot;Inning&quot;, &quot;Heat Index&quot;, &quot;Heat Index&quot;), 
@@ -452,7 +466,7 @@ table_one %&gt;%
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
 <p>We found that there is a small, but measurable, positive effect of temperature and heat index on the start speed of four-seam fastballs (<strong>Table 1</strong>). This is consistent with <a href="https://www.fangraphs.com/blogs/what-pitchers-and-numbers-say-about-pitching-in-the-cold/">previous reserach</a> that found an assocation etween cold temperatures and decreasing pitch speed. The overall trend might mask, however, a decrease in four-seam fastball pitch speed at extreme temperature and/or heat index values. Visiting pitchers playing in Arlington, Texas, for example, had slightly slower four-seam fastballs at higher maximum daily temperatures compared to Rangers’ pitchers. This finding suggests that among players unaccustomed to playing in extreme temperatures (&gt;35ºC), there may be a tipping point at which heat has a detrimental effect on performance.</p>
-<p>A complete description of our data, methods, and results is in our <a href="https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/report_draft_three.Rmd">full report</a>.</p>
+<p>A complete description of our data, methods, and results is in our <a href="https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/final_report_hhb.pdf">full report</a>.</p>
 <div id="brennan-baker-nicole-comfort-stephen-lewandowski-tory-lynch-jenni-shearston" class="section level3">
 <h3>Brennan Baker | Nicole Comfort | Stephen Lewandowski | Tory Lynch | Jenni Shearston</h3>
 <div id="bhb2128-nc2710-sal2222-vdl2103-js5431" class="section level4">

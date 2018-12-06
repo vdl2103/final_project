@@ -98,7 +98,7 @@ table_one %>%
 ## Discussion
 We found that there is a small, but measurable, positive effect of temperature and heat index on the start speed of four-seam fastballs (**Table 1**). This is consistent with [previous reserach](https://www.fangraphs.com/blogs/what-pitchers-and-numbers-say-about-pitching-in-the-cold/) that found an assocation etween cold temperatures and decreasing pitch speed. The overall trend might mask, however, a decrease in four-seam fastball pitch speed at extreme temperature and/or heat index values. Visiting pitchers playing in Arlington, Texas, for example, had slightly slower four-seam fastballs at higher maximum daily temperatures compared to Rangers' pitchers. This finding suggests that among players unaccustomed to playing in extreme temperatures (>35ºC), there may be a tipping point at which heat has a detrimental effect on performance. 
 
-A complete description of our data, methods, and results is in our [full report](https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/report_draft_three.Rmd). 
+A complete description of our data, methods, and results is in our [full report](https://github.com/vdl2103/hot_humid_baseball.github.io/blob/master/final_report_hhb.pdf). 
 
 ### Brennan Baker | Nicole Comfort | Stephen Lewandowski | Tory Lynch | Jenni Shearston
 
